@@ -59,6 +59,9 @@
     </lst>
   </requestHandler>
 
+  <!-- Hybrid search handler -->
+  <requestHandler name="/hybrid" class="solr.CombinedQuerySearchHandler" />
+
   <!-- KNN vector search handler -->
   <requestHandler name="/knn" class="solr.SearchHandler">
     <lst name="defaults">
@@ -88,6 +91,9 @@
       <str name="echoParams">all</str>
     </lst>
   </requestHandler>
+
+  <!-- Hybrid query component -->
+  <searchComponent name="combined_query" class="solr.CombinedQueryComponent" />
 
   <!-- Query elevation component -->
   <searchComponent name="elevator" class="solr.QueryElevationComponent">
