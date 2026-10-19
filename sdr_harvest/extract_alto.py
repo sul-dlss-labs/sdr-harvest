@@ -73,6 +73,6 @@ class AltoXmlExtractionStrategy:
             temporary.replace(target)
             extracted[target.name] = {
                 "page": (source_pages or {}).get(xml.name),
-                "source_file": xml.with_suffix(".pdf").name,
+                "source_file": xml.name,
             }
         return extracted

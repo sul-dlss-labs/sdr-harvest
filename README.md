@@ -77,7 +77,8 @@ When an SDR object changes, a new version is built without overwriting its
 previous artifacts.
 
 For Cocina books with one transcription XML file for every PDF page, the build
-downloads and extracts the page-level ALTO OCR instead of the image-heavy PDFs.
+downloads and extracts the page-level ALTO OCR instead of the image-heavy PDFs,
+and its chunks name the ALTO file they came from in `filename_ss`.
 If the ALTO inventory is incomplete, the build falls back to the selected PDF.
 Other object types continue using PDF extraction.
 

@@ -370,7 +370,7 @@ class TextExtractorTest(unittest.TestCase):
                 {
                     "page-1.md": {
                         "page": "1",
-                        "source_file": "page-1.pdf",
+                        "source_file": "page-1.xml",
                     }
                 },
                 json.loads(output.joinpath("pages.json").read_text()),
@@ -663,7 +663,7 @@ class ChunkerTest(unittest.TestCase):
                     {
                         "page.md": {
                             "page": "42",
-                            "source_file": "page.pdf",
+                            "source_file": "page.xml",
                         }
                     }
                 )
@@ -673,7 +673,7 @@ class ChunkerTest(unittest.TestCase):
             row = next(row for row in rows if row["file"] == "page.md")
 
             self.assertEqual("42", row["page"])
-            self.assertEqual("page.pdf", row["source_file"])
+            self.assertEqual("page.xml", row["source_file"])
 
     def test_leaves_page_unknown_without_page_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
