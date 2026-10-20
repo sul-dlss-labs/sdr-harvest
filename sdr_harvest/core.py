@@ -12,7 +12,7 @@ from pathlib import Path
 import requests
 
 
-ALTO_EXTRACT_SIGNATURE = "pymupdf4llm-no-ocr-v1"
+ALTO_EXTRACT_SIGNATURE = "alto-xml-source-file-v2"
 PDF_EXTRACT_SIGNATURE = "pymupdf4llm-1.28.2-no-ocr-v2"
 
 SIGNATURES = {
