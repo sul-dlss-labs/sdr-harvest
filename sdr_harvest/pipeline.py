@@ -20,6 +20,7 @@ from .chunk import Chunker
 from .core import (
     SIGNATURES,
     SOURCE_INVENTORY_SIGNATURE,
+    EventLog,
     Settings,
     StageError,
     interruptible_process_pool,
@@ -76,6 +77,17 @@ class Pipeline:
         finally:
             fcntl.flock(lock_stream, fcntl.LOCK_UN)
             lock_stream.close()
+
+    def _artifact_in(self, artifact_path: str | None, version_dir: Path) -> bool:
+        """Whether a recorded artifact exists inside this version's directory.
+
+        Stage inputs chain through outputs, so an unchanged file inventory can
+        match records whose artifacts belong to an earlier version.
+        """
+        if not artifact_path:
+            return False
+        path = self.store.resolve_path(artifact_path)
+        return path.exists() and path.resolve().is_relative_to(version_dir.resolve())
 
     def _estimate_work(
         self, druids: list[str], *, show_progress: bool = True
@@ -140,6 +152,7 @@ class Pipeline:
             if needs_cocina:
                 counts["cocina"] += 1
             dirty = not input_fp
+            source_dir = self.settings.state_dir / "versions" / druid / str(input_fp)
             for stage in downstream:
                 record = stages.get((druid, stage))
                 signature = SIGNATURES[stage]
@@ -156,8 +169,7 @@ class Pipeline:
                     and record["status"] == "succeeded"
                     and record["input_fingerprint"] == input_fp
                     and record["stage_signature"] == signature
-                    and record["artifact_path"]
-                    and self.store.resolve_path(record["artifact_path"]).exists()
+                    and self._artifact_in(record["artifact_path"], source_dir)
                 )
                 if current:
                     input_fp = record["output_fingerprint"] or input_fp
@@ -328,15 +340,30 @@ class Pipeline:
         shutil.copy2(cocina_path, version_dir / "cocina.json")
 
         input_fp = source_fp
+        outputs: dict[str, str] = {}
+        # Artifacts recorded as current before this version, which the extract
+        # and embed stages may reuse when their own inputs are unchanged.
+        previous: dict[str, Path | None] = {}
+        reuse_extract: Path | None = None
         operations: list[tuple[str, Callable[[], Path]]] = [
             ("download", lambda: downloader.run(druid, files, version_dir)),
             (
                 "metadata",
                 lambda: metadata.create_search_metadata(druid, version_dir),
             ),
-            ("extract", lambda: extractor.run(version_dir)),
+            (
+                "extract",
+                lambda: extractor.run(
+                    version_dir, outputs["download"], reuse_from=reuse_extract
+                ),
+            ),
             ("chunk", lambda: chunker.run(druid, version_dir)),
-            ("embed", lambda: embedder.run(version_dir)),
+            (
+                "embed",
+                lambda: embedder.run(
+                    version_dir, legacy_output=previous.get("embed")
+                ),
+            ),
             (
                 "document",
                 lambda: document_builder.run(druid, source_fp, version_dir),
@@ -352,13 +379,39 @@ class Pipeline:
             is_current = (
                 self.store.stage_is_current(druid, stage, input_fp, signature)
                 and record
-                and record.artifact_path
-                and self.store.resolve_path(record.artifact_path).exists()
+                and self._artifact_in(record.artifact_path, version_dir)
             )
             if is_current:
                 input_fp = record.output_fingerprint or input_fp
+                outputs[stage] = input_fp
                 self._progress(druid, stage, "skipped")
                 continue
+            previous[stage] = (
+                self.store.resolve_path(record.artifact_path)
+                if record
+                and record.status == "succeeded"
+                and record.stage_signature == signature
+                and record.artifact_path
+                else None
+            )
+            if stage == "extract":
+                reuse_extract = extractor.reusable_output(
+                    version_dir, outputs["download"], previous["extract"]
+                )
+                if reuse_extract is not None:
+                    EventLog(
+                        self.settings.state_dir
+                        / "logs"
+                        / str(run_id)
+                        / druid
+                        / "extract.jsonl"
+                    ).write(
+                        run_id=run_id,
+                        druid=druid,
+                        stage="extract",
+                        event="reusing_previous_extraction",
+                        reuse_from=str(reuse_extract),
+                    )
             self._progress(druid, stage, "started")
             try:
                 _, output_fp = attempts.run(
@@ -369,4 +422,5 @@ class Pipeline:
                 raise
             self._progress(druid, stage, "succeeded")
             input_fp = output_fp
+            outputs[stage] = input_fp
         self.store.mark_built(druid, str(version_dir))

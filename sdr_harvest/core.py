@@ -58,6 +58,29 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def directory_fingerprint(path: Path) -> str:
+    """Identify a directory artifact by its relative file names and contents."""
+    return fingerprint(
+        sorted(
+            (str(item.relative_to(path)), file_sha256(item))
+            for item in path.rglob("*")
+            if item.is_file()
+        )
+    )
+
+
+def previous_versions(version_dir: Path) -> list[Path]:
+    """Return sibling artifact directories for the same object, newest first."""
+    if not version_dir.parent.exists():
+        return []
+    siblings = [
+        path
+        for path in version_dir.parent.iterdir()
+        if path.is_dir() and path != version_dir
+    ]
+    return sorted(siblings, key=lambda path: path.stat().st_mtime, reverse=True)
+
+
 def file_digest(path: Path, algorithm: str) -> str:
     digest = hashlib.new(algorithm)
     with path.open("rb") as stream:

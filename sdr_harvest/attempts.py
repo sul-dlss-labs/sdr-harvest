@@ -9,8 +9,8 @@ from .core import (
     EventLog,
     Settings,
     classify_exception,
+    directory_fingerprint,
     file_sha256,
-    fingerprint,
 )
 from .state import StateStore
 
@@ -55,13 +55,7 @@ class StageAttempts:
                 output_fp = (
                     file_sha256(artifact)
                     if artifact.is_file()
-                    else fingerprint(
-                        sorted(
-                            (str(path.relative_to(artifact)), file_sha256(path))
-                            for path in artifact.rglob("*")
-                            if path.is_file()
-                        )
-                    )
+                    else directory_fingerprint(artifact)
                 )
                 self.store.finish_attempt(
                     attempt_id,
