@@ -18,6 +18,160 @@ explicit operation.
 
 ![SDR Harvest pipeline: Acquire, Prepare, Enrich, and Index](docs/pipeline-overview.svg)
 
+## Pipeline overview
+
+Each of the four phases is made of one or more stages. Every stage reads from
+and writes to the state directory (`.sdr-harvest/` by default), and records its
+outcome in the SQLite database `state.sqlite3`.
+
+### Where data lives
+
+| Location | Contents |
+| --- | --- |
+| `state.sqlite3` → `objects` | One row per DRUID: manifest membership, source fingerprint, PURL validators (ETag, Last-Modified, last check time), and the current version directory. |
+| `state.sqlite3` → `source_files` | The source-file inventory selected from COCINA, with size, SHA-1, and MD5. |
+| `state.sqlite3` → `stage_state` | One row per DRUID and stage: status, input and output fingerprints, stage signature, and artifact path. This is the build cache index. |
+| `state.sqlite3` → `attempts`, `runs` | A history of every stage attempt and every `run`. |
+| `state.sqlite3` → `publications` | One row per DRUID and Solr target URL: the published document fingerprint and status. |
+| `sources/<druid>/cocina.json` | The most recently fetched COCINA for an object. |
+| `versions/<druid>/<source fingerprint>/` | The build artifacts for one version of an object. |
+| `logs/<run id>/<druid>/<stage>.jsonl` | Per-attempt event logs. |
+
+The **source fingerprint** is a SHA-256 of the complete COCINA record together
+with the selected source-file inventory. Any change to an object in SDR,
+including a metadata-only change, produces a new source fingerprint and
+therefore a new version directory. Earlier version directories are left in
+place until they are pruned.
+
+### Cache keys
+
+A build stage is skipped when its `stage_state` row shows that it:
+
+1. succeeded;
+2. was given the same **input fingerprint**, which is the output fingerprint of
+   the preceding stage (the first stage after COCINA receives the source
+   fingerprint);
+3. ran with the same **stage signature**, a version string in
+   `sdr_harvest/core.py` (`SIGNATURES`) that is changed whenever a stage's
+   behavior changes; and
+4. wrote its artifact inside the current version directory.
+
+An output fingerprint is the SHA-256 of the stage's artifact file, or of the
+names and contents of every file in its artifact directory. Because the
+fingerprints form a chain, a stage whose output changes causes every later
+stage to run again, while a stage whose output is identical lets later stages
+remain current. Changing a signature reruns that stage and, if its output
+changes, everything downstream.
+
+A new version directory starts with no current stages. To avoid repeating
+expensive work after a metadata-only change, the download, extract, and embed
+stages also look in the object's earlier version directories for reusable
+results, as described below.
+
+### Acquire
+
+**Manifest reconciliation.** `run` reads the manifest, removes DRUIDs listed in
+`dark.csv`, and marks each object in `objects` as present or absent. Before
+queuing work it compares every object's `stage_state` rows against the cache
+keys above, so fully current objects are counted as complete without being
+processed.
+
+**COCINA (`cocina`).** Fetches `https://purl.stanford.edu/<druid>.json` into
+`sources/<druid>/cocina.json`, then selects the source files to process (page
+ALTO XML for complete books, otherwise PDFs) and stores them in `source_files`.
+
+- Cache key: the DRUID. The cached record is reused without a network request
+  if its SHA-256 still matches `objects.source_cache_sha256`, it was checked
+  within the last seven days, and the file-selection rules
+  (`SOURCE_INVENTORY_SIGNATURE`) are unchanged. Otherwise PURL is asked with a
+  conditional GET using the stored ETag or Last-Modified value; a `304` keeps
+  the cached record.
+- Output: the source fingerprint. When it changes, all downstream stages are
+  reset to pending and the object is built into a new version directory, which
+  receives a copy of `cocina.json`.
+
+**Download (`download`).** Streams each selected file from
+`https://stacks.stanford.edu/file/<druid>/<filename>` into
+`versions/<druid>/<fp>/pdfs/` and validates its size, SHA-1, and MD5 against
+COCINA. ALTO XML files are stored in this directory too.
+
+- Cache key: the source fingerprint plus the `download` signature.
+- Reuse: a file already present with matching checksums is kept, and a
+  matching file in an earlier version directory is hard-linked (or copied)
+  instead of downloaded again.
+- Output fingerprint: the contents of `pdfs/`.
+
+### Prepare
+
+**Metadata (`metadata`).** Runs Traject with `sdr_config.rb` over the version's
+`cocina.json` to produce the searchable Solr fields in `metadata.json`.
+
+- Cache key: the download output fingerprint plus the `metadata` signature.
+- Output fingerprint: the SHA-256 of `metadata.json`.
+
+**Extract (`extract`).** Converts the source files to Markdown in `markdown/`,
+using the ALTO strategy for complete books and PyMuPDF4LLM text extraction
+otherwise. `markdown/pages.json` maps each Markdown file to its source file and
+page ranges.
+
+- Cache key: the metadata output fingerprint plus the signature of the
+  extraction strategy selected for the object, so ALTO and PDF objects are
+  versioned independently.
+- Reuse: `markdown/extract.json` records the strategy signature and a
+  fingerprint of the downloaded files and COCINA page numbers. If an earlier
+  version directory has an identical marker, its Markdown is copied rather than
+  extracted again. Descriptive metadata is not part of this key, so a
+  metadata-only COCINA change does not repeat extraction.
+- Output fingerprint: the contents of `markdown/`.
+
+**Chunk (`chunk`).** Splits each Markdown file into overlapping chunks (1,500
+characters with 200 characters of overlap), adds one chunk rendered from
+`metadata.json`, and writes `chunks.parquet` with the source file, page, and
+chunk index for each row.
+
+- Cache key: the extract output fingerprint plus the `chunk` signature.
+- Output fingerprint: the SHA-256 of `chunks.parquet`.
+
+### Enrich
+
+**Embed (`embed`).** Formats every chunk as `title: <title> | text: <chunk>`,
+requests Gemini vectors through LiteLLM, and writes `embeddings.parquet`.
+
+- Cache key: the chunk output fingerprint plus the `embed` signature, which
+  names the model and dimensions.
+- Checkpoint: vectors are saved as they arrive in
+  `embeddings.checkpoint.sqlite3`, keyed by a hash of the model, dimensions,
+  and the ordered input texts. A failed or interrupted stage resumes with only
+  the missing chunks.
+- Reuse: before calling the API, missing vectors are looked up by exact input
+  text in `embeddings.parquet` files of earlier version directories that were
+  made with the same `embed` signature (recorded in the Parquet metadata).
+  Only chunks whose text or title changed are embedded again.
+- Output fingerprint: the SHA-256 of `embeddings.parquet`.
+
+### Index
+
+**Document (`document`).** Combines `metadata.json` and `embeddings.parquet`
+into `solr.json`: one parent document carrying the metadata and the source
+fingerprint (`pipeline_fingerprint_ss`), with one child document per chunk
+carrying its text, vector, filename, and page. After this stage, the object's
+`objects.current_artifact_dir` points at the version directory.
+
+- Cache key: the embed output fingerprint plus the `document` signature.
+- Output fingerprint: the SHA-256 of `solr.json`, which is the **document
+  fingerprint** used by publication.
+
+**Publish (`publish` command).** Not a build stage, and never run by `run`.
+It first deletes dark objects from the target, then sends each ready
+`solr.json` to Solr as a delete-then-add of the whole nested document, in
+batches.
+
+- Cache key: the DRUID and target URL in `publications`. An object is skipped
+  when its last publication to that target succeeded with the same document
+  fingerprint; `--force` ignores this.
+- Output: a receipt, `published-<target hash>.json`, in the version directory,
+  and an updated `publications` row.
+
 ## Quick start
 
 Install dependencies:
@@ -272,19 +426,11 @@ relevant object where appropriate. Keep the files fixed while comparing two
 pipeline versions; the evaluator rejects a baseline made with different
 judgments or metrics.
 
-## State and intermediate data
+## State directory
 
-By default, all managed state is stored in `.sdr-harvest/`, including:
-
-- the SQLite resume and publication database;
-- cached COCINA and versioned per-object artifacts;
-- stage and publication logs.
-
-Recently checked COCINA is reused for up to seven days. Older entries are
-checked with PURL, and unchanged objects continue using their existing build
-artifacts.
-
-To store this data elsewhere, place the global option before the command:
+All managed state is stored in `.sdr-harvest/` (see
+[Pipeline overview](#pipeline-overview) for its layout). To store it elsewhere,
+place the global option before the command:
 
 ```shell
 uv run sdr-harvest --state-dir /data/sdr-harvest run \
