@@ -299,18 +299,55 @@ The `run` command exits nonzero when an object fails, making it suitable for
 cron or a systemd timer. Do not overlap scheduled runs; use `--workers` for
 concurrency within one run.
 
-Removing an object from a manifest does not remove it from Solr. Removal is an
-explicit operation:
-
-```shell
-uv run sdr-harvest remove --druid zd240tq9137 --from-solr
-```
+Removing an object from a manifest does not remove it from Solr. To disavow
+objects permanently, see [Dark objects](#dark-objects).
 
 Old non-current artifact versions can be pruned after a retention period:
 
 ```shell
 uv run sdr-harvest prune --failed-before 2026-07-01
 ```
+
+## Dark objects
+
+An object is made dark when it must be disavowed: removed from every Solr
+environment and never harvested again. The committed `dark.csv` file is the
+only record kept of it:
+
+```csv
+druid,darkened_on
+dp867wt7458,2026-10-20
+```
+
+To darken objects, add them to the list and delete them from the Solr
+environments you can reach:
+
+```shell
+uv run sdr-harvest darken \
+  --druid dp867wt7458 --druid wq403wh0847 \
+  --target http://localhost:8983/solr/sdr-search
+```
+
+`darken` adds new DRUIDs to `dark.csv` and then makes everything agree with the
+whole list. It removes dark rows from `manifest.csv` (`--manifest` selects
+another file), deletes their database rows, cached COCINA, artifacts, and logs
+from the state directory, and deletes each object's parent and chunk documents
+from every `--target`. Every step is idempotent. Then commit `dark.csv` and
+`manifest.csv`.
+
+Other machines and Solr environments catch up from the committed list. Running
+`darken` without `--druid` purges the local state directory and the given
+targets, for example production through a tunnel:
+
+```shell
+uv run sdr-harvest darken \
+  --target https://localhost:8983/solr/semantic-search-demo --insecure
+```
+
+Dark objects are also handled automatically: `publish` deletes every dark
+object from its target before publishing and never publishes one, and `run`,
+`plan`, and `merge-manifests` exclude them even when an input CSV still lists
+them. Use the global `--dark-list` option to read a different file.
 
 ## Developer documentation
 

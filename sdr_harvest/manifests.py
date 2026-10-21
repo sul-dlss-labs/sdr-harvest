@@ -10,9 +10,8 @@ from .core import StageError, fingerprint
 DRUID_RE = re.compile(r"^(?:druid:)?([a-z]{2}\d{3}[a-z]{2}\d{4})$", re.I)
 
 
-def parse_manifest(path: Path) -> set[str]:
-    if not path.exists():
-        raise FileNotFoundError(path)
+def read_druids(path: Path) -> set[str]:
+    """Return the first DRUID-shaped value of each row in a CSV file."""
     druids: set[str] = set()
     with path.open(newline="", encoding="utf-8-sig") as stream:
         rows = list(csv.reader(stream))
@@ -22,13 +21,25 @@ def parse_manifest(path: Path) -> set[str]:
             if match:
                 druids.add(match.group(1).lower())
                 break
+    return druids
+
+
+def parse_manifest(path: Path) -> set[str]:
+    if not path.exists():
+        raise FileNotFoundError(path)
+    druids = read_druids(path)
     if not druids:
         raise ValueError(f"No DRUIDs found in {path}")
     return druids
 
 
-def merge_manifests(inputs: list[Path], output: Path) -> dict:
-    """Merge manifest files into a deterministic, deduplicated DRUID CSV."""
+def merge_manifests(
+    inputs: list[Path], output: Path, exclude: set[str] = frozenset()
+) -> dict:
+    """Merge manifest files into a deterministic, deduplicated DRUID CSV.
+
+    DRUIDs in ``exclude`` (the dark list) are omitted from the output.
+    """
     if len(inputs) < 2:
         raise ValueError("At least two input manifests are required")
     resolved_inputs = {path.resolve() for path in inputs}
@@ -39,6 +50,8 @@ def merge_manifests(inputs: list[Path], output: Path) -> dict:
     merged: set[str] = set()
     for path in inputs:
         merged.update(parse_manifest(path))
+    excluded = merged & exclude
+    merged -= excluded
 
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_name(f".{output.name}.tmp")
@@ -51,7 +64,8 @@ def merge_manifests(inputs: list[Path], output: Path) -> dict:
         "inputs": per_input,
         "input_records": sum(per_input.values()),
         "unique_records": len(merged),
-        "duplicates_removed": sum(per_input.values()) - len(merged),
+        "duplicates_removed": sum(per_input.values()) - len(merged) - len(excluded),
+        "dark_excluded": len(excluded),
         "output": str(output),
     }
 

@@ -15,6 +15,7 @@ The Python implementation is separated by responsibility:
 | `embed.py` | `Embedder` | Formats chunks for asymmetric retrieval and adds Gemini vectors. |
 | `create_solr_document.py` | `SolrDocumentBuilder` | Creates a nested parent/child Solr JSON document from embedded chunks. |
 | `publisher.py` | `CorpusPublisher`, `SolrPublisher` | Batches ready documents, tracks target-specific state, and sends accepted updates to Solr. |
+| `dark.py` | Dark list helper functions | Records disavowed objects and purges them from manifests and local state. |
 | `manifests.py` | Manifest and COCINA helper functions | Parses and merges manifests and derives source file identities. |
 | `core.py` | Settings, errors, fingerprints, logging | Provides shared domain types and infrastructure without pipeline orchestration. |
 | `state.py` | `StateStore` | Owns the SQLite schema and all persistent resume state. |
