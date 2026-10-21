@@ -22,6 +22,7 @@ from .core import (
     classify_exception,
     interruptible_thread_pool,
 )
+from .dark import read_dark_list
 from .manifests import parse_manifest
 from .state import StateStore
 
@@ -113,6 +114,25 @@ class SolrPublisher:
             receipts[item.druid] = receipt
         return receipts
 
+    def delete_objects(self, druids: list[str]) -> None:
+        """Delete each object's whole nested block; absent objects are a no-op."""
+        if not druids:
+            return
+        payload = "{" + ",".join(
+            '"delete":'
+            + json.dumps({"query": f'_root_:"{druid}"'}, separators=(",", ":"))
+            for druid in sorted(druids)
+        ) + "}"
+        response = self.http.post(
+            f"{self.settings.solr_url.rstrip('/')}/update",
+            data=payload.encode(),
+            headers={"Content-Type": "application/json"},
+            params={"wt": "json", "commitWithin": COMMIT_WITHIN_MS},
+            allow_redirects=False,
+            timeout=300,
+        )
+        self._check_response(response, "delete")
+
     @staticmethod
     def _check_response(
         response: requests.Response,
@@ -173,7 +193,9 @@ class CorpusPublisher:
             ) from exc
 
         run_id = self.store.start_run(str(manifest.resolve()))
-        druids = sorted(parse_manifest(manifest))
+        druids = sorted(
+            parse_manifest(manifest) - read_dark_list(self.settings.dark_list)
+        )
         summary = {
             "target": target_url,
             "total": len(druids),

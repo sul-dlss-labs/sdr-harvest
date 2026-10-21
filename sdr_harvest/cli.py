@@ -7,13 +7,22 @@ import shutil
 import sys
 import textwrap
 import warnings
-from datetime import UTC, datetime
+from dataclasses import replace
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 
 from .core import Settings, StageError
+from .dark import (
+    exclusive_state,
+    normalize_druid,
+    purge_local_state,
+    read_dark_list,
+    record_dark,
+    remove_from_manifest,
+)
 from .evaluation import compare_reports, live_evaluator, load_judgments, parse_cutoffs
 from .manifests import merge_manifests, parse_manifest
 from .pipeline import Pipeline
@@ -39,6 +48,12 @@ def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(prog="sdr-harvest", description="Resumable SDR-to-Solr pipeline")
     result.add_argument("--state-dir", type=Path, default=Path(".sdr-harvest"))
     result.add_argument("--solr-url", default="http://localhost:8983/solr/sdr-search")
+    result.add_argument(
+        "--dark-list",
+        type=Path,
+        default=Path("dark.csv"),
+        help="CSV of disavowed DRUIDs that are never built and are deleted from Solr",
+    )
     commands = result.add_subparsers(dest="command", required=True)
     merge = commands.add_parser("merge-manifests", help="merge and deduplicate DRUID manifests")
     merge.add_argument("inputs", type=Path, nargs="+")
@@ -178,9 +193,27 @@ def parser() -> argparse.ArgumentParser:
     rebuild.add_argument(
         "--no-progress", action="store_true", help="disable progress bars"
     )
-    remove = commands.add_parser("remove")
-    remove.add_argument("--druid", required=True)
-    remove.add_argument("--from-solr", action="store_true", required=True)
+    darken = commands.add_parser(
+        "darken",
+        help="disavow objects: record them as dark, purge local state, and delete them from Solr",
+    )
+    darken.add_argument(
+        "--druid", action="append", default=[], help="DRUID to add to the dark list"
+    )
+    darken.add_argument("--manifest", type=Path, default=Path("manifest.csv"))
+    darken.add_argument(
+        "--target",
+        dest="targets",
+        metavar="URL",
+        action="append",
+        default=[],
+        help="Solr collection URL to delete every dark object from; repeatable",
+    )
+    darken.add_argument(
+        "--insecure",
+        action="store_true",
+        help="disable TLS certificate verification (only for a trusted local tunnel)",
+    )
     prune = commands.add_parser("prune")
     prune.add_argument("--failed-before", required=True, help="ISO date; removes old non-current version directories")
     return result
@@ -208,7 +241,57 @@ def _settings(root: Path, args) -> Settings:
         publish_max_batch_bytes=max(
             1, int(getattr(args, "max_batch_mb", 25) * 1024 * 1024)
         ),
+        dark_list=args.dark_list.resolve(),
     )
+
+
+def _warn_if_insecure(settings: Settings) -> None:
+    if settings.verify_tls:
+        return
+    warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+    print(
+        "Warning: TLS certificate verification is disabled for "
+        f"{settings.solr_url}",
+        file=sys.stderr,
+        flush=True,
+    )
+
+
+def _darken(root: Path, args, store: StateStore) -> dict:
+    """Record new dark objects, then make local state and targets agree with the list.
+
+    Every step is idempotent, so running without --druid applies the
+    committed dark list to another machine or Solr environment.
+    """
+    settings = _settings(root, args)
+    druids = [normalize_druid(value) for value in args.druid]
+    with exclusive_state(settings.state_dir):
+        added = record_dark(settings.dark_list, druids, date.today().isoformat())
+        dark = read_dark_list(settings.dark_list)
+        summary = {
+            "dark_list": str(settings.dark_list),
+            "dark_objects": len(dark),
+            "added": added,
+            "manifest_rows_removed": 0,
+            "local_state_purged": [],
+            "solr_targets": [],
+        }
+        if not dark:
+            return summary
+        if args.manifest.exists():
+            summary["manifest_rows_removed"] = remove_from_manifest(args.manifest, dark)
+        summary["local_state_purged"] = [
+            druid
+            for druid in sorted(dark)
+            if purge_local_state(store, settings.state_dir, druid)
+        ]
+    for target in args.targets:
+        target_settings = replace(settings, solr_url=target)
+        _warn_if_insecure(target_settings)
+        with requests.Session() as http:
+            SolrPublisher(target_settings, http).delete_objects(sorted(dark))
+        summary["solr_targets"].append(target.rstrip("/"))
+    return summary
 
 
 def _pipeline(root: Path, args, store: StateStore) -> Pipeline:
@@ -252,13 +335,15 @@ def main(argv: list[str] | None = None) -> None:
     try:
         if args.command == "merge-manifests":
             try:
-                summary = merge_manifests(args.inputs, args.output)
+                summary = merge_manifests(
+                    args.inputs, args.output, read_dark_list(args.dark_list)
+                )
             except (FileNotFoundError, ValueError) as exc:
                 raise SystemExit(str(exc)) from exc
             print(json.dumps(summary, indent=2, sort_keys=True))
             return
         if args.command == "plan":
-            wanted = parse_manifest(args.manifest)
+            wanted = parse_manifest(args.manifest) - read_dark_list(args.dark_list)
             known = {r[0] for r in store.db.execute("SELECT druid FROM objects WHERE manifest_present=1")}
             failed = store.failed_druids()
             print(json.dumps({"manifest_objects": len(wanted), "new": sorted(wanted - known), "absent": sorted(known - wanted), "known_failures": sorted(wanted & failed)}, indent=2))
@@ -275,14 +360,10 @@ def main(argv: list[str] | None = None) -> None:
             return
         if args.command == "publish":
             settings = _settings(root, args)
-            if not settings.verify_tls:
-                warnings.filterwarnings("ignore", category=InsecureRequestWarning)
-                print(
-                    "Warning: TLS certificate verification is disabled for "
-                    f"{settings.solr_url}",
-                    file=sys.stderr,
-                    flush=True,
-                )
+            _warn_if_insecure(settings)
+            dark = sorted(read_dark_list(settings.dark_list))
+            with requests.Session() as http:
+                SolrPublisher(settings, http).delete_objects(dark)
 
             def publish_batch(items):
                 with requests.Session() as http:
@@ -294,6 +375,7 @@ def main(argv: list[str] | None = None) -> None:
                 force=args.force,
                 show_progress=not args.no_progress,
             )
+            summary["dark_deleted"] = len(dark)
             print(json.dumps(summary, indent=2, sort_keys=True))
             if summary["failed"] or summary["not_ready"]:
                 raise SystemExit(1)
@@ -426,10 +508,8 @@ def main(argv: list[str] | None = None) -> None:
             if summary["failed"]:
                 raise SystemExit(1)
             return
-        if args.command == "remove":
-            response = requests.post(f"{args.solr_url}/update?commit=true", json={"delete": {"query": f'_root_:"{args.druid}"'}}, timeout=60)
-            response.raise_for_status()
-            print(f"Removed {args.druid} from Solr; local state and artifacts were retained.")
+        if args.command == "darken":
+            print(json.dumps(_darken(root, args, store), indent=2, sort_keys=True))
             return
         if args.command == "prune":
             cutoff = datetime.fromisoformat(args.failed_before).replace(tzinfo=UTC)
