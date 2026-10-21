@@ -23,9 +23,9 @@ SIGNATURES = {
     "extract": PDF_EXTRACT_SIGNATURE,
     "chunk": "recursive-1500-200-v2",
     "embed": "gemini-embedding-2-768-retrieval-document-v2",
-    "document": "nested-solr-document-v1",
+    "document": "nested-solr-document-v2-public-bsi",
 }
-SOURCE_INVENTORY_SIGNATURE = "prefer-complete-book-alto-v1"
+SOURCE_INVENTORY_SIGNATURE = "prefer-complete-book-alto-v2-indexable-access"
 
 
 class StageError(RuntimeError):

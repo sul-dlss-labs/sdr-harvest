@@ -90,6 +90,7 @@ def cocina(version=1, digest="abc"):
                     "externalIdentifier": "file:1",
                     "filename": "example.pdf",
                     "hasMimeType": "application/pdf",
+                    "access": {"view": "world"},
                     "size": 3,
                     "version": 1,
                     "hasMessageDigests": [{"type": "sha1", "digest": digest}],
@@ -407,6 +408,22 @@ class FingerprintTest(unittest.TestCase):
         self.assertEqual("example.pdf", files[0]["filename"])
         self.assertEqual("abc", files[0]["sha1"])
 
+    def test_selects_only_world_and_stanford_files(self):
+        data = cocina()
+        template = data["structural"]["contains"][0]["structural"]["contains"][0]
+        files = [
+            {**template, "filename": f"{view}.pdf", "access": {"view": view}}
+            for view in ["world", "stanford", "location-based", "dark"]
+        ]
+        unknown = {**template, "filename": "unknown.pdf"}
+        del unknown["access"]
+        data["structural"]["contains"][0]["structural"]["contains"] = files + [unknown]
+
+        self.assertEqual(
+            ["stanford.pdf", "world.pdf"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
     def test_prefers_object_pdf_over_page_pdfs(self):
         data = cocina()
         data["structural"]["contains"] = [
@@ -418,6 +435,7 @@ class FingerprintTest(unittest.TestCase):
                             "externalIdentifier": "file:page-1",
                             "filename": "page-1.pdf",
                             "hasMimeType": "application/pdf",
+                            "access": {"view": "world"},
                         }
                     ]
                 },
@@ -430,6 +448,7 @@ class FingerprintTest(unittest.TestCase):
                             "externalIdentifier": "file:full",
                             "filename": "full-document.pdf",
                             "hasMimeType": "application/pdf",
+                            "access": {"view": "world"},
                         }
                     ]
                 },
@@ -496,6 +515,7 @@ class FingerprintTest(unittest.TestCase):
                 "externalIdentifier": f"file:page-pdf-{number}",
                 "filename": f"page-{number}.pdf",
                 "hasMimeType": "application/pdf",
+                "access": {"view": "world"},
             }
         ]
         if include_alto:
@@ -504,6 +524,7 @@ class FingerprintTest(unittest.TestCase):
                     "externalIdentifier": f"file:page-alto-{number}",
                     "filename": f"page-{number}.xml",
                     "hasMimeType": "application/xml",
+                    "access": {"view": "world"},
                     "use": "transcription",
                 }
             )
@@ -523,6 +544,7 @@ class FingerprintTest(unittest.TestCase):
                         "externalIdentifier": "file:full",
                         "filename": "full.pdf",
                         "hasMimeType": "application/pdf",
+                        "access": {"view": "world"},
                     }
                 ]
             },
@@ -578,6 +600,7 @@ class TextExtractorTest(unittest.TestCase):
                                             {
                                                 "filename": "page-1.xml",
                                                 "hasMimeType": "application/xml",
+                                                "access": {"view": "world"},
                                                 "use": "transcription",
                                             }
                                         ]
@@ -958,6 +981,7 @@ class SolrDocumentBuilderTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             version_dir = Path(directory)
             version_dir.joinpath("metadata.json").write_text("{}")
+            version_dir.joinpath("cocina.json").write_text("{}")
             pq.write_table(
                 pa.Table.from_pylist(
                     [
@@ -996,6 +1020,45 @@ class SolrDocumentBuilderTest(unittest.TestCase):
             self.assertNotIn("page_ss", children[0])
             self.assertEqual(["1", "2"], [child["page_ss"] for child in children[1:]])
             self.assertEqual(3, len({child["id"] for child in children}))
+
+    def test_sets_public_bsi_from_file_access_view(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            version_dir.joinpath("metadata.json").write_text("{}")
+            data = cocina()
+            data["structural"]["contains"][0]["structural"]["contains"] = [
+                {"filename": "open.pdf", "access": {"view": "world"}},
+                {"filename": "sunet.pdf", "access": {"view": "stanford"}},
+            ]
+            version_dir.joinpath("cocina.json").write_text(json.dumps(data))
+            pq.write_table(
+                pa.Table.from_pylist(
+                    [
+                        {
+                            "file": name,
+                            "source_file": source,
+                            "page": None,
+                            "chunk_index": 0,
+                            "text": "Text",
+                            "embedding": [0.1],
+                        }
+                        for name, source in [
+                            ("_metadata_", "_metadata_"),
+                            ("open.md", "open.pdf"),
+                            ("sunet.md", "sunet.pdf"),
+                        ]
+                    ]
+                ),
+                version_dir / "embeddings.parquet",
+            )
+
+            output = SolrDocumentBuilder().run(DRUID, "source", version_dir)
+            children = json.loads(output.read_text())["_childDocuments_"]
+
+            self.assertEqual(
+                {"_metadata_": True, "open.pdf": True, "sunet.pdf": False},
+                {child["filename_ss"]: child["public_bsi"] for child in children},
+            )
 
 
 class EmbedderTest(unittest.TestCase):
