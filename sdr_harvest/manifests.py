@@ -8,6 +8,8 @@ from .core import StageError, fingerprint
 
 
 DRUID_RE = re.compile(r"^(?:druid:)?([a-z]{2}\d{3}[a-z]{2}\d{4})$", re.I)
+# File access.view values whose content may be indexed. Only "world" is public.
+INDEXABLE_VIEWS = {"world", "stanford"}
 
 
 def parse_manifest(path: Path) -> set[str]:
@@ -89,7 +91,12 @@ def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
                 "application/xml",
                 "text/xml",
             } and str(node.get("use", "")).lower() == "transcription"
-            if (is_pdf or is_transcription_xml) and node.get("filename"):
+            view = str((node.get("access") or {}).get("view", "")).lower()
+            if (
+                (is_pdf or is_transcription_xml)
+                and node.get("filename")
+                and view in INDEXABLE_VIEWS
+            ):
                 digests = {
                     digest.get("type"): digest.get("digest")
                     for digest in node.get("hasMessageDigests", [])
@@ -176,6 +183,28 @@ def cocina_page_numbers(data: dict) -> dict[str, str]:
         for item in found
         if item["_resource_page"] is not None
     }
+
+
+def cocina_public_files(data: dict) -> set[str]:
+    """Return the names of files whose COCINA access.view is world."""
+    public: set[str] = set()
+
+    def visit(node: object) -> None:
+        if isinstance(node, dict):
+            if (
+                node.get("filename")
+                and str((node.get("access") or {}).get("view", "")).lower()
+                == "world"
+            ):
+                public.add(node["filename"])
+            for value in node.values():
+                visit(value)
+        elif isinstance(node, list):
+            for value in node:
+                visit(value)
+
+    visit(data.get("structural", {}))
+    return public
 
 
 def source_fingerprint(data: dict, files: list[dict]) -> str:

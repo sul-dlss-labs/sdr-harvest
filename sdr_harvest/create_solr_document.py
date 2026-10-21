@@ -6,6 +6,7 @@ from pathlib import Path
 import pyarrow.parquet as pq
 
 from .core import StageError
+from .manifests import cocina_public_files
 
 
 class SolrDocumentBuilder:
@@ -16,6 +17,9 @@ class SolrDocumentBuilder:
         metadata["id"] = druid
         metadata["doc_type_ssi"] = "parent"
         metadata["pipeline_fingerprint_ss"] = source_fp
+        public_files = cocina_public_files(
+            json.loads((version_dir / "cocina.json").read_text())
+        )
         table = pq.read_table(version_dir / "embeddings.parquet").to_pylist()
         children = []
         for row in table:
@@ -36,6 +40,8 @@ class SolrDocumentBuilder:
                 "chunk_index_i": row["chunk_index"],
                 "filename_ss": filename,
                 "doc_type_ssi": "child",
+                # Object metadata is always public; file text follows access.view.
+                "public_bsi": filename == "_metadata_" or filename in public_files,
             }
             if row.get("page") is not None:
                 child["page_ss"] = str(row["page"])

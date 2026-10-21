@@ -8,6 +8,8 @@
 
   <fieldType name="pdate" class="solr.DatePointField" docValues="true" />
 
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" docValues="true" />
+
   <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
     <analyzer type="index">
       <tokenizer class="solr.StandardTokenizerFactory" />
@@ -59,6 +61,9 @@
 
   <!-- Date fields: *_dtsi (stored, indexed) -->
   <dynamicField name="*_dtsi" type="pdate" indexed="true" stored="true" multiValued="false" />
+
+  <!-- Boolean fields: *_bsi (stored, indexed) -->
+  <dynamicField name="*_bsi" type="boolean" indexed="true" stored="true" multiValued="false" />
 
   <!-- Integer fields for things like chunk_index -->
   <dynamicField name="*_i" type="pint" indexed="true" stored="true" />
