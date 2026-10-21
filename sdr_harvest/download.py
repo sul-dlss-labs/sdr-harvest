@@ -77,7 +77,14 @@ class FileDownloader:
                     f"{quote(info['filename'], safe='')}",
                     timeout=120,
                     stream=True,
+                    allow_redirects=False,
                 ) as response:
+                    if 300 <= response.status_code < 400:
+                        raise StageError(
+                            f"Stacks requires authentication for {filename} "
+                            f"(HTTP {response.status_code} redirect to "
+                            f"{response.headers.get('Location')})"
+                        )
                     if response.status_code == 429 or response.status_code >= 500:
                         raise TransientStageError(
                             f"Stacks HTTP {response.status_code} for {filename}"

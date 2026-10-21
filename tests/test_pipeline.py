@@ -524,9 +524,12 @@ class PdfExtractionRegressionTest(unittest.TestCase):
 
 
 class StreamingResponse:
-    def __init__(self, content: bytes, status_code: int = 200):
+    def __init__(
+        self, content: bytes, status_code: int = 200, headers: dict | None = None
+    ):
         self.content = content
         self.status_code = status_code
+        self.headers = headers or {}
 
     def __enter__(self):
         return self
@@ -564,6 +567,27 @@ class FileDownloaderTest(unittest.TestCase):
                 f"https://stacks.stanford.edu/file/{DRUID}/example.pdf",
                 timeout=120,
                 stream=True,
+                allow_redirects=False,
+            )
+
+    def test_redirect_reports_authentication_required(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            location = f"https://stacks.stanford.edu/file/auth/{DRUID}/example.pdf"
+            http = Mock()
+            http.get.return_value = StreamingResponse(
+                b"", status_code=302, headers={"Location": location}
+            )
+
+            with self.assertRaisesRegex(
+                StageError, "Stacks requires authentication for example.pdf"
+            ) as raised:
+                FileDownloader(http).run(DRUID, [self.file_info(b"pdf")], version_dir)
+
+            self.assertIn(f"HTTP 302 redirect to {location}", str(raised.exception))
+            self.assertFalse(version_dir.joinpath("pdfs", "example.pdf").exists())
+            self.assertFalse(
+                version_dir.joinpath("pdfs", "example.pdf.tmp").exists()
             )
 
     def test_mismatch_reports_all_expected_and_actual_values(self):
