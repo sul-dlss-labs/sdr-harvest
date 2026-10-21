@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import hashlib
+import os
+import shutil
 from pathlib import Path
 from urllib.parse import quote
 
 import requests
 
-from .core import StageError, TransientStageError, file_digest
+from .core import StageError, TransientStageError, file_digest, previous_versions
 from .manifests import safe_name
 
 
@@ -22,6 +24,36 @@ class FileDownloader:
         self.http = http
         self.keep_failed_downloads = keep_failed_downloads
 
+    @staticmethod
+    def _matches(path: Path, info: dict) -> bool:
+        valid = path.exists() and (
+            not info.get("size") or path.stat().st_size == info["size"]
+        )
+        if valid and info.get("sha1"):
+            valid = file_digest(path, "sha1") == info["sha1"]
+        if valid and info.get("md5"):
+            valid = file_digest(path, "md5") == info["md5"]
+        return valid
+
+    def _reuse_previous(
+        self, version_dir: Path, filename: str, info: dict, temporary: Path
+    ) -> bool:
+        """Link a verified copy from an earlier version instead of downloading."""
+        if not (info.get("sha1") or info.get("md5")):
+            return False
+        for previous in previous_versions(version_dir):
+            candidate = previous / "pdfs" / filename
+            if not self._matches(candidate, info):
+                continue
+            temporary.unlink(missing_ok=True)
+            try:
+                # Downloads always replace files by rename, so sharing an inode is safe.
+                os.link(candidate, temporary)
+            except OSError:
+                shutil.copy2(candidate, temporary)
+            return True
+        return False
+
     def run(self, druid: str, files: list[dict], version_dir: Path) -> Path:
         output = version_dir / "pdfs"
         output.mkdir(parents=True, exist_ok=True)
@@ -33,16 +65,12 @@ class FileDownloader:
             filename = safe_name(info["filename"])
             expected.add(filename)
             target = output / filename
-            valid = target.exists() and (
-                not info.get("size") or target.stat().st_size == info["size"]
-            )
-            if valid and info.get("sha1"):
-                valid = file_digest(target, "sha1") == info["sha1"]
-            if valid and info.get("md5"):
-                valid = file_digest(target, "md5") == info["md5"]
-            if valid:
+            if self._matches(target, info):
                 continue
             temporary = target.with_suffix(target.suffix + ".tmp")
+            if self._reuse_previous(version_dir, filename, info, temporary):
+                temporary.replace(target)
+                continue
             try:
                 with self.http.get(
                     f"https://stacks.stanford.edu/file/{druid}/"

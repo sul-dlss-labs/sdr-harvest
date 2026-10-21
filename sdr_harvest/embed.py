@@ -17,7 +17,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import requests
 
-from .core import StageError, TransientStageError
+from .core import SIGNATURES, StageError, TransientStageError, previous_versions
 
 
 GEMINI_BATCH_URL = (
@@ -30,6 +30,8 @@ EMBEDDING_BATCH_SIZE = 50
 EMBEDDING_CONCURRENCY = 2
 ERROR_BODY_LIMIT = 2_000
 CHECKPOINT_FILENAME = "embeddings.checkpoint.sqlite3"
+# Parquet schema metadata recording which embedding configuration made the vectors.
+SIGNATURE_METADATA_KEY = b"sdr_harvest_embed_signature"
 _embedding_slots = BoundedSemaphore(EMBEDDING_CONCURRENCY)
 
 
@@ -170,9 +172,15 @@ class EmbeddingCheckpoint:
         return vectors
 
     def save(self, index: int, vector: list[float]) -> None:
-        self.db.execute(
+        self.save_many([(index, vector)])
+
+    def save_many(self, items: list[tuple[int, list[float]]]) -> None:
+        self.db.executemany(
             "INSERT OR REPLACE INTO embeddings(chunk_index,embedding) VALUES(?,?)",
-            (index, sqlite3.Binary(vector_bytes(vector))),
+            [
+                (index, sqlite3.Binary(vector_bytes(vector)))
+                for index, vector in items
+            ],
         )
         self.db.commit()
 
@@ -232,7 +240,44 @@ class Embedder:
                 )
         return vectors
 
-    def run(self, version_dir: Path) -> Path:
+    def previous_vectors(
+        self, version_dir: Path, legacy_output: Path | None = None
+    ) -> dict[str, list[float]]:
+        """Map exact retrieval inputs to vectors embedded for earlier versions.
+
+        ``legacy_output`` is an embeddings file the state store recorded as
+        current with this signature; it predates the signature metadata.
+        """
+        reusable: dict[str, list[float]] = {}
+        for previous in previous_versions(version_dir):
+            path = previous / "embeddings.parquet"
+            try:
+                if not path.exists():
+                    continue
+                stored = (pq.read_schema(path).metadata or {}).get(
+                    SIGNATURE_METADATA_KEY
+                )
+                if stored is None:
+                    if legacy_output is None or path.resolve() != legacy_output.resolve():
+                        continue
+                elif stored.decode() != SIGNATURES["embed"]:
+                    continue
+                title = retrieval_title(
+                    json.loads((previous / "metadata.json").read_text())
+                )
+                table = pq.read_table(path, columns=["text", "embedding"])
+                for text, vector in zip(
+                    table.column("text").to_pylist(),
+                    table.column("embedding").to_pylist(),
+                    strict=True,
+                ):
+                    if vector is not None and len(vector) == EMBEDDING_DIMENSIONS:
+                        reusable.setdefault(retrieval_document(title, text), vector)
+            except (OSError, ValueError, KeyError, pa.ArrowException):
+                continue
+        return reusable
+
+    def run(self, version_dir: Path, *, legacy_output: Path | None = None) -> Path:
         key = os.environ.get("LITELLM_API_KEY")
         if not key:
             raise StageError("LITELLM_API_KEY is not set")
@@ -252,6 +297,17 @@ class Embedder:
         try:
             vectors = checkpoint.load()
             missing = [index for index, vector in enumerate(vectors) if vector is None]
+            if missing:
+                previous = self.previous_vectors(version_dir, legacy_output)
+                reused = [
+                    (index, previous[texts[index]])
+                    for index in missing
+                    if texts[index] in previous
+                ]
+                checkpoint.save_many(reused)
+                for index, vector in reused:
+                    vectors[index] = vector
+                missing = [index for index in missing if vectors[index] is None]
             batches = [
                 missing[start : start + EMBEDDING_BATCH_SIZE]
                 for start in range(0, len(missing), EMBEDDING_BATCH_SIZE)
@@ -290,6 +346,9 @@ class Embedder:
                 completed_vectors,
                 type=pa.list_(pa.float32(), EMBEDDING_DIMENSIONS),
             ),
+        )
+        output_table = output_table.replace_schema_metadata(
+            {SIGNATURE_METADATA_KEY: SIGNATURES["embed"].encode()}
         )
         pq.write_table(output_table, output, compression="zstd")
         return output
