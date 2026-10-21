@@ -407,6 +407,14 @@ class StateStore:
         )
         self.db.commit()
 
+    def forget(self, druid: str) -> bool:
+        """Delete every row recorded for an object; return whether any existed."""
+        removed = 0
+        with self.transaction():
+            for table in ("attempts", "publications", "stage_state", "source_files", "objects"):
+                removed += self.db.execute(f"DELETE FROM {table} WHERE druid=?", (druid,)).rowcount
+        return removed > 0
+
     def block_downstream(self, druid: str, failed_stage: str) -> None:
         """Expose stages that cannot run, without hiding an older successful version."""
         for stage in STAGES[STAGES.index(failed_stage) + 1:]:

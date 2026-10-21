@@ -108,6 +108,7 @@ class Settings:
     keep_failed_downloads: bool = False
     publish_batch_size: int = 25
     publish_max_batch_bytes: int = 25 * 1024 * 1024
+    dark_list: Path | None = None
 
     @classmethod
     def from_root(cls, root: Path, **kwargs) -> "Settings":

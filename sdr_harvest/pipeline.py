@@ -30,6 +30,7 @@ from .create_solr_document import SolrDocumentBuilder
 from .download import FileDownloader
 from .embed import Embedder
 from .extract_text import TextExtractor
+from .dark import read_dark_list
 from .manifests import parse_manifest
 from .metadata import MetadataFetcher, cocina_checked_recently
 from .state import StateStore
@@ -188,7 +189,7 @@ class Pipeline:
         only: set[str] | None = None,
         show_progress: bool = True,
     ) -> dict:
-        druids = parse_manifest(manifest)
+        druids = parse_manifest(manifest) - read_dark_list(self.settings.dark_list)
         new, absent = self.store.reconcile_manifest(druids)
         selected = sorted(druids if only is None else druids & only)
         run_id = self.store.start_run(str(manifest.resolve()))
