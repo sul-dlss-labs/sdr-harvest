@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import concurrent.futures
 import fcntl
+import os
 from contextlib import nullcontext
 import queue
 import shutil
@@ -324,6 +325,7 @@ class Pipeline:
         downloader = FileDownloader(
             self.http,
             keep_failed_downloads=self.settings.keep_failed_downloads,
+            stacks_token=os.environ.get("STACKS_TOKEN"),
         )
         extractor = TextExtractor(pdf_executor=self.pdf_executor)
         chunker = Chunker()

@@ -83,6 +83,10 @@ If the ALTO inventory is incomplete, the build falls back to the selected PDF.
 Other object types continue using PDF extraction.
 
 Only files whose Cocina `access.view` is `world` or `stanford` are harvested.
+Downloading `stanford` files requires a Stacks service token (generated with
+`bin/rails generate_token` on the Stacks server) in `STACKS_TOKEN`; it is sent
+to Stacks as `Authorization: Bearer <token>`. Without it, only `world` files
+download.
 Each child chunk records `public_bsi`: `true` for the object-metadata chunk and
 for chunks from `world` files, `false` otherwise. Filter anonymous searches with
 `fq=public_bsi:true`.
