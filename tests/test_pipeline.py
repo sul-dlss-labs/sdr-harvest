@@ -825,8 +825,24 @@ class FileDownloaderTest(unittest.TestCase):
             self.assertEqual(content, output.joinpath("example.pdf").read_bytes())
             http.get.assert_called_once_with(
                 f"https://stacks.stanford.edu/file/{DRUID}/example.pdf",
+                headers={},
                 timeout=120,
                 stream=True,
+            )
+
+    def test_sends_stacks_token(self):
+        with tempfile.TemporaryDirectory() as directory:
+            content = b"pdf content"
+            http = Mock()
+            http.get.return_value = StreamingResponse(content)
+
+            FileDownloader(http, stacks_token="secret").run(
+                DRUID, [self.file_info(content)], Path(directory)
+            )
+
+            self.assertEqual(
+                {"Authorization": "Bearer secret"},
+                http.get.call_args.kwargs["headers"],
             )
 
     def test_mismatch_reports_all_expected_and_actual_values(self):

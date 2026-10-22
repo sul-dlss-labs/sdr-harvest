@@ -20,9 +20,14 @@ class FileDownloader:
         http: requests.Session,
         *,
         keep_failed_downloads: bool = False,
+        stacks_token: str | None = None,
     ) -> None:
         self.http = http
         self.keep_failed_downloads = keep_failed_downloads
+        # Sent per request so the token never reaches other hosts on the session.
+        self.headers = (
+            {"Authorization": f"Bearer {stacks_token}"} if stacks_token else {}
+        )
 
     @staticmethod
     def _matches(path: Path, info: dict) -> bool:
@@ -75,6 +80,7 @@ class FileDownloader:
                 with self.http.get(
                     f"https://stacks.stanford.edu/file/{druid}/"
                     f"{quote(info['filename'], safe='')}",
+                    headers=self.headers,
                     timeout=120,
                     stream=True,
                 ) as response:
