@@ -46,8 +46,11 @@ from sdr_harvest.download import FileDownloader
 from sdr_harvest.embed import (
     EMBEDDING_BATCH_SIZE,
     EMBEDDING_CONCURRENCY,
+    RATE_LIMIT_MAX_WAIT,
+    RATE_LIMIT_RESET_BUFFER,
     ERROR_BODY_LIMIT,
     Embedder,
+    RateLimitGate,
     http_error_message,
     retry_after_seconds,
     retrieval_document,
@@ -1325,6 +1328,78 @@ class EmbedderTest(unittest.TestCase):
                 list(executor.map(Embedder().run, roots))
 
             self.assertEqual(EMBEDDING_CONCURRENCY, maximum_active)
+
+    def test_waits_for_rate_limit_reset_instead_of_failing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            (version_dir / "metadata.json").write_text("{}")
+            pq.write_table(
+                pa.Table.from_pylist([{"text": "One chunk"}]),
+                version_dir / "chunks.parquet",
+            )
+            limited = Mock(
+                status_code=429, headers={"Retry-After": "30"}, text="limited"
+            )
+            succeeded = Mock(
+                status_code=200,
+                **{"json.return_value": {"embeddings": [{"values": [0.1] * 768}]}},
+            )
+            clock = [1_000.0]
+
+            def sleep(seconds):
+                clock[0] += seconds
+
+            with (
+                patch.dict(os.environ, {"LITELLM_API_KEY": "test-key"}),
+                patch(
+                    "sdr_harvest.embed.requests.post",
+                    side_effect=[limited, limited, succeeded],
+                ) as post,
+                patch("sdr_harvest.embed._rate_limit", RateLimitGate()),
+                patch("sdr_harvest.embed.time.monotonic", lambda: clock[0]),
+                patch("sdr_harvest.embed.time.sleep", side_effect=sleep) as slept,
+            ):
+                output = Embedder().run(version_dir)
+
+            self.assertEqual(3, post.call_count)
+            self.assertEqual(
+                [30.0 + RATE_LIMIT_RESET_BUFFER] * 2,
+                [call.args[0] for call in slept.call_args_list],
+            )
+            self.assertEqual(1, pq.read_table(output).num_rows)
+
+    def test_rate_limit_wait_is_bounded(self):
+        limited = Mock(status_code=429, headers={"Retry-After": "60"}, text="limited")
+        clock = [1_000.0]
+
+        def sleep(seconds):
+            clock[0] += seconds
+
+        with (
+            patch("sdr_harvest.embed.requests.post", return_value=limited),
+            patch("sdr_harvest.embed._rate_limit", RateLimitGate()),
+            patch("sdr_harvest.embed.time.monotonic", lambda: clock[0]),
+            patch("sdr_harvest.embed.time.sleep", side_effect=sleep),
+            self.assertRaisesRegex(TransientStageError, "LiteLLM HTTP 429") as raised,
+        ):
+            Embedder().embed_batch(["text"], "test-key")
+
+        self.assertEqual(60.0, raised.exception.retry_after)
+        self.assertGreaterEqual(clock[0] - 1_000.0, RATE_LIMIT_MAX_WAIT)
+
+    def test_rate_limit_pauses_requests_from_other_threads(self):
+        gate = RateLimitGate()
+        clock = [1_000.0]
+        with patch("sdr_harvest.embed.time.monotonic", lambda: clock[0]):
+            gate.close_for(30.0)
+            with patch(
+                "sdr_harvest.embed.time.sleep",
+                side_effect=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
+            ) as slept:
+                gate.wait()
+                gate.wait()
+
+        slept.assert_called_once_with(30.0)
 
     def test_resumes_from_completed_embedding_checkpoint(self):
         with tempfile.TemporaryDirectory() as directory:
