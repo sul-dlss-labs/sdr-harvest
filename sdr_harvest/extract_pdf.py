@@ -3,22 +3,52 @@ from __future__ import annotations
 from concurrent.futures import Executor
 from pathlib import Path
 
+import pymupdf
 import pymupdf4llm
 
 from .core import PDF_EXTRACT_SIGNATURE, StageError
+
+
+def _to_markdown(pdf: Path, pages: list[int] | None = None) -> list:
+    result = pymupdf4llm.to_markdown(
+        str(pdf),
+        pages=pages,
+        write_images=False,
+        use_ocr=pymupdf4llm.ocr.OCRMode.NEVER,
+        page_chunks=True,
+    )
+    return result if isinstance(result, list) else [{"text": str(result)}]
+
+
+def _to_markdown_by_page(pdf: Path) -> list:
+    """Convert one page at a time, leaving pages pymupdf4llm cannot handle empty.
+
+    Works around https://github.com/pymupdf/pymupdf4llm/issues/495, where a
+    single page raises and would otherwise fail the whole document.
+    """
+    with pymupdf.open(pdf) as document:
+        page_count = document.page_count
+    pages: list = []
+    failures = 0
+    for number in range(page_count):
+        try:
+            pages.extend(_to_markdown(pdf, [number]))
+        except Exception:
+            failures += 1
+            pages.append({"text": "", "metadata": {"page_number": number + 1}})
+    if failures == page_count:
+        raise StageError(f"pymupdf4llm failed on every page of {pdf.name}")
+    return pages
 
 
 def extract_pdf_to_markdown(
     pdf: Path, target: Path, source_page: str | None = None
 ) -> dict[str, dict[str, object]]:
     """Extract one PDF in a process-pool-safe operation."""
-    result = pymupdf4llm.to_markdown(
-        str(pdf),
-        write_images=False,
-        use_ocr=pymupdf4llm.ocr.OCRMode.NEVER,
-        page_chunks=True,
-    )
-    pages = result if isinstance(result, list) else [{"text": str(result)}]
+    try:
+        pages = _to_markdown(pdf)
+    except Exception:
+        pages = _to_markdown_by_page(pdf)
     page_texts: list[str] = []
     page_ranges: list[dict[str, str | int]] = []
     offset = 0
