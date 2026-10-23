@@ -5,13 +5,14 @@ import os
 import re
 import sqlite3
 import sys
+import time
 from array import array
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from hashlib import sha256
 from pathlib import Path
-from threading import BoundedSemaphore
+from threading import BoundedSemaphore, Lock
 
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -29,10 +30,38 @@ EMBEDDING_DIMENSIONS = 768
 EMBEDDING_BATCH_SIZE = 50
 EMBEDDING_CONCURRENCY = 2
 ERROR_BODY_LIMIT = 2_000
+# A 429 pauses every embedding request until the gateway's quota window resets,
+# instead of consuming the stage's retry attempts.
+RATE_LIMIT_FALLBACK_WAIT = 60.0
+RATE_LIMIT_RESET_BUFFER = 1.0
+RATE_LIMIT_MAX_WAIT = 30 * 60.0
 CHECKPOINT_FILENAME = "embeddings.checkpoint.sqlite3"
 # Parquet schema metadata recording which embedding configuration made the vectors.
 SIGNATURE_METADATA_KEY = b"sdr_harvest_embed_signature"
 _embedding_slots = BoundedSemaphore(EMBEDDING_CONCURRENCY)
+
+
+class RateLimitGate:
+    """Hold every embedding request until the shared quota window reopens."""
+
+    def __init__(self) -> None:
+        self._lock = Lock()
+        self._open_at = 0.0
+
+    def close_for(self, seconds: float) -> None:
+        with self._lock:
+            self._open_at = max(self._open_at, time.monotonic() + seconds)
+
+    def wait(self) -> None:
+        while True:
+            with self._lock:
+                delay = self._open_at - time.monotonic()
+            if delay <= 0:
+                return
+            time.sleep(delay)
+
+
+_rate_limit = RateLimitGate()
 
 
 def http_error_message(response: requests.Response) -> str:
@@ -193,34 +222,52 @@ class Embedder:
 
     def embed_batch(self, texts: list[str], key: str) -> list[list[float]]:
         """Request and validate one embedding batch under the global limit."""
-        with _embedding_slots:
-            try:
-                response = requests.post(
-                    GEMINI_BATCH_URL,
-                    params={"key": key},
-                    headers={"Content-Type": "application/json"},
-                    json={
-                        "requests": [
-                            {
-                                "model": f"models/{EMBEDDING_MODEL}",
-                                "content": {"parts": [{"text": text}]},
-                                "outputDimensionality": EMBEDDING_DIMENSIONS,
-                            }
-                            for text in texts
-                        ]
-                    },
-                    timeout=120,
-                )
-            except (requests.Timeout, requests.ConnectionError) as exc:
-                raise TransientStageError(str(exc).replace(key, "[REDACTED]")) from exc
+        deadline = time.monotonic() + RATE_LIMIT_MAX_WAIT
+        while True:
+            with _embedding_slots:
+                # Check the gate while holding a slot so queued requests see a
+                # 429 that arrived while they were waiting for the semaphore.
+                _rate_limit.wait()
+                try:
+                    response = requests.post(
+                        GEMINI_BATCH_URL,
+                        params={"key": key},
+                        headers={"Content-Type": "application/json"},
+                        json={
+                            "requests": [
+                                {
+                                    "model": f"models/{EMBEDDING_MODEL}",
+                                    "content": {"parts": [{"text": text}]},
+                                    "outputDimensionality": EMBEDDING_DIMENSIONS,
+                                }
+                                for text in texts
+                            ]
+                        },
+                        timeout=120,
+                    )
+                except (requests.Timeout, requests.ConnectionError) as exc:
+                    raise TransientStageError(
+                        str(exc).replace(key, "[REDACTED]")
+                    ) from exc
 
-            if response.status_code == 429 or response.status_code >= 500:
-                raise TransientStageError(
-                    http_error_message(response),
-                    retry_after=retry_after_seconds(response),
-                )
-            if response.status_code >= 400:
-                raise StageError(http_error_message(response))
+                if response.status_code == 429:
+                    retry_after = retry_after_seconds(response)
+                    if time.monotonic() >= deadline:
+                        raise TransientStageError(
+                            http_error_message(response), retry_after=retry_after
+                        )
+                    if retry_after is None:
+                        retry_after = RATE_LIMIT_FALLBACK_WAIT
+                    _rate_limit.close_for(retry_after + RATE_LIMIT_RESET_BUFFER)
+                    continue
+                if response.status_code >= 500:
+                    raise TransientStageError(
+                        http_error_message(response),
+                        retry_after=retry_after_seconds(response),
+                    )
+                if response.status_code >= 400:
+                    raise StageError(http_error_message(response))
+            break
 
         try:
             data = response.json()["embeddings"]
