@@ -739,6 +739,43 @@ class PdfExtractionRegressionTest(unittest.TestCase):
                 output.joinpath("document.md").read_text(),
             )
 
+    def test_skips_pages_pymupdf4llm_cannot_convert(self):
+        """Regression test for sw321tg6624 failing on one oversized page."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pdf = root / "document.pdf"
+            document = pymupdf.open()
+            for _ in range(3):
+                document.new_page()
+            document.save(pdf)
+            document.close()
+
+            def to_markdown(path, pages=None, **options):
+                if pages is None or pages == [1]:
+                    raise IndexError("index -1 is out of bounds")
+                return [
+                    {
+                        "text": f"page {pages[0] + 1} ",
+                        "metadata": {"page_number": pages[0] + 1},
+                    }
+                ]
+
+            with patch(
+                "sdr_harvest.extract_pdf.pymupdf4llm.to_markdown",
+                side_effect=to_markdown,
+            ):
+                extracted = extract_pdf_to_markdown(pdf, root / "document.md")
+
+            self.assertEqual("page 1 page 3 ", (root / "document.md").read_text())
+            self.assertEqual(
+                [
+                    {"page": "1", "start": 0, "end": 7},
+                    {"page": "2", "start": 7, "end": 7},
+                    {"page": "3", "start": 7, "end": 14},
+                ],
+                extracted["document.md"]["pages"],
+            )
+
     def test_preserves_an_invisible_pdf_text_layer(self):
         """Regression test for hz508gx6219 losing all non-heading text."""
         with tempfile.TemporaryDirectory() as directory:
