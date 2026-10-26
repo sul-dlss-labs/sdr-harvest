@@ -25,6 +25,8 @@ from .dark import (
 )
 from .evaluation import compare_reports, live_evaluator, load_judgments, parse_cutoffs
 from .manifests import merge_manifests, parse_manifest
+from .mcp_evaluation import render_markdown, run_mcp_evaluation
+from .mcp_search import DEFAULT_MCP_URL, MAX_ROWS, SEARCH_TYPES, McpSearchClient
 from .pipeline import Pipeline
 from .publisher import CorpusPublisher, SolrPublisher
 from .state import STAGES, StateStore
@@ -126,6 +128,40 @@ def parser() -> argparse.ArgumentParser:
         "--insecure",
         action="store_true",
         help="disable TLS certificate verification (only for a trusted local tunnel)",
+    )
+    evaluate_mcp = commands.add_parser(
+        "evaluate-mcp",
+        help="compare semantic-search-demo search types against relevance judgments",
+    )
+    evaluate_mcp.add_argument(
+        "--judgments",
+        type=Path,
+        default=Path("evaluations/judgments"),
+        help="test-case JSON file, or a directory of them, evaluated together",
+    )
+    evaluate_mcp.add_argument(
+        "--test-type",
+        help="restrict evaluation to test cases with this test_type (e.g. fact_lookup)",
+    )
+    evaluate_mcp.add_argument("--mcp-url", default=DEFAULT_MCP_URL)
+    evaluate_mcp.add_argument(
+        "--search-types",
+        default=",".join(SEARCH_TYPES),
+        help="comma-separated catalog_search_tool search types to compare",
+    )
+    evaluate_mcp.add_argument(
+        "--cutoffs", default="1,5,10", help="comma-separated ranking cutoffs"
+    )
+    evaluate_mcp.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("evaluations/mcp"),
+        help="directory for results.json and report.md",
+    )
+    evaluate_mcp.add_argument(
+        "--from-results",
+        type=Path,
+        help="re-render report.md from a saved results.json without querying",
     )
     query = commands.add_parser(
         "query", help="run one semantic query and display ranked results"
@@ -437,6 +473,40 @@ def main(argv: list[str] | None = None) -> None:
                         file=sys.stderr,
                     )
                     raise SystemExit(2)
+            return
+        if args.command == "evaluate-mcp":
+            if args.from_results:
+                try:
+                    report = json.loads(args.from_results.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError) as exc:
+                    raise StageError(f"Could not read results: {exc}") from exc
+            else:
+                search_types = tuple(
+                    item.strip() for item in args.search_types.split(",") if item.strip()
+                )
+                unknown = sorted(set(search_types) - set(SEARCH_TYPES))
+                if not search_types or unknown:
+                    raise StageError(
+                        f"Search types must be drawn from {', '.join(SEARCH_TYPES)}"
+                    )
+                judgments = load_judgments(args.judgments, test_type=args.test_type)
+                with requests.Session() as http:
+                    report = run_mcp_evaluation(
+                        McpSearchClient(args.mcp_url, http),
+                        judgments,
+                        search_types,
+                        cutoffs=parse_cutoffs(args.cutoffs),
+                        rows=MAX_ROWS,
+                    )
+                args.output_dir.mkdir(parents=True, exist_ok=True)
+                (args.output_dir / "results.json").write_text(
+                    json.dumps(report, indent=2, sort_keys=True) + "\n",
+                    encoding="utf-8",
+                )
+            markdown = render_markdown(report)
+            args.output_dir.mkdir(parents=True, exist_ok=True)
+            (args.output_dir / "report.md").write_text(markdown, encoding="utf-8")
+            print(markdown)
             return
         if args.command == "query":
             if args.limit < 1:

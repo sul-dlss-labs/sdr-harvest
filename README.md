@@ -275,6 +275,24 @@ score, filename, and snippet for diagnosis. Use `--cutoffs` to change the
 reported ranks and `--candidates` to change how many chunks are retrieved
 before collapsing.
 
+### Compare search types on semantic-search-demo
+
+To compare the deployed demo's `keyword`, `vector`, and `hybrid` search
+(its MCP `catalog_search_tool`) against the same judgments, run:
+
+```shell
+uv run sdr-harvest evaluate-mcp
+```
+
+This sends every query to each search type (no API key needed), then writes
+`evaluations/mcp/results.json` with per-query rankings and metrics, along with a
+concise `evaluations/mcp/report.md`. The report compares the modes overall and
+shows the best mode for each `test_type` by nDCG@10. It also reports
+`judged@k`, the fraction of the top-k results that have any judgment, because
+unjudged results count as non-relevant. Use `--test-type` or `--search-types`
+to narrow the run. To re-render the report without querying the server again,
+use `--from-results evaluations/mcp/results.json`.
+
 Treat the judgment files as a maintained test fixture: include representative
 query types, difficult terminology, known near-misses, and more than one
 relevant object where appropriate. Keep the files fixed while comparing two

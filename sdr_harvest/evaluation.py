@@ -32,6 +32,7 @@ class Judgment:
     query: str
     relevant: dict[str, float]
     test_type: str = ""
+    judged: frozenset[str] = frozenset()
 
 
 def retrieval_query(query: str) -> str:
@@ -88,6 +89,7 @@ def _load_judgment_file(path: Path, seen_ids: set[str]) -> list[Judgment]:
             raise StageError(f"{path} {label} requires a non-empty judgments array")
 
         relevant = {}
+        judged = set()
         for entry in raw_judgments:
             raw_druid = entry.get("document_id")
             match = DRUID_RE.fullmatch(str(raw_druid).strip())
@@ -96,7 +98,7 @@ def _load_judgment_file(path: Path, seen_ids: set[str]) -> list[Judgment]:
                     f"{path} {label} has an invalid document_id: {raw_druid!r}"
                 )
             druid = match.group(1).lower()
-            if druid in relevant:
+            if druid in judged:
                 raise StageError(f"{path} {label} repeats document_id: {druid}")
 
             try:
@@ -110,6 +112,7 @@ def _load_judgment_file(path: Path, seen_ids: set[str]) -> list[Judgment]:
                     f"{path} {label} has a score outside the graded "
                     f"range [{low}, {high}] for {druid}"
                 )
+            judged.add(druid)
             if score > 0:
                 relevant[druid] = score
 
@@ -119,7 +122,9 @@ def _load_judgment_file(path: Path, seen_ids: set[str]) -> list[Judgment]:
             )
 
         seen_ids.add(judgment_id)
-        judgments.append(Judgment(judgment_id, query, relevant, test_type))
+        judgments.append(
+            Judgment(judgment_id, query, relevant, test_type, frozenset(judged))
+        )
     if not judgments:
         raise StageError(f"No judgments found in {path}")
     return judgments
@@ -192,12 +197,63 @@ def query_metrics(
     return result
 
 
+def judged_at(
+    ranked_druids: list[str], judged: frozenset[str], cutoffs: tuple[int, ...]
+) -> dict[str, float]:
+    """Fraction of the top-k results that carry any judgment, including 0.
+
+    Unjudged results score as non-relevant, so a low value means the metrics
+    for that ranking understate its quality rather than measure it."""
+    result = {}
+    for cutoff in cutoffs:
+        retrieved = ranked_druids[:cutoff]
+        result[f"judged@{cutoff}"] = (
+            sum(1 for druid in retrieved if druid in judged) / len(retrieved)
+            if retrieved
+            else 0.0
+        )
+    return result
+
+
 def aggregate_metrics(results: list[dict]) -> dict[str, float]:
     names = results[0]["metrics"]
     return {
         name: sum(result["metrics"][name] for result in results) / len(results)
         for name in names
     }
+
+
+def group_by_test_type(results: list[dict]) -> dict[str, dict]:
+    """Aggregate per-query results by test_type, with each group's size."""
+    groups: dict[str, list[dict]] = {}
+    for result in results:
+        groups.setdefault(result.get("test_type") or "unspecified", []).append(result)
+    return {
+        test_type: {"count": len(group), "aggregate": aggregate_metrics(group)}
+        for test_type, group in sorted(groups.items())
+    }
+
+
+def win_tie_loss(
+    results_a: list[dict],
+    results_b: list[dict],
+    metric: str = "ndcg@10",
+    *,
+    tolerance: float = 1e-9,
+) -> dict[str, int]:
+    """Count queries where ranking A beats, ties, or loses to ranking B."""
+    counts = {"win": 0, "tie": 0, "loss": 0}
+    for a, b in zip(results_a, results_b, strict=True):
+        if a["id"] != b["id"]:
+            raise StageError("Result lists do not contain the same queries")
+        delta = a["metrics"][metric] - b["metrics"][metric]
+        if delta > tolerance:
+            counts["win"] += 1
+        elif delta < -tolerance:
+            counts["loss"] += 1
+        else:
+            counts["tie"] += 1
+    return counts
 
 
 class SolrRetriever:
