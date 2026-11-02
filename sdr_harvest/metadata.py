@@ -234,7 +234,13 @@ class MetadataFetcher:
         env["PURL_DATA_DIR"] = str(input_dir)
         try:
             result = subprocess.run(
-                ["traject", "-c", str(self.settings.root / "sdr_config.rb")],
+                [
+                    "bundle",
+                    "exec",
+                    "traject",
+                    "-c",
+                    str(self.settings.root / "sdr_config.rb"),
+                ],
                 cwd=self.settings.root,
                 env=env,
                 text=True,
@@ -242,7 +248,9 @@ class MetadataFetcher:
                 check=False,
             )
         except FileNotFoundError as exc:
-            raise StageError("traject executable is not installed") from exc
+            raise StageError(
+                "bundle executable is not installed; install Ruby and run `bundle install`"
+            ) from exc
         if result.returncode:
             detail = result.stderr[-2000:]
             if any(

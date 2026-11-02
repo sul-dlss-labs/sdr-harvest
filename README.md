@@ -174,10 +174,11 @@ batches.
 
 ## Quick start
 
-Install dependencies:
+Install dependencies (Python via uv, Ruby gems for Traject via Bundler):
 
 ```shell
 uv sync
+bundle install
 ```
 
 Build the corpus, inspect failures, and retry them:

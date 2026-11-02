@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'traject/macros/cocina'
-require 'debug'
 require 'faraday'
 require_relative 'traject/json_directory_reader'
 
