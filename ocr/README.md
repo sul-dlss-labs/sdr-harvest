@@ -67,6 +67,24 @@ positions instead (lines are not split at `<br>`):
 
     uv run python strip_positions.py kr104zb7305 kr104zb7305-blocks
 
+## Line-level OCR with Qwen3-VL
+
+`--engine qwen` sends each page to `qwen/qwen3-vl-4b` with the prompt in
+`prompt_qwen.txt`, which asks for a JSON array of
+`{"text": ..., "bbox_2d": [x1, y1, x2, y2]}`, one entry per text line. The
+boxes are on a 0-1000 scale, like Chandra's, and are scaled to the full-size
+jp2.
+
+    uv run python ocr.py kr104zb7305 --engine qwen
+
+This writes `kr104zb7305-qwen/kr104zb7305_0001.xml`, etc., and caches the
+parsed lines as `kr104zb7305-qwen/kr104zb7305_0001.json`. `lines2alto.py`
+does the conversion: line boxes come from the model, lines are grouped into
+blocks at large vertical gaps, and word positions inside a line are estimated
+from letter counts. Add `--blocks-only` to keep the block and line boxes but
+leave words without a position. Use `--model` to try another model id with
+the same prompt.
+
 ## Viewing the results
 
     uv run python build_viewer.py kr104zb7305
@@ -75,10 +93,15 @@ positions instead (lines are not split at `<br>`):
 This builds a single offline HTML file with every page scan and both the
 Chandra ALTO and the ABBYY ALTO already in SDR drawn over it. Pick layers to
 show, hover a box to see its text and coordinates, and search for a word.
-Use `--alto DIR` to view a different set of files, e.g.
-`--alto kr104zb7305-blocks --out kr104zb7305-blocks-viewer.html`.
+Use `--alto DIR` to view a different set of files and `--label` to name them, e.g.
+
+    uv run python build_viewer.py kr104zb7305 --alto kr104zb7305-blocks --out kr104zb7305-blocks-viewer.html
+    uv run python build_viewer.py kr104zb7305 --alto kr104zb7305-qwen --label Qwen --out kr104zb7305-qwen-viewer.html
+
+Add `--pages N` to include only the first N pages.
 
 ## Converting a single page by hand
 
     uv run python html2alto.py output.html page.png > page.alto.xml
     uv run python html2alto.py --blocks-only output.html page.png > page.alto.xml
+    uv run python lines2alto.py page.json page.png > page.alto.xml

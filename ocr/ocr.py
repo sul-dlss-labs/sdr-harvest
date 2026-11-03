@@ -1,14 +1,16 @@
 """OCR every jp2 image in an SDR object and write ALTO XML per page.
 
-Usage: python ocr.py kr104zb7305 [--blocks-only] [--out DIR]
-Writes kr104zb7305/kr104zb7305_0001.xml, ... and caches the model's HTML
-as kr104zb7305/kr104zb7305_0001.html so later runs skip the OCR step.
+Usage: python ocr.py kr104zb7305 [--engine chandra|qwen] [--blocks-only] [--out DIR]
+Chandra writes kr104zb7305/kr104zb7305_0001.xml, ... and caches the model's
+HTML as kr104zb7305/kr104zb7305_0001.html so later runs skip the OCR step.
+Qwen writes to kr104zb7305-qwen/ and caches its line JSON as .json files.
 """
 import argparse, base64, json, os, re, sys, urllib.request
 from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+import lines2alto
 from html2alto import convert
 
 # LM Studio server
@@ -16,9 +18,11 @@ URL = "http://127.0.0.1:1234/v1/chat/completions"
 MODEL = "chandra-ocr-2"   # replace with the id from /v1/models
 
 PURL = "https://purl.stanford.edu/{druid}.json"
-IIIF = "https://stacks.stanford.edu/image/iiif/{druid}/{name}/full/!1024,1024/0/default.jpg"
+IIIF = "https://stacks.stanford.edu/image/iiif/{druid}/{name}/full/!{size},{size}/0/default.jpg"
+IMAGE_SIZE = 1024  # long edge in pixels of the image sent to the model
 
 PROMPT = (Path(__file__).parent / "prompt.txt").read_text(encoding="utf-8").strip()
+QWEN_PROMPT = (Path(__file__).parent / "prompt_qwen.txt").read_text(encoding="utf-8").strip()
 
 
 def fetch(url, timeout=120):
@@ -35,10 +39,10 @@ def jp2_files(druid):
                 yield f
 
 
-def ocr(image_bytes, mime="image/jpeg"):
+def ocr(image_bytes, mime="image/jpeg", model=MODEL, prompt=PROMPT):
     b64 = base64.b64encode(image_bytes).decode()
     payload = {
-        "model": MODEL,
+        "model": model,
         "temperature": 0,
         "max_tokens": 8192,
         "messages": [{
@@ -46,7 +50,7 @@ def ocr(image_bytes, mime="image/jpeg"):
             "content": [
                 {"type": "image_url",
                  "image_url": {"url": f"data:{mime};base64,{b64}"}},
-                {"type": "text", "text": PROMPT},
+                {"type": "text", "text": prompt},
             ],
         }],
     }
@@ -99,44 +103,85 @@ def is_layout_html(html):
                for div in soup.find_all("div", recursive=False))
 
 
-def process(druid, out_dir=None, blocks_only=False):
-    htmldir = Path(druid)
-    outdir = Path(out_dir or druid)
-    htmldir.mkdir(exist_ok=True)
+def extract_lines(response):
+    """Return the parsed line list from a Qwen-style JSON response."""
+    msg = response["choices"][0]["message"]
+    for key in ("content", "reasoning_content"):
+        lines = lines2alto.parse_lines(msg.get(key) or "")
+        if lines:
+            return lines
+    return []
+
+
+# Each engine: model id, prompt, how to pull its output from a response,
+# how to cache it, and how to turn it into ALTO.
+ENGINES = {
+    "chandra": dict(
+        model=MODEL, prompt=PROMPT, ext="html", suffix="",
+        extract=extract_html, ok=is_layout_html,
+        dump=lambda html: html, load=lambda text: text,
+        convert=lambda html, fn, size, blocks_only:
+            convert(html, fn, size=size, blocks_only=blocks_only)),
+    "qwen": dict(
+        model="qwen/qwen3-vl-4b", prompt=QWEN_PROMPT, ext="json", suffix="-qwen",
+        extract=extract_lines, ok=bool,
+        dump=lambda lines: json.dumps(lines, indent=1, ensure_ascii=False),
+        load=json.loads,
+        convert=lambda lines, fn, size, blocks_only:
+            lines2alto.convert(lines, fn, size=size, word_boxes=not blocks_only)),
+}
+
+
+def process(druid, out_dir=None, blocks_only=False, engine="chandra", model=None,
+            image_size=IMAGE_SIZE, pages=None):
+    eng = ENGINES[engine]
+    model = model or eng["model"]
+    # A non-default model or image size gets its own cache, e.g.
+    # kr104zb7305-qwen-1536/ or kr104zb7305-qwen-qwen3-vl-8b-1536/
+    model_suffix = "" if model == eng["model"] else "-" + re.sub(r"[^\w.-]+", "-", model.split("/")[-1])
+    size_suffix = "" if image_size == IMAGE_SIZE else f"-{image_size}"
+    cachedir = Path(druid + eng["suffix"] + model_suffix + size_suffix)
+    outdir = Path(out_dir) if out_dir else cachedir
+    cachedir.mkdir(exist_ok=True)
     outdir.mkdir(exist_ok=True)
     files = list(jp2_files(druid))
-    print(f"{druid}: {len(files)} jp2 files", file=sys.stderr)
+    print(f"{druid}: {len(files)} jp2 files, engine={engine} model={model}", file=sys.stderr)
     failures = []
     for i, f in enumerate(files, 1):
+        if pages and i not in pages:
+            continue
         filename = f["filename"]
         name = os.path.splitext(filename)[0]
         out = outdir / f"{name}.xml"
         if out.exists():
             print(f"[{i}/{len(files)}] {name}: exists, skipping", file=sys.stderr)
             continue
-        cached = htmldir / f"{name}.html"
+        cached = cachedir / f"{name}.{eng['ext']}"
         image = None
         if cached.exists():
-            print(f"[{i}/{len(files)}] {name} (cached HTML)", file=sys.stderr)
-            html = cached.read_text(encoding="utf-8")
+            print(f"[{i}/{len(files)}] {name} (cached {eng['ext']})", file=sys.stderr)
+            result = eng["load"](cached.read_text(encoding="utf-8"))
         else:
             print(f"[{i}/{len(files)}] {name}", file=sys.stderr)
             try:
-                image = fetch(IIIF.format(druid=druid, name=name))
-                response = ocr(image)
-                html = extract_html(response)
+                image = fetch(IIIF.format(druid=druid, name=name, size=image_size))
+                response = ocr(image, model=model, prompt=eng["prompt"])
+                result = eng["extract"](response)
             except Exception as e:
                 print(f"  error: {e}", file=sys.stderr)
                 failures.append(name)
                 continue
-            if not is_layout_html(html):
-                raw = htmldir / f"{name}.response.json"
+            if not eng["ok"](result):
+                raw = cachedir / f"{name}.response.json"
                 raw.write_text(json.dumps(response, indent=2), encoding="utf-8")
-                print(f"  not HTML layout output, skipping (full response in {raw}):\n"
+                print(f"  no usable {eng['ext']} output, skipping (full response in {raw}):\n"
                       f"    {describe(response)}", file=sys.stderr)
                 failures.append(name)
                 continue
-            cached.write_text(html, encoding="utf-8")
+            if response["choices"][0].get("finish_reason") == "length":
+                print("  warning: output hit max_tokens; later lines may be missing",
+                      file=sys.stderr)
+            cached.write_text(eng["dump"](result), encoding="utf-8")
         # Bboxes are normalized 0-1000, so scale them to the full-size jp2
         # dimensions rather than the 1024px derivative we sent to the model.
         pres = f.get("presentation") or {}
@@ -144,10 +189,9 @@ def process(druid, out_dir=None, blocks_only=False):
         if size is None:
             from io import BytesIO
             from PIL import Image
-            image = image or fetch(IIIF.format(druid=druid, name=name))
+            image = image or fetch(IIIF.format(druid=druid, name=name, size=image_size))
             size = Image.open(BytesIO(image)).size
-        out.write_text(convert(html, filename, size=size, blocks_only=blocks_only),
-                       encoding="utf-8")
+        out.write_text(eng["convert"](result, filename, size, blocks_only), encoding="utf-8")
     if failures:
         print(f"{len(failures)} failed: {', '.join(failures)}", file=sys.stderr)
     return not failures
@@ -156,8 +200,19 @@ def process(druid, out_dir=None, blocks_only=False):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="OCR an SDR object's jp2 images to ALTO XML.")
     ap.add_argument("druid", help="object id, e.g. kr104zb7305")
+    ap.add_argument("--engine", choices=ENGINES, default="chandra",
+                    help="chandra: layout blocks as HTML (default); "
+                         "qwen: text lines as JSON (qwen/qwen3-vl-4b)")
+    ap.add_argument("--model", help="override the LM Studio model id for the engine")
     ap.add_argument("--blocks-only", action="store_true",
-                    help="only blocks get coordinates; lines and words are text only")
-    ap.add_argument("--out", help="directory for the XML files (default: DRUID)")
+                    help="drop estimated positions: chandra keeps only block boxes, "
+                         "qwen keeps block and line boxes but not word boxes")
+    ap.add_argument("--image-size", type=int, default=IMAGE_SIZE,
+                    help=f"long edge in pixels of the image sent to the model (default: {IMAGE_SIZE})")
+    ap.add_argument("--pages", type=lambda v: {int(x) for x in v.split(",")},
+                    help="only these page numbers, e.g. 5,7")
+    ap.add_argument("--out", help="directory for the XML files (default: DRUID, "
+                                  "DRUID-qwen for qwen, plus -MODEL and -SIZE for a non-default --model or --image-size)")
     a = ap.parse_args()
-    sys.exit(0 if process(a.druid, out_dir=a.out, blocks_only=a.blocks_only) else 1)
+    sys.exit(0 if process(a.druid, out_dir=a.out, blocks_only=a.blocks_only,
+                          engine=a.engine, model=a.model, image_size=a.image_size, pages=a.pages) else 1)

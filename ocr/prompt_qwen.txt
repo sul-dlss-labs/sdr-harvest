@@ -1,0 +1,1 @@
+Perform OCR on this image line by line. Return a JSON array where each item is {"text": "...", "bbox_2d": [x1, y1, x2, y2]}, one entry per text line, in reading order.

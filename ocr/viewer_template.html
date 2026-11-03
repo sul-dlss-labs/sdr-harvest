@@ -16,8 +16,14 @@
   --rule: #d5dadd;
   --chandra: #0e7c86;
   --chandra-fill: rgba(14,124,134,.10);
-  --abbyy: #c25a12;
-  --abbyy-fill: rgba(194,90,18,.10);
+  --abbyy: #a3106a;
+  --abbyy-fill: rgba(163,16,106,.10);
+  /* Overlay inks sit on the tan scan in both themes, so they don't change with the theme */
+  --c-ink: #00636b;
+  --c-ink-fill: rgba(0,99,107,.10);
+  --a-ink: #b0007a;
+  --a-ink-fill: rgba(176,0,122,.10);
+  --on-ink: #ffffff;
   --hit: #d6a400;
   --focus: #2457c5;
   --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
@@ -26,12 +32,12 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #151a1d; --panel: #1d2428; --fg: #e3e8ea; --muted: #97a3a9; --rule: #333d42;
   --chandra: #3fc1cc; --chandra-fill: rgba(63,193,204,.14);
-  --abbyy: #f08a3e; --abbyy-fill: rgba(240,138,62,.14);
+  --abbyy: #f06ab4; --abbyy-fill: rgba(240,106,180,.14);
   --hit: #ffd23f; --focus: #7aa2ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #151a1d; --panel: #1d2428; --fg: #e3e8ea; --muted: #97a3a9; --rule: #333d42;
   --chandra: #3fc1cc; --chandra-fill: rgba(63,193,204,.14);
-  --abbyy: #f08a3e; --abbyy-fill: rgba(240,138,62,.14);
+  --abbyy: #f06ab4; --abbyy-fill: rgba(240,106,180,.14);
   --hit: #ffd23f; --focus: #7aa2ff; color-scheme: dark }
 
 body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 var(--sans); }
@@ -68,20 +74,20 @@ select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .scan img { display: block; width: 100%; height: auto; }
 .scan svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 svg rect { vector-effect: non-scaling-stroke; }
-.c-block { fill: var(--chandra-fill); stroke: var(--chandra); stroke-width: 2; }
-.c-line { fill: none; stroke: var(--chandra); stroke-width: 1; stroke-dasharray: 4 3; }
-.c-word { fill: transparent; stroke: var(--chandra); stroke-width: .75; opacity: .8; }
-.c-ill { fill: var(--chandra-fill); stroke: var(--chandra); stroke-width: 2; stroke-dasharray: 10 5; }
-.a-block { fill: var(--abbyy-fill); stroke: var(--abbyy); stroke-width: 2; }
-.a-line { fill: none; stroke: var(--abbyy); stroke-width: 1; stroke-dasharray: 4 3; }
-.a-word { fill: transparent; stroke: var(--abbyy); stroke-width: .75; opacity: .8; }
-.a-ill { fill: var(--abbyy-fill); stroke: var(--abbyy); stroke-width: 2; stroke-dasharray: 10 5; }
+.c-block { fill: var(--c-ink-fill); stroke: var(--c-ink); stroke-width: 2; }
+.c-line { fill: none; stroke: var(--c-ink); stroke-width: 1.25; stroke-dasharray: 4 3; }
+.c-word { fill: transparent; stroke: var(--c-ink); stroke-width: 1.25; }
+.c-ill { fill: var(--c-ink-fill); stroke: var(--c-ink); stroke-width: 2; stroke-dasharray: 10 5; }
+.a-block { fill: var(--a-ink-fill); stroke: var(--a-ink); stroke-width: 2; }
+.a-line { fill: none; stroke: var(--a-ink); stroke-width: 1.25; stroke-dasharray: 4 3; }
+.a-word { fill: transparent; stroke: var(--a-ink); stroke-width: 1.25; }
+.a-ill { fill: var(--a-ink-fill); stroke: var(--a-ink); stroke-width: 2; stroke-dasharray: 10 5; }
 .hoverable { pointer-events: all; cursor: crosshair; }
 .hoverable:hover, .sel { stroke: var(--focus) !important; stroke-width: 2.5 !important; opacity: 1; }
 .hit { fill: var(--hit) !important; fill-opacity: .45; stroke: var(--hit) !important; opacity: 1; }
-.num { font: 600 44px var(--mono); fill: var(--panel); paint-order: stroke; }
-.num-bg { fill: var(--chandra); stroke: none; }
-.num-bg.a { fill: var(--abbyy); }
+.num { font: 600 44px var(--mono); fill: var(--on-ink); paint-order: stroke; }
+.num-bg { fill: var(--c-ink); stroke: none; }
+.num-bg.a { fill: var(--a-ink); }
 
 aside { display: grid; gap: 14px; min-width: 0; }
 .card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; min-width: 0; }
@@ -121,7 +127,7 @@ dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; ov
       <button id="next" aria-label="Next page">›</button>
     </div>
     <div class="group">
-      <span class="label"><span class="swatch sw-c"></span> Chandra</span>
+      <span class="label"><span class="swatch sw-c"></span> <span id="c-label">Chandra</span></span>
       <label class="chip"><input type="checkbox" id="c-block" checked> Blocks</label>
       <label class="chip"><input type="checkbox" id="c-line" checked> Lines</label>
       <label class="chip"><input type="checkbox" id="c-word" checked> Words</label>
@@ -167,6 +173,8 @@ const PAGES = __DATA__;
 const $ = id => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
 const SRC = { c: "chandra", a: "abbyy" };
+const LABEL = { chandra: META.label, abbyy: "ABBYY" };
+$("c-label").textContent = META.label;
 let cur = 0, selEl = null;
 
 function el(tag, attrs, parent) {
@@ -178,7 +186,7 @@ function el(tag, attrs, parent) {
 function blockText(b) { return (b.l || []).map(l => l.w.map(w => w[0]).join(" ")).join("\n"); }
 
 $("subtitle").textContent = `${META.title} · ${PAGES.length} pages`;
-$("note").textContent = `Coordinates are ALTO pixels on the full-size jp2. Chandra: ${META.chandra}. ABBYY: word boxes and confidences (WC) from the FineReader ALTO in SDR. Lines and words without coordinates have no box to draw but still appear in the inspector and reading order.`;
+$("note").textContent = `Coordinates are ALTO pixels on the full-size jp2. ${META.label}: ${META.chandra}. ABBYY: word boxes and confidences (WC) from the FineReader ALTO in SDR. Lines and words without coordinates have no box to draw but still appear in the inspector and reading order.`;
 const pageSel = $("page");
 PAGES.forEach((p, i) => {
   const o = document.createElement("option");
@@ -272,7 +280,7 @@ function inspect(r) {
   t.classList.toggle("empty", !info.text);
   const [x, y, w, h] = info.box;
   const rows = [
-    ["Source", `<span class="src-tag ${info.src}">${info.src}</span>`],
+    ["Source", `<span class="src-tag ${info.src}">${LABEL[info.src]}</span>`],
     ["Element", `${info.level} ${info.id}`],
     ["HPOS, VPOS", `${x}, ${y}`],
     ["WIDTH × HEIGHT", `${w} × ${h}`],
@@ -293,10 +301,10 @@ function renderOrder() {
   const data = p[SRC[s]] || EMPTY;
   const lines = data.blocks.reduce((n, b) => n + (b.l || []).length, 0);
   const words = data.blocks.reduce((n, b) => n + (b.l || []).reduce((m, l) => m + l.w.length, 0), 0);
-  $("order-h").textContent = `Reading order · ${s === "c" ? "Chandra" : "ABBYY"}`;
+  $("order-h").textContent = `Reading order · ${s === "c" ? META.label : "ABBYY"}`;
   const other = p[SRC[s === "c" ? "a" : "c"]] || EMPTY;
   const oLines = other.blocks.reduce((n, b) => n + (b.l || []).length, 0);
-  $("stats").textContent = `${data.blocks.length} blocks, ${lines} lines, ${words} words (${s === "c" ? "ABBYY" : "Chandra"} has ${other.blocks.length} blocks, ${oLines} lines)`;
+  $("stats").textContent = `${data.blocks.length} blocks, ${lines} lines, ${words} words (${s === "c" ? "ABBYY" : META.label} has ${other.blocks.length} blocks, ${oLines} lines)`;
   const ol = $("order");
   ol.replaceChildren();
   data.blocks.forEach((b, bi) => {

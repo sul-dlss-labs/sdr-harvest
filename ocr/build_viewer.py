@@ -1,8 +1,8 @@
 """Build a standalone HTML viewer that overlays ALTO boxes on page scans.
 
-Usage: python build_viewer.py kr104zb7305 [--alto DIR] [--out FILE]
+Usage: python build_viewer.py kr104zb7305 [--alto DIR] [--label NAME] [--out FILE]
 
-Shows the Chandra ALTO in DIR (default: DRUID/) next to the ABBYY ALTO that
+Shows the ALTO in DIR (default: DRUID/) next to the ABBYY ALTO that
 SDR already has for each page. Images and data are embedded, so the output
 file works offline.
 """
@@ -65,15 +65,15 @@ def load_page(druid, alto_dir, n, f):
             "chandra": chandra, "abbyy": abbyy}
 
 
-def build(druid, alto_dir, out):
+def build(druid, alto_dir, out, label="Chandra", limit=None):
     cocina = json.loads(fetch(PURL.format(druid=druid)))
-    files = list(jp2_files(druid))
+    files = list(jp2_files(druid))[:limit]
     print(f"{druid}: {len(files)} pages", file=sys.stderr)
     with ThreadPoolExecutor(6) as pool:
         pages = list(pool.map(lambda a: load_page(druid, alto_dir, *a),
                               enumerate(files, 1)))
     meta = {"druid": druid, "title": cocina.get("label", druid),
-            "chandra": f"ALTO from {alto_dir}/"}
+            "chandra": f"ALTO from {alto_dir}/", "label": label}
     js = lambda v: json.dumps(v, separators=(",", ":")).replace("</", "<\\/")
     html = (TEMPLATE.read_text(encoding="utf-8")
             .replace("__DRUID__", druid)
@@ -86,7 +86,9 @@ def build(druid, alto_dir, out):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Build an offline ALTO viewer for an SDR object.")
     ap.add_argument("druid")
-    ap.add_argument("--alto", help="directory of Chandra ALTO files (default: DRUID)")
+    ap.add_argument("--alto", help="directory of ALTO files to compare with ABBYY (default: DRUID)")
+    ap.add_argument("--label", default="Chandra", help="name shown for those files (default: Chandra)")
     ap.add_argument("--out", help="output HTML file (default: DRUID-viewer.html)")
+    ap.add_argument("--pages", type=int, help="only include the first N pages")
     a = ap.parse_args()
-    build(a.druid, Path(a.alto or a.druid), a.out or f"{a.druid}-viewer.html")
+    build(a.druid, Path(a.alto or a.druid), a.out or f"{a.druid}-viewer.html", a.label, a.pages)

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0032.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="214" VPOS="1260" WIDTH="2262" HEIGHT="870">
+          <TextLine ID="B1_L1" HPOS="214" VPOS="1260" WIDTH="98" HEIGHT="870">
+            <String ID="B1_L1_W1" CONTENT="REEF" HPOS="214" VPOS="1260" WIDTH="30" HEIGHT="870" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="SURFPERCH" HPOS="244" VPOS="1260" WIDTH="67" HEIGHT="870" />
+          </TextLine>
+          <TextLine ID="B1_L2" HPOS="327" VPOS="1260" WIDTH="61" HEIGHT="870">
+            <String ID="B1_L2_W1" CONTENT="in" HPOS="327" VPOS="1260" WIDTH="4" HEIGHT="870" />
+            <SP />
+            <String ID="B1_L2_W2" CONTENT="the" HPOS="331" VPOS="1260" WIDTH="6" HEIGHT="870" />
+            <SP />
+            <String ID="B1_L2_W3" CONTENT="Channel" HPOS="337" VPOS="1260" WIDTH="15" HEIGHT="870" />
+            <SP />
+            <String ID="B1_L2_W4" CONTENT="beyond" HPOS="352" VPOS="1260" WIDTH="13" HEIGHT="870" />
+            <SP />
+            <String ID="B1_L2_W5" CONTENT="Bird" HPOS="365" VPOS="1260" WIDTH="9" HEIGHT="870" />
+            <SP />
+            <String ID="B1_L2_W6" CONTENT="Rocks" HPOS="374" VPOS="1260" WIDTH="11" HEIGHT="870" />
+          </TextLine>
+          <TextLine ID="B1_L3" HPOS="2426" VPOS="1569" WIDTH="50" HEIGHT="245">
+            <String ID="B1_L3_W1" CONTENT="Figure" HPOS="2426" VPOS="1569" WIDTH="42" HEIGHT="245" />
+            <SP />
+            <String ID="B1_L3_W2" CONTENT="7" HPOS="2468" VPOS="1569" WIDTH="7" HEIGHT="245" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="2161" VPOS="1504" WIDTH="50" HEIGHT="375">
+          <TextLine ID="B2_L1" HPOS="2161" VPOS="1504" WIDTH="50" HEIGHT="375">
+            <String ID="B2_L1_W1" CONTENT="HEIGHT" HPOS="2161" VPOS="1504" WIDTH="25" HEIGHT="375" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="OF" HPOS="2186" VPOS="1504" WIDTH="8" HEIGHT="375" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="TIDE" HPOS="2194" VPOS="1504" WIDTH="16" HEIGHT="375" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="963" VPOS="3077" WIDTH="469" HEIGHT="49">
+          <TextLine ID="B3_L1" HPOS="963" VPOS="3077" WIDTH="469" HEIGHT="49">
+            <String ID="B3_L1_W1" CONTENT="NUMBER" HPOS="963" VPOS="3077" WIDTH="234" HEIGHT="49" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="OF" HPOS="1197" VPOS="3077" WIDTH="78" HEIGHT="49" />
+            <SP />
+            <String ID="B3_L1_W3" CONTENT="FISH" HPOS="1275" VPOS="3077" WIDTH="156" HEIGHT="49" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>
