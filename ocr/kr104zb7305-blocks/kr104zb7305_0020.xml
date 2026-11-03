@@ -1,0 +1,748 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0020.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="421" VPOS="306" WIDTH="1155" HEIGHT="62">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="HABITAT" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="A:" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="UNDER" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="THE" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="RAILROAD" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="TRACKS" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="421" VPOS="283" WIDTH="2075" HEIGHT="1498">
+          <TextLine ID="B2_L1">
+            <String ID="B2_L1_W1" CONTENT="date" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="time" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="tidal" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="level" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="black" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="Pregnant" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="black" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="striped" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="Pregnant" />
+            <SP />
+            <String ID="B2_L1_W10" CONTENT="striped" />
+            <SP />
+            <String ID="B2_L1_W11" CONTENT="yoy" />
+            <SP />
+            <String ID="B2_L1_W12" CONTENT="striped" />
+            <SP />
+            <String ID="B2_L1_W13" CONTENT="pile" />
+            <SP />
+            <String ID="B2_L1_W14" CONTENT="rainbow" />
+            <SP />
+            <String ID="B2_L1_W15" CONTENT="reef" />
+            <SP />
+            <String ID="B2_L1_W16" CONTENT="dwarf" />
+            <SP />
+            <String ID="B2_L1_W17" CONTENT="banded" />
+            <SP />
+            <String ID="B2_L1_W18" CONTENT="15-1" />
+            <SP />
+            <String ID="B2_L1_W19" CONTENT="1515" />
+            <SP />
+            <String ID="B2_L1_W20" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W21" CONTENT="27" />
+            <SP />
+            <String ID="B2_L1_W22" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W23" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W24" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W25" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W26" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W27" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W28" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W29" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W30" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W31" CONTENT="15-2" />
+            <SP />
+            <String ID="B2_L1_W32" CONTENT="1545" />
+            <SP />
+            <String ID="B2_L1_W33" CONTENT="2.3" />
+            <SP />
+            <String ID="B2_L1_W34" CONTENT="24" />
+            <SP />
+            <String ID="B2_L1_W35" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W36" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W37" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W38" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W39" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W40" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W41" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W42" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W43" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W44" CONTENT="16" />
+            <SP />
+            <String ID="B2_L1_W45" CONTENT="1400" />
+            <SP />
+            <String ID="B2_L1_W46" CONTENT="1.1" />
+            <SP />
+            <String ID="B2_L1_W47" CONTENT="39" />
+            <SP />
+            <String ID="B2_L1_W48" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W49" CONTENT="29" />
+            <SP />
+            <String ID="B2_L1_W50" CONTENT="17" />
+            <SP />
+            <String ID="B2_L1_W51" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W52" CONTENT="23" />
+            <SP />
+            <String ID="B2_L1_W53" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W54" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W55" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W56" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W57" CONTENT="18" />
+            <SP />
+            <String ID="B2_L1_W58" CONTENT="1430" />
+            <SP />
+            <String ID="B2_L1_W59" CONTENT="2.6" />
+            <SP />
+            <String ID="B2_L1_W60" CONTENT="39" />
+            <SP />
+            <String ID="B2_L1_W61" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W62" CONTENT="13" />
+            <SP />
+            <String ID="B2_L1_W63" CONTENT="10" />
+            <SP />
+            <String ID="B2_L1_W64" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W65" CONTENT="34" />
+            <SP />
+            <String ID="B2_L1_W66" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W67" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W68" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W69" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W70" CONTENT="19" />
+            <SP />
+            <String ID="B2_L1_W71" CONTENT="1300" />
+            <SP />
+            <String ID="B2_L1_W72" CONTENT="3.3" />
+            <SP />
+            <String ID="B2_L1_W73" CONTENT="35" />
+            <SP />
+            <String ID="B2_L1_W74" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W75" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W76" CONTENT="4" />
+            <SP />
+            <String ID="B2_L1_W77" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W78" CONTENT="34" />
+            <SP />
+            <String ID="B2_L1_W79" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W80" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W81" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W82" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W83" CONTENT="22" />
+            <SP />
+            <String ID="B2_L1_W84" CONTENT="1100" />
+            <SP />
+            <String ID="B2_L1_W85" CONTENT="1.7" />
+            <SP />
+            <String ID="B2_L1_W86" CONTENT="61" />
+            <SP />
+            <String ID="B2_L1_W87" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W88" CONTENT="10" />
+            <SP />
+            <String ID="B2_L1_W89" CONTENT="5" />
+            <SP />
+            <String ID="B2_L1_W90" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W91" CONTENT="8" />
+            <SP />
+            <String ID="B2_L1_W92" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W93" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W94" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W95" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W96" CONTENT="23" />
+            <SP />
+            <String ID="B2_L1_W97" CONTENT="1800" />
+            <SP />
+            <String ID="B2_L1_W98" CONTENT="3.5" />
+            <SP />
+            <String ID="B2_L1_W99" CONTENT="13" />
+            <SP />
+            <String ID="B2_L1_W100" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W101" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W102" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W103" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W104" CONTENT="20" />
+            <SP />
+            <String ID="B2_L1_W105" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W106" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W107" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W108" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W109" CONTENT="24" />
+            <SP />
+            <String ID="B2_L1_W110" CONTENT="1600" />
+            <SP />
+            <String ID="B2_L1_W111" CONTENT="3.9" />
+            <SP />
+            <String ID="B2_L1_W112" CONTENT="24" />
+            <SP />
+            <String ID="B2_L1_W113" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W114" CONTENT="17" />
+            <SP />
+            <String ID="B2_L1_W115" CONTENT="5" />
+            <SP />
+            <String ID="B2_L1_W116" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W117" CONTENT="12" />
+            <SP />
+            <String ID="B2_L1_W118" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W119" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W120" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W121" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W122" CONTENT="25" />
+            <SP />
+            <String ID="B2_L1_W123" CONTENT="1030" />
+            <SP />
+            <String ID="B2_L1_W124" CONTENT="0.6" />
+            <SP />
+            <String ID="B2_L1_W125" CONTENT="44" />
+            <SP />
+            <String ID="B2_L1_W126" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W127" CONTENT="13" />
+            <SP />
+            <String ID="B2_L1_W128" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W129" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W130" CONTENT="20" />
+            <SP />
+            <String ID="B2_L1_W131" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W132" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W133" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W134" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W135" CONTENT="26-1" />
+            <SP />
+            <String ID="B2_L1_W136" CONTENT="1115" />
+            <SP />
+            <String ID="B2_L1_W137" CONTENT="0.6" />
+            <SP />
+            <String ID="B2_L1_W138" CONTENT="34" />
+            <SP />
+            <String ID="B2_L1_W139" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W140" CONTENT="7" />
+            <SP />
+            <String ID="B2_L1_W141" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W142" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W143" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W144" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W145" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W146" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W147" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W148" CONTENT="26-2" />
+            <SP />
+            <String ID="B2_L1_W149" CONTENT="1515" />
+            <SP />
+            <String ID="B2_L1_W150" CONTENT="3.1" />
+            <SP />
+            <String ID="B2_L1_W151" CONTENT="10" />
+            <SP />
+            <String ID="B2_L1_W152" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W153" CONTENT="10" />
+            <SP />
+            <String ID="B2_L1_W154" CONTENT="5" />
+            <SP />
+            <String ID="B2_L1_W155" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W156" CONTENT="9" />
+            <SP />
+            <String ID="B2_L1_W157" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W158" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W159" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W160" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W161" CONTENT="26-3" />
+            <SP />
+            <String ID="B2_L1_W162" CONTENT="1900" />
+            <SP />
+            <String ID="B2_L1_W163" CONTENT="3.7" />
+            <SP />
+            <String ID="B2_L1_W164" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W165" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W166" CONTENT="5" />
+            <SP />
+            <String ID="B2_L1_W167" CONTENT="4" />
+            <SP />
+            <String ID="B2_L1_W168" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W169" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W170" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W171" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W172" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W173" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W174" CONTENT="29-1" />
+            <SP />
+            <String ID="B2_L1_W175" CONTENT="1215" />
+            <SP />
+            <String ID="B2_L1_W176" CONTENT="0.7" />
+            <SP />
+            <String ID="B2_L1_W177" CONTENT="39" />
+            <SP />
+            <String ID="B2_L1_W178" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W179" CONTENT="5" />
+            <SP />
+            <String ID="B2_L1_W180" CONTENT="4" />
+            <SP />
+            <String ID="B2_L1_W181" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W182" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W183" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W184" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W185" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W186" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W187" CONTENT="29-2" />
+            <SP />
+            <String ID="B2_L1_W188" CONTENT="1545" />
+            <SP />
+            <String ID="B2_L1_W189" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W190" CONTENT="18" />
+            <SP />
+            <String ID="B2_L1_W191" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W192" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W193" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W194" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W195" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W196" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W197" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W198" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W199" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W200" CONTENT="29-3" />
+            <SP />
+            <String ID="B2_L1_W201" CONTENT="1930" />
+            <SP />
+            <String ID="B2_L1_W202" CONTENT="4.8" />
+            <SP />
+            <String ID="B2_L1_W203" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W204" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W205" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W206" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W207" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W208" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W209" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W210" CONTENT="12" />
+            <SP />
+            <String ID="B2_L1_W211" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W212" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W213" CONTENT="30-1" />
+            <SP />
+            <String ID="B2_L1_W214" CONTENT="750" />
+            <SP />
+            <String ID="B2_L1_W215" CONTENT="3.3" />
+            <SP />
+            <String ID="B2_L1_W216" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W217" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W218" CONTENT="7" />
+            <SP />
+            <String ID="B2_L1_W219" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W220" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W221" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W222" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W223" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W224" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W225" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W226" CONTENT="30-2" />
+            <SP />
+            <String ID="B2_L1_W227" CONTENT="1230" />
+            <SP />
+            <String ID="B2_L1_W228" CONTENT="1.5" />
+            <SP />
+            <String ID="B2_L1_W229" CONTENT="26" />
+            <SP />
+            <String ID="B2_L1_W230" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W231" CONTENT="11" />
+            <SP />
+            <String ID="B2_L1_W232" CONTENT="6" />
+            <SP />
+            <String ID="B2_L1_W233" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W234" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W235" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W236" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W237" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W238" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W239" CONTENT="30-3" />
+            <SP />
+            <String ID="B2_L1_W240" CONTENT="1635" />
+            <SP />
+            <String ID="B2_L1_W241" CONTENT="3.9" />
+            <SP />
+            <String ID="B2_L1_W242" CONTENT="7" />
+            <SP />
+            <String ID="B2_L1_W243" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W244" CONTENT="7" />
+            <SP />
+            <String ID="B2_L1_W245" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W246" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W247" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W248" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W249" CONTENT="4" />
+            <SP />
+            <String ID="B2_L1_W250" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W251" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W252" CONTENT="30-4" />
+            <SP />
+            <String ID="B2_L1_W253" CONTENT="1950" />
+            <SP />
+            <String ID="B2_L1_W254" CONTENT="5.3" />
+            <SP />
+            <String ID="B2_L1_W255" CONTENT="27" />
+            <SP />
+            <String ID="B2_L1_W256" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W257" CONTENT="13" />
+            <SP />
+            <String ID="B2_L1_W258" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W259" CONTENT="2" />
+            <SP />
+            <String ID="B2_L1_W260" CONTENT="18" />
+            <SP />
+            <String ID="B2_L1_W261" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W262" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W263" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W264" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W265" CONTENT="31-1" />
+            <SP />
+            <String ID="B2_L1_W266" CONTENT="900" />
+            <SP />
+            <String ID="B2_L1_W267" CONTENT="3.6" />
+            <SP />
+            <String ID="B2_L1_W268" CONTENT="9" />
+            <SP />
+            <String ID="B2_L1_W269" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W270" CONTENT="4" />
+            <SP />
+            <String ID="B2_L1_W271" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W272" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W273" CONTENT="5" />
+            <SP />
+            <String ID="B2_L1_W274" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W275" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W276" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W277" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W278" CONTENT="31-2" />
+            <SP />
+            <String ID="B2_L1_W279" CONTENT="1410" />
+            <SP />
+            <String ID="B2_L1_W280" CONTENT="1.8" />
+            <SP />
+            <String ID="B2_L1_W281" CONTENT="18" />
+            <SP />
+            <String ID="B2_L1_W282" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W283" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W284" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W285" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W286" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W287" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W288" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W289" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W290" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W291" CONTENT="31-3" />
+            <SP />
+            <String ID="B2_L1_W292" CONTENT="2250" />
+            <SP />
+            <String ID="B2_L1_W293" CONTENT="3.9" />
+            <SP />
+            <String ID="B2_L1_W294" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W295" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W296" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W297" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W298" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W299" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W300" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W301" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W302" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W303" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W304" CONTENT="01-1" />
+            <SP />
+            <String ID="B2_L1_W305" CONTENT="1900" />
+            <SP />
+            <String ID="B2_L1_W306" CONTENT="4.9" />
+            <SP />
+            <String ID="B2_L1_W307" CONTENT="7" />
+            <SP />
+            <String ID="B2_L1_W308" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W309" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W310" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W311" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W312" CONTENT="3" />
+            <SP />
+            <String ID="B2_L1_W313" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W314" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W315" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W316" CONTENT="18" />
+            <SP />
+            <String ID="B2_L1_W317" CONTENT="02-1" />
+            <SP />
+            <String ID="B2_L1_W318" CONTENT="1500" />
+            <SP />
+            <String ID="B2_L1_W319" CONTENT="3.3" />
+            <SP />
+            <String ID="B2_L1_W320" CONTENT="5" />
+            <SP />
+            <String ID="B2_L1_W321" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W322" CONTENT="4" />
+            <SP />
+            <String ID="B2_L1_W323" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W324" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W325" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W326" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W327" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W328" CONTENT="0" />
+            <SP />
+            <String ID="B2_L1_W329" CONTENT="0" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="421" VPOS="1823" WIDTH="1972" HEIGHT="59">
+          <TextLine ID="B3_L1">
+            <String ID="B3_L1_W1" CONTENT="AVERAGE" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="33.5" />
+            <SP />
+            <String ID="B3_L1_W3" CONTENT="0.20" />
+            <SP />
+            <String ID="B3_L1_W4" CONTENT="7.75" />
+            <SP />
+            <String ID="B3_L1_W5" CONTENT="3.45" />
+            <SP />
+            <String ID="B3_L1_W6" CONTENT="0.62" />
+            <SP />
+            <String ID="B3_L1_W7" CONTENT="4.83" />
+            <SP />
+            <String ID="B3_L1_W8" CONTENT="1.91" />
+            <SP />
+            <String ID="B3_L1_W9" CONTENT="0.75" />
+            <SP />
+            <String ID="B3_L1_W10" CONTENT="0.04" />
+            <SP />
+            <String ID="B3_L1_W11" CONTENT="0.75" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B4" HPOS="421" VPOS="1924" WIDTH="1972" HEIGHT="56">
+          <TextLine ID="B4_L1">
+            <String ID="B4_L1_W1" CONTENT="DENSITY" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="0.05" />
+            <SP />
+            <String ID="B4_L1_W3" CONTENT="0.00" />
+            <SP />
+            <String ID="B4_L1_W4" CONTENT="0.02" />
+            <SP />
+            <String ID="B4_L1_W5" CONTENT="0.00" />
+            <SP />
+            <String ID="B4_L1_W6" CONTENT="0.00" />
+            <SP />
+            <String ID="B4_L1_W7" CONTENT="0.01" />
+            <SP />
+            <String ID="B4_L1_W8" CONTENT="0.00" />
+            <SP />
+            <String ID="B4_L1_W9" CONTENT="0.00" />
+            <SP />
+            <String ID="B4_L1_W10" CONTENT="0.00" />
+            <SP />
+            <String ID="B4_L1_W11" CONTENT="0.00" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="1296" VPOS="2094" WIDTH="229" HEIGHT="49">
+          <TextLine ID="B5_L1">
+            <String ID="B5_L1_W1" CONTENT="Table" />
+            <SP />
+            <String ID="B5_L1_W2" CONTENT="2" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

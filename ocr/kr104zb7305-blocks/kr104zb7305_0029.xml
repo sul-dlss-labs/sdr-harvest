@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0029.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="257" VPOS="837" WIDTH="116" HEIGHT="1244">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="PERCENT" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="ABUNDANCE" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="375" VPOS="1354" WIDTH="73" HEIGHT="206">
+          <TextLine ID="B2_L1">
+            <String ID="B2_L1_W1" CONTENT="by" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="fish" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B3" TYPE="Figure" HPOS="428" VPOS="172" WIDTH="1640" HEIGHT="2528" />
+        <TextBlock ID="B4" HPOS="2254" VPOS="120" WIDTH="86" HEIGHT="2964">
+          <TextLine ID="B4_L1">
+            <String ID="B4_L1_W1" CONTENT="tracks" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="(diagonal" />
+            <SP />
+            <String ID="B4_L1_W3" CONTENT="lines)" />
+            <SP />
+            <String ID="B4_L1_W4" CONTENT="seal" />
+            <SP />
+            <String ID="B4_L1_W5" CONTENT="(vertical" />
+            <SP />
+            <String ID="B4_L1_W6" CONTENT="lines)" />
+            <SP />
+            <String ID="B4_L1_W7" CONTENT="between" />
+            <SP />
+            <String ID="B4_L1_W8" CONTENT="(cross-hatch)" />
+            <SP />
+            <String ID="B4_L1_W9" CONTENT="pile" />
+            <SP />
+            <String ID="B4_L1_W10" CONTENT="(horizontal" />
+            <SP />
+            <String ID="B4_L1_W11" CONTENT="lines)" />
+            <SP />
+            <String ID="B4_L1_W12" CONTENT="rainbow" />
+            <SP />
+            <String ID="B4_L1_W13" CONTENT="(diagonal" />
+            <SP />
+            <String ID="B4_L1_W14" CONTENT="lines" />
+            <SP />
+            <String ID="B4_L1_W15" CONTENT="down-right)" />
+            <SP />
+            <String ID="B4_L1_W16" CONTENT="reef" />
+            <SP />
+            <String ID="B4_L1_W17" CONTENT="(cross-hatch)" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="2421" VPOS="1312" WIDTH="63" HEIGHT="274">
+          <TextLine ID="B5_L1">
+            <String ID="B5_L1_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B5_L1_W2" CONTENT="4" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0024.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="766" VPOS="218" WIDTH="651" HEIGHT="52">
+          <TextLine ID="B1_L1" HPOS="766" VPOS="218" WIDTH="651" HEIGHT="52">
+            <String ID="B1_L1_W1" CONTENT="REGRESSION" HPOS="766" VPOS="218" WIDTH="325" HEIGHT="52" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="STATISTICS" HPOS="1091" VPOS="218" WIDTH="325" HEIGHT="52" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="305" VPOS="371" WIDTH="1609" HEIGHT="104">
+          <TextLine ID="B2_L1" HPOS="305" VPOS="371" WIDTH="1609" HEIGHT="104">
+            <String ID="B2_L1_W1" CONTENT="Correlation" HPOS="305" VPOS="371" WIDTH="264" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="between" HPOS="569" VPOS="371" WIDTH="168" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="black" HPOS="737" VPOS="371" WIDTH="120" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="surfperch" HPOS="857" VPOS="371" WIDTH="216" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="under" HPOS="1073" VPOS="371" WIDTH="120" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="the" HPOS="1193" VPOS="371" WIDTH="72" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="tracks" HPOS="1265" VPOS="371" WIDTH="144" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="and" HPOS="1409" VPOS="371" WIDTH="72" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="the" HPOS="1481" VPOS="371" WIDTH="72" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W10" CONTENT="height" HPOS="1553" VPOS="371" WIDTH="144" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W11" CONTENT="of" HPOS="1697" VPOS="371" WIDTH="48" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W12" CONTENT="the" HPOS="1745" VPOS="371" WIDTH="72" HEIGHT="104" />
+            <SP />
+            <String ID="B2_L1_W13" CONTENT="tide" HPOS="1817" VPOS="371" WIDTH="96" HEIGHT="104" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="857" VPOS="524" WIDTH="562" HEIGHT="55">
+          <TextLine ID="B3_L1" HPOS="857" VPOS="524" WIDTH="562" HEIGHT="55">
+            <String ID="B3_L1_W1" CONTENT="Regression" HPOS="857" VPOS="524" WIDTH="330" HEIGHT="55" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="Output:" HPOS="1187" VPOS="524" WIDTH="231" HEIGHT="55" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B4" HPOS="577" VPOS="573" WIDTH="1082" HEIGHT="251">
+          <TextLine ID="B4_L1" HPOS="577" VPOS="573" WIDTH="1082" HEIGHT="251">
+            <String ID="B4_L1_W1" CONTENT="Constant" HPOS="577" VPOS="573" WIDTH="97" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="42.09085" HPOS="674" VPOS="573" WIDTH="97" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W3" CONTENT="Std" HPOS="771" VPOS="573" WIDTH="36" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W4" CONTENT="Err" HPOS="807" VPOS="573" WIDTH="36" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W5" CONTENT="of" HPOS="843" VPOS="573" WIDTH="24" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W6" CONTENT="Y" HPOS="867" VPOS="573" WIDTH="12" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W7" CONTENT="Est" HPOS="879" VPOS="573" WIDTH="36" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W8" CONTENT="12.41612" HPOS="915" VPOS="573" WIDTH="97" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W9" CONTENT="R" HPOS="1012" VPOS="573" WIDTH="12" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W10" CONTENT="Squared" HPOS="1024" VPOS="573" WIDTH="85" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W11" CONTENT="0.389240" HPOS="1109" VPOS="573" WIDTH="97" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W12" CONTENT="No." HPOS="1206" VPOS="573" WIDTH="36" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W13" CONTENT="of" HPOS="1242" VPOS="573" WIDTH="24" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W14" CONTENT="Observations" HPOS="1266" VPOS="573" WIDTH="145" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W15" CONTENT="24" HPOS="1411" VPOS="573" WIDTH="24" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W16" CONTENT="Degrees" HPOS="1435" VPOS="573" WIDTH="85" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W17" CONTENT="of" HPOS="1520" VPOS="573" WIDTH="24" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W18" CONTENT="Freedom" HPOS="1544" VPOS="573" WIDTH="85" HEIGHT="251" />
+            <SP />
+            <String ID="B4_L1_W19" CONTENT="22" HPOS="1629" VPOS="573" WIDTH="24" HEIGHT="251" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="577" VPOS="872" WIDTH="817" HEIGHT="108">
+          <TextLine ID="B5_L1" HPOS="577" VPOS="872" WIDTH="817" HEIGHT="108">
+            <String ID="B5_L1_W1" CONTENT="X" HPOS="577" VPOS="872" WIDTH="18" HEIGHT="108" />
+            <SP />
+            <String ID="B5_L1_W2" CONTENT="Coefficient(s)" HPOS="595" VPOS="872" WIDTH="259" HEIGHT="108" />
+            <SP />
+            <String ID="B5_L1_W3" CONTENT="-7.25476" HPOS="854" VPOS="872" WIDTH="148" HEIGHT="108" />
+            <SP />
+            <String ID="B5_L1_W4" CONTENT="Std" HPOS="1002" VPOS="872" WIDTH="55" HEIGHT="108" />
+            <SP />
+            <String ID="B5_L1_W5" CONTENT="Err" HPOS="1057" VPOS="872" WIDTH="55" HEIGHT="108" />
+            <SP />
+            <String ID="B5_L1_W6" CONTENT="of" HPOS="1112" VPOS="872" WIDTH="37" HEIGHT="108" />
+            <SP />
+            <String ID="B5_L1_W7" CONTENT="Coef." HPOS="1149" VPOS="872" WIDTH="92" HEIGHT="108" />
+            <SP />
+            <String ID="B5_L1_W8" CONTENT="1.937537" HPOS="1241" VPOS="872" WIDTH="148" HEIGHT="108" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B6" HPOS="365" VPOS="1123" WIDTH="1483" HEIGHT="157">
+          <TextLine ID="B6_L1" HPOS="365" VPOS="1123" WIDTH="1483" HEIGHT="157">
+            <String ID="B6_L1_W1" CONTENT="Correlation" HPOS="365" VPOS="1123" WIDTH="177" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W2" CONTENT="between" HPOS="542" VPOS="1123" WIDTH="112" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W3" CONTENT="the" HPOS="654" VPOS="1123" WIDTH="48" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W4" CONTENT="number" HPOS="702" VPOS="1123" WIDTH="96" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W5" CONTENT="of" HPOS="798" VPOS="1123" WIDTH="32" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W6" CONTENT="reef" HPOS="830" VPOS="1123" WIDTH="64" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W7" CONTENT="surfperch" HPOS="894" VPOS="1123" WIDTH="145" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W8" CONTENT="in" HPOS="1039" VPOS="1123" WIDTH="32" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W9" CONTENT="the" HPOS="1071" VPOS="1123" WIDTH="48" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W10" CONTENT="area" HPOS="1119" VPOS="1123" WIDTH="64" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W11" CONTENT="protected" HPOS="1183" VPOS="1123" WIDTH="145" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W12" CONTENT="by" HPOS="1328" VPOS="1123" WIDTH="32" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W13" CONTENT="Seal" HPOS="1360" VPOS="1123" WIDTH="64" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W14" CONTENT="Rocks" HPOS="1424" VPOS="1123" WIDTH="80" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W15" CONTENT="and" HPOS="1504" VPOS="1123" WIDTH="48" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W16" CONTENT="the" HPOS="1552" VPOS="1123" WIDTH="48" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W17" CONTENT="height" HPOS="1600" VPOS="1123" WIDTH="96" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W18" CONTENT="of" HPOS="1696" VPOS="1123" WIDTH="32" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W19" CONTENT="the" HPOS="1728" VPOS="1123" WIDTH="48" HEIGHT="157" />
+            <SP />
+            <String ID="B6_L1_W20" CONTENT="tide" HPOS="1776" VPOS="1123" WIDTH="64" HEIGHT="157" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B7" HPOS="852" VPOS="1322" WIDTH="562" HEIGHT="58">
+          <TextLine ID="B7_L1" HPOS="852" VPOS="1322" WIDTH="562" HEIGHT="58">
+            <String ID="B7_L1_W1" CONTENT="Regression" HPOS="852" VPOS="1322" WIDTH="330" HEIGHT="58" />
+            <SP />
+            <String ID="B7_L1_W2" CONTENT="Output:" HPOS="1182" VPOS="1322" WIDTH="231" HEIGHT="58" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B8" HPOS="577" VPOS="1374" WIDTH="1082" HEIGHT="257">
+          <TextLine ID="B8_L1" HPOS="577" VPOS="1374" WIDTH="1082" HEIGHT="257">
+            <String ID="B8_L1_W1" CONTENT="Constant" HPOS="577" VPOS="1374" WIDTH="97" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W2" CONTENT="159.3666" HPOS="674" VPOS="1374" WIDTH="97" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W3" CONTENT="Std" HPOS="771" VPOS="1374" WIDTH="36" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W4" CONTENT="Err" HPOS="807" VPOS="1374" WIDTH="36" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W5" CONTENT="of" HPOS="843" VPOS="1374" WIDTH="24" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W6" CONTENT="Y" HPOS="867" VPOS="1374" WIDTH="12" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W7" CONTENT="Est" HPOS="879" VPOS="1374" WIDTH="36" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W8" CONTENT="55.03032" HPOS="915" VPOS="1374" WIDTH="97" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W9" CONTENT="R" HPOS="1012" VPOS="1374" WIDTH="12" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W10" CONTENT="Squared" HPOS="1024" VPOS="1374" WIDTH="85" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W11" CONTENT="0.405103" HPOS="1109" VPOS="1374" WIDTH="97" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W12" CONTENT="No." HPOS="1206" VPOS="1374" WIDTH="36" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W13" CONTENT="of" HPOS="1242" VPOS="1374" WIDTH="24" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W14" CONTENT="Observations" HPOS="1266" VPOS="1374" WIDTH="145" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W15" CONTENT="18" HPOS="1411" VPOS="1374" WIDTH="24" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W16" CONTENT="Degrees" HPOS="1435" VPOS="1374" WIDTH="85" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W17" CONTENT="of" HPOS="1520" VPOS="1374" WIDTH="24" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W18" CONTENT="Freedom" HPOS="1544" VPOS="1374" WIDTH="85" HEIGHT="257" />
+            <SP />
+            <String ID="B8_L1_W19" CONTENT="16" HPOS="1629" VPOS="1374" WIDTH="24" HEIGHT="257" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B9" HPOS="577" VPOS="1674" WIDTH="810" HEIGHT="107">
+          <TextLine ID="B9_L1" HPOS="577" VPOS="1674" WIDTH="810" HEIGHT="107">
+            <String ID="B9_L1_W1" CONTENT="X" HPOS="577" VPOS="1674" WIDTH="18" HEIGHT="107" />
+            <SP />
+            <String ID="B9_L1_W2" CONTENT="Coefficient(s)" HPOS="595" VPOS="1674" WIDTH="257" HEIGHT="107" />
+            <SP />
+            <String ID="B9_L1_W3" CONTENT="-33.7242" HPOS="852" VPOS="1674" WIDTH="147" HEIGHT="107" />
+            <SP />
+            <String ID="B9_L1_W4" CONTENT="Std" HPOS="999" VPOS="1674" WIDTH="55" HEIGHT="107" />
+            <SP />
+            <String ID="B9_L1_W5" CONTENT="Err" HPOS="1054" VPOS="1674" WIDTH="55" HEIGHT="107" />
+            <SP />
+            <String ID="B9_L1_W6" CONTENT="of" HPOS="1109" VPOS="1674" WIDTH="36" HEIGHT="107" />
+            <SP />
+            <String ID="B9_L1_W7" CONTENT="Coef." HPOS="1145" VPOS="1674" WIDTH="92" HEIGHT="107" />
+            <SP />
+            <String ID="B9_L1_W8" CONTENT="10.21691" HPOS="1237" VPOS="1674" WIDTH="147" HEIGHT="107" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B10" HPOS="1028" VPOS="1908" WIDTH="235" HEIGHT="65">
+          <TextLine ID="B10_L1" HPOS="1028" VPOS="1908" WIDTH="235" HEIGHT="65">
+            <String ID="B10_L1_W1" CONTENT="Table" HPOS="1028" VPOS="1908" WIDTH="195" HEIGHT="65" />
+            <SP />
+            <String ID="B10_L1_W2" CONTENT="8" HPOS="1223" VPOS="1908" WIDTH="39" HEIGHT="65" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

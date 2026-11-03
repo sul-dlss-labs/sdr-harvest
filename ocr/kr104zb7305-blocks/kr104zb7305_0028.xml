@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0028.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="287" VPOS="1042" WIDTH="106" HEIGHT="1032">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="AVERAGE" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="DENSITY" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="406" VPOS="1052" WIDTH="75" HEIGHT="1025">
+          <TextLine ID="B2_L1">
+            <String ID="B2_L1_W1" CONTENT="(number" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="of" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="fish" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="per" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="10" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="square" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="meters)" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B3" TYPE="Figure" HPOS="464" VPOS="169" WIDTH="1899" HEIGHT="3016" />
+        <TextBlock ID="B4" HPOS="2421" VPOS="1371" WIDTH="58" HEIGHT="270">
+          <TextLine ID="B4_L1">
+            <String ID="B4_L1_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="3" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

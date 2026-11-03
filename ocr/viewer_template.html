@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__DRUID__ ALTO Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: toolbar on top, page scan with overlay on the left, inspector + reading order on the right */
+:root {
+  --bg: #eef0f1;
+  --panel: #ffffff;
+  --fg: #1b2226;
+  --muted: #5c676d;
+  --rule: #d5dadd;
+  --chandra: #0e7c86;
+  --chandra-fill: rgba(14,124,134,.10);
+  --abbyy: #c25a12;
+  --abbyy-fill: rgba(194,90,18,.10);
+  --hit: #d6a400;
+  --focus: #2457c5;
+  --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #151a1d; --panel: #1d2428; --fg: #e3e8ea; --muted: #97a3a9; --rule: #333d42;
+  --chandra: #3fc1cc; --chandra-fill: rgba(63,193,204,.14);
+  --abbyy: #f08a3e; --abbyy-fill: rgba(240,138,62,.14);
+  --hit: #ffd23f; --focus: #7aa2ff; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #151a1d; --panel: #1d2428; --fg: #e3e8ea; --muted: #97a3a9; --rule: #333d42;
+  --chandra: #3fc1cc; --chandra-fill: rgba(63,193,204,.14);
+  --abbyy: #f08a3e; --abbyy-fill: rgba(240,138,62,.14);
+  --hit: #ffd23f; --focus: #7aa2ff; color-scheme: dark }
+
+body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 var(--sans); }
+img { max-width: 100%; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px 32px; max-width: 1500px; margin: 0 auto; display: grid; gap: 14px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+h1 { font-size: 1.15rem; font-weight: 600; margin: 0; text-wrap: balance; }
+h1 .druid { font-family: var(--mono); font-weight: 500; }
+header p { margin: 0; color: var(--muted); }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; }
+.group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.label { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 2px; }
+button, input[type=search] { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 3px 9px; }
+button { cursor: pointer; font-variant-numeric: tabular-nums; }
+button:hover { border-color: var(--muted); }
+button[aria-pressed="true"] { background: var(--fg); color: var(--panel); border-color: var(--fg); }
+button:focus-visible, input:focus-visible, .chip input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
+.pages button { min-width: 2em; padding-inline: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; padding: 2px 4px; }
+.chip input { accent-color: var(--fg); margin: 0; }
+.swatch { width: 12px; height: 12px; border-radius: 2px; border: 2px solid; display: inline-block; }
+.sw-c { border-color: var(--chandra); background: var(--chandra-fill); }
+.sw-a { border-color: var(--abbyy); background: var(--abbyy-fill); }
+input[type=search] { width: 11em; }
+select { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 3px 6px; font-variant-numeric: tabular-nums; }
+select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 400px); gap: 14px; align-items: start; }
+@media (max-width: 860px) { .main { grid-template-columns: minmax(0, 1fr); } }
+
+.stage { position: relative; background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 8px; min-width: 0; }
+.scan { position: relative; max-width: 100%; margin: 0 auto; }
+.scan img { display: block; width: 100%; height: auto; }
+.scan svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+svg rect { vector-effect: non-scaling-stroke; }
+.c-block { fill: var(--chandra-fill); stroke: var(--chandra); stroke-width: 2; }
+.c-line { fill: none; stroke: var(--chandra); stroke-width: 1; stroke-dasharray: 4 3; }
+.c-word { fill: transparent; stroke: var(--chandra); stroke-width: .75; opacity: .8; }
+.c-ill { fill: var(--chandra-fill); stroke: var(--chandra); stroke-width: 2; stroke-dasharray: 10 5; }
+.a-block { fill: var(--abbyy-fill); stroke: var(--abbyy); stroke-width: 2; }
+.a-line { fill: none; stroke: var(--abbyy); stroke-width: 1; stroke-dasharray: 4 3; }
+.a-word { fill: transparent; stroke: var(--abbyy); stroke-width: .75; opacity: .8; }
+.a-ill { fill: var(--abbyy-fill); stroke: var(--abbyy); stroke-width: 2; stroke-dasharray: 10 5; }
+.hoverable { pointer-events: all; cursor: crosshair; }
+.hoverable:hover, .sel { stroke: var(--focus) !important; stroke-width: 2.5 !important; opacity: 1; }
+.hit { fill: var(--hit) !important; fill-opacity: .45; stroke: var(--hit) !important; opacity: 1; }
+.num { font: 600 44px var(--mono); fill: var(--panel); paint-order: stroke; }
+.num-bg { fill: var(--chandra); stroke: none; }
+.num-bg.a { fill: var(--abbyy); }
+
+aside { display: grid; gap: 14px; min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; min-width: 0; }
+.card h2 { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 8px; font-weight: 600; }
+.inspect-text { font-size: 1rem; margin: 0 0 8px; overflow-wrap: anywhere; }
+.inspect-text.empty { color: var(--muted); font-size: .9rem; }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 0; font-size: .85rem; }
+dt { color: var(--muted); }
+dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.src-tag { display: inline-block; font: 500 .7rem var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 1px 6px; border-radius: 3px; color: var(--panel); }
+.src-tag.chandra { background: var(--chandra); }
+.src-tag.abbyy { background: var(--abbyy); }
+
+.order { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 60vh; overflow-y: auto; }
+.order li button { width: 100%; text-align: left; display: grid; grid-template-columns: 2.2em minmax(0,1fr); gap: 8px; background: transparent; border-color: transparent; padding: 5px 6px; }
+.order li button:hover, .order li button.sel-row { background: var(--bg); border-color: var(--rule); }
+.order .n { font: 500 .8rem var(--mono); color: var(--panel); background: var(--chandra); border-radius: 3px; text-align: center; align-self: start; padding: 1px 0; }
+.order .n.a { background: var(--abbyy); }
+.order .t { font-size: .85rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.order .meta { display: block; font: .72rem var(--mono); color: var(--muted); }
+.stats { font-size: .82rem; color: var(--muted); margin: 0 0 8px; }
+.note { font-size: .8rem; color: var(--muted); margin: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ALTO viewer · <span class="druid">__DRUID__</span></h1>
+    <p id="subtitle"></p>
+  </header>
+
+  <div class="toolbar">
+    <div class="group pages">
+      <label class="label" for="page">Page</label>
+      <button id="prev" aria-label="Previous page">‹</button>
+      <select id="page"></select>
+      <button id="next" aria-label="Next page">›</button>
+    </div>
+    <div class="group">
+      <span class="label"><span class="swatch sw-c"></span> Chandra</span>
+      <label class="chip"><input type="checkbox" id="c-block" checked> Blocks</label>
+      <label class="chip"><input type="checkbox" id="c-line" checked> Lines</label>
+      <label class="chip"><input type="checkbox" id="c-word" checked> Words</label>
+    </div>
+    <div class="group">
+      <span class="label"><span class="swatch sw-a"></span> ABBYY</span>
+      <label class="chip"><input type="checkbox" id="a-block"> Blocks</label>
+      <label class="chip"><input type="checkbox" id="a-line"> Lines</label>
+      <label class="chip"><input type="checkbox" id="a-word"> Words</label>
+    </div>
+    <div class="group">
+      <label class="label" for="q">Find word</label>
+      <input type="search" id="q" placeholder="e.g. Phyllospadix" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="stage">
+      <div class="scan" id="scan">
+        <img id="img" alt="">
+        <svg id="ov" preserveAspectRatio="none"></svg>
+      </div>
+    </div>
+    <aside>
+      <section class="card" aria-live="polite">
+        <h2>Inspector</h2>
+        <p class="inspect-text empty" id="i-text">Hover or tap a box on the scan to see its text and ALTO coordinates.</p>
+        <dl id="i-dl"></dl>
+      </section>
+      <section class="card">
+        <h2 id="order-h">Reading order</h2>
+        <p class="stats" id="stats"></p>
+        <ol class="order" id="order"></ol>
+      </section>
+      <p class="note" id="note"></p>
+    </aside>
+  </div>
+</div>
+
+<script>
+const META = __META__;
+const PAGES = __DATA__;
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const SRC = { c: "chandra", a: "abbyy" };
+let cur = 0, selEl = null;
+
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function blockText(b) { return (b.l || []).map(l => l.w.map(w => w[0]).join(" ")).join("\n"); }
+
+$("subtitle").textContent = `${META.title} · ${PAGES.length} pages`;
+$("note").textContent = `Coordinates are ALTO pixels on the full-size jp2. Chandra: ${META.chandra}. ABBYY: word boxes and confidences (WC) from the FineReader ALTO in SDR. Lines and words without coordinates have no box to draw but still appear in the inspector and reading order.`;
+const pageSel = $("page");
+PAGES.forEach((p, i) => {
+  const o = document.createElement("option");
+  o.value = i; o.textContent = `${p.n} of ${PAGES.length}`;
+  pageSel.appendChild(o);
+});
+pageSel.addEventListener("change", () => show(+pageSel.value));
+$("prev").addEventListener("click", () => cur > 0 && show(cur - 1));
+$("next").addEventListener("click", () => cur < PAGES.length - 1 && show(cur + 1));
+const EMPTY = { blocks: [] };
+
+function show(i) {
+  cur = i;
+  try { localStorage.setItem("alto-page-" + META.druid, i); } catch (e) {}
+  const p = PAGES[i];
+  pageSel.value = i;
+  $("prev").disabled = i === 0;
+  $("next").disabled = i === PAGES.length - 1;
+  $("img").src = p.img;
+  $("img").alt = `Scan of page ${p.n}`;
+  const { W, H } = p.chandra || p.abbyy || p;
+  $("scan").style.aspectRatio = `${W} / ${H}`;
+  const ov = $("ov");
+  ov.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  ov.replaceChildren();
+  selEl = null;
+  for (const s of ["a", "c"]) {
+    const data = p[SRC[s]] || EMPTY;
+    const gB = el("g", { id: `g-${s}-block` }, ov);
+    const gL = el("g", { id: `g-${s}-line` }, ov);
+    const gW = el("g", { id: `g-${s}-word` }, ov);
+    const gN = el("g", { id: `g-${s}-num` }, ov);
+    data.blocks.forEach((b, bi) => {
+      const [x, y, w, h] = b.b;
+      const r = el("rect", { x, y, width: w, height: h, class: `${s}-${b.k === "ill" ? "ill" : "block"} hoverable` }, gB);
+      r._info = { src: SRC[s], level: b.k === "ill" ? `Illustration (${b.type})` : "TextBlock", id: `B${bi + 1}`, box: b.b, text: b.k === "ill" ? "" : blockText(b), lines: (b.l || []).length };
+      r._block = bi;
+      const tag = el("g", {}, gN);
+      el("rect", { x: x, y: Math.max(0, y - 52), width: 26 + 28 * String(bi + 1).length, height: 50, class: "num-bg" + (s === "a" ? " a" : ""), rx: 4 }, tag);
+      const t = el("text", { x: x + 12, y: Math.max(0, y - 52) + 40, class: "num" }, tag);
+      t.textContent = bi + 1;
+      (b.l || []).forEach((l, li) => {
+        if (l.b) {
+          const [lx, ly, lw, lh] = l.b;
+          const lr = el("rect", { x: lx, y: ly, width: lw, height: lh, class: `${s}-line hoverable` }, gL);
+          lr._info = { src: SRC[s], level: "TextLine", id: `B${bi + 1}_L${li + 1}`, box: l.b, text: l.w.map(w => w[0]).join(" "), words: l.w.length };
+          lr._block = bi;
+        }
+        l.w.forEach((wd, wi) => {
+          const [c, wx, wy, ww, wh, wc] = wd;
+          if (wx === null) return;
+          const wr = el("rect", { x: wx, y: wy, width: ww, height: wh, class: `${s}-word hoverable` }, gW);
+          wr._info = { src: SRC[s], level: "String", id: `B${bi + 1}_L${li + 1}_W${wi + 1}`, box: [wx, wy, ww, wh], text: c, wc };
+          wr._block = bi;
+          wr._word = c;
+        });
+      });
+    });
+  }
+  applyLayers();
+  renderOrder();
+  applySearch();
+}
+
+function applyLayers() {
+  for (const s of ["c", "a"]) {
+    for (const lv of ["block", "line", "word"]) {
+      const g = $(`g-${s}-${lv}`);
+      if (g) g.style.display = $(`${s}-${lv}`).checked ? "" : "none";
+    }
+    const gN = $(`g-${s}-num`);
+    if (gN) gN.style.display = $(`${s}-block`).checked ? "" : "none";
+  }
+  // Only the finest visible level takes the pointer, so hovering finds words first.
+  for (const s of ["c", "a"]) {
+    const finest = ["word", "line", "block"].find(lv => $(`${s}-${lv}`).checked && $(`g-${s}-${lv}`)?.childElementCount);
+    for (const lv of ["block", "line", "word"]) {
+      const g = $(`g-${s}-${lv}`);
+      if (g) g.style.pointerEvents = lv === finest ? "" : "none";
+    }
+  }
+  renderOrder();
+}
+
+function inspect(r) {
+  if (selEl) selEl.classList.remove("sel");
+  selEl = r; r.classList.add("sel");
+  const info = r._info;
+  const t = $("i-text");
+  t.textContent = info.text || "(no text)";
+  t.classList.toggle("empty", !info.text);
+  const [x, y, w, h] = info.box;
+  const rows = [
+    ["Source", `<span class="src-tag ${info.src}">${info.src}</span>`],
+    ["Element", `${info.level} ${info.id}`],
+    ["HPOS, VPOS", `${x}, ${y}`],
+    ["WIDTH × HEIGHT", `${w} × ${h}`],
+  ];
+  if (info.lines !== undefined) rows.push(["Lines", info.lines]);
+  if (info.words !== undefined) rows.push(["Words", info.words]);
+  if (info.wc !== undefined && info.wc >= 0) rows.push(["Confidence (WC)", info.wc.toFixed(2)]);
+  $("i-dl").innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+  document.querySelectorAll(".order button").forEach(b => b.classList.toggle("sel-row", b._src === info.src && b._block === r._block));
+}
+
+$("ov").addEventListener("pointerover", e => { if (e.target._info) inspect(e.target); });
+$("ov").addEventListener("click", e => { if (e.target._info) inspect(e.target); });
+
+function renderOrder() {
+  const p = PAGES[cur];
+  const s = $("c-block").checked || $("c-line").checked || $("c-word").checked || !($("a-block").checked || $("a-line").checked || $("a-word").checked) ? "c" : "a";
+  const data = p[SRC[s]] || EMPTY;
+  const lines = data.blocks.reduce((n, b) => n + (b.l || []).length, 0);
+  const words = data.blocks.reduce((n, b) => n + (b.l || []).reduce((m, l) => m + l.w.length, 0), 0);
+  $("order-h").textContent = `Reading order · ${s === "c" ? "Chandra" : "ABBYY"}`;
+  const other = p[SRC[s === "c" ? "a" : "c"]] || EMPTY;
+  const oLines = other.blocks.reduce((n, b) => n + (b.l || []).length, 0);
+  $("stats").textContent = `${data.blocks.length} blocks, ${lines} lines, ${words} words (${s === "c" ? "ABBYY" : "Chandra"} has ${other.blocks.length} blocks, ${oLines} lines)`;
+  const ol = $("order");
+  ol.replaceChildren();
+  data.blocks.forEach((b, bi) => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn._src = SRC[s]; btn._block = bi;
+    const text = b.k === "ill" ? `Illustration (${b.type})` : blockText(b).replace(/\n/g, " ");
+    btn.innerHTML = `<span class="n${s === "a" ? " a" : ""}">${bi + 1}</span><span><span class="t"></span><span class="meta">${b.b.join(" ")} · ${(b.l || []).length} line${(b.l || []).length === 1 ? "" : "s"}</span></span>`;
+    btn.querySelector(".t").textContent = text;
+    btn.addEventListener("click", () => {
+      const r = [...$(`g-${s}-block`).children][bi];
+      inspect(r);
+    });
+    li.appendChild(btn); ol.appendChild(li);
+  });
+}
+
+function applySearch() {
+  const q = $("q").value.trim().toLowerCase();
+  document.querySelectorAll("#ov .hit").forEach(r => r.classList.remove("hit"));
+  if (!q) return;
+  document.querySelectorAll("#ov rect").forEach(r => {
+    if (r._word && r._word.toLowerCase().replace(/[^\p{L}\p{N}%]/gu, "").includes(q.replace(/[^\p{L}\p{N}%]/gu, ""))) r.classList.add("hit");
+  });
+}
+
+["c-block", "c-line", "c-word", "a-block", "a-line", "a-word"].forEach(id => $(id).addEventListener("change", applyLayers));
+$("q").addEventListener("input", applySearch);
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.key === "ArrowRight" && cur < PAGES.length - 1) show(cur + 1);
+  if (e.key === "ArrowLeft" && cur > 0) show(cur - 1);
+});
+
+let start = 0;
+try { const v = parseInt(localStorage.getItem("alto-page-" + META.druid), 10); if (v >= 0 && v < PAGES.length) start = v; } catch (e) {}
+show(start);
+</script>
+</body>
+</html>

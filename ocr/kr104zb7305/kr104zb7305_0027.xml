@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0027.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="320" VPOS="319" WIDTH="194" HEIGHT="2306">
+          <TextLine ID="B1_L1" HPOS="320" VPOS="319" WIDTH="194" HEIGHT="2306">
+            <String ID="B1_L1_W1" CONTENT="AVERAGE" HPOS="320" VPOS="319" WIDTH="21" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="DENSITY" HPOS="341" VPOS="319" WIDTH="21" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="IN" HPOS="362" VPOS="319" WIDTH="6" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="ENTIRE" HPOS="368" VPOS="319" WIDTH="18" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="STUDY" HPOS="386" VPOS="319" WIDTH="15" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="AREA" HPOS="401" VPOS="319" WIDTH="12" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="(number" HPOS="413" VPOS="319" WIDTH="21" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W8" CONTENT="of" HPOS="434" VPOS="319" WIDTH="6" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W9" CONTENT="fish" HPOS="440" VPOS="319" WIDTH="12" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W10" CONTENT="per" HPOS="452" VPOS="319" WIDTH="9" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W11" CONTENT="10" HPOS="461" VPOS="319" WIDTH="6" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W12" CONTENT="square" HPOS="467" VPOS="319" WIDTH="18" HEIGHT="2306" />
+            <SP />
+            <String ID="B1_L1_W13" CONTENT="meters)" HPOS="485" VPOS="319" WIDTH="21" HEIGHT="2306" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B2" TYPE="Figure" HPOS="491" VPOS="205" WIDTH="1715" HEIGHT="2517" />
+        <TextBlock ID="B3" HPOS="2363" VPOS="1338" WIDTH="53" HEIGHT="277">
+          <TextLine ID="B3_L1" HPOS="2363" VPOS="1338" WIDTH="53" HEIGHT="277">
+            <String ID="B3_L1_W1" CONTENT="Figure" HPOS="2363" VPOS="1338" WIDTH="45" HEIGHT="277" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="2" HPOS="2408" VPOS="1338" WIDTH="7" HEIGHT="277" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

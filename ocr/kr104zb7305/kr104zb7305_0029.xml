@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0029.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="257" VPOS="837" WIDTH="116" HEIGHT="1244">
+          <TextLine ID="B1_L1" HPOS="257" VPOS="837" WIDTH="116" HEIGHT="1244">
+            <String ID="B1_L1_W1" CONTENT="PERCENT" HPOS="257" VPOS="837" WIDTH="50" HEIGHT="1244" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="ABUNDANCE" HPOS="307" VPOS="837" WIDTH="65" HEIGHT="1244" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="375" VPOS="1354" WIDTH="73" HEIGHT="206">
+          <TextLine ID="B2_L1" HPOS="375" VPOS="1354" WIDTH="73" HEIGHT="206">
+            <String ID="B2_L1_W1" CONTENT="by" HPOS="375" VPOS="1354" WIDTH="24" HEIGHT="206" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="fish" HPOS="399" VPOS="1354" WIDTH="48" HEIGHT="206" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B3" TYPE="Figure" HPOS="428" VPOS="172" WIDTH="1640" HEIGHT="2528" />
+        <TextBlock ID="B4" HPOS="2254" VPOS="120" WIDTH="86" HEIGHT="2964">
+          <TextLine ID="B4_L1" HPOS="2254" VPOS="120" WIDTH="86" HEIGHT="2964">
+            <String ID="B4_L1_W1" CONTENT="tracks" HPOS="2254" VPOS="120" WIDTH="3" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="(diagonal" HPOS="2257" VPOS="120" WIDTH="5" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W3" CONTENT="lines)" HPOS="2262" VPOS="120" WIDTH="3" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W4" CONTENT="seal" HPOS="2265" VPOS="120" WIDTH="2" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W5" CONTENT="(vertical" HPOS="2267" VPOS="120" WIDTH="5" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W6" CONTENT="lines)" HPOS="2272" VPOS="120" WIDTH="3" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W7" CONTENT="between" HPOS="2275" VPOS="120" WIDTH="4" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W8" CONTENT="(cross-hatch)" HPOS="2279" VPOS="120" WIDTH="8" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W9" CONTENT="pile" HPOS="2287" VPOS="120" WIDTH="2" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W10" CONTENT="(horizontal" HPOS="2289" VPOS="120" WIDTH="7" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W11" CONTENT="lines)" HPOS="2296" VPOS="120" WIDTH="3" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W12" CONTENT="rainbow" HPOS="2299" VPOS="120" WIDTH="4" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W13" CONTENT="(diagonal" HPOS="2303" VPOS="120" WIDTH="5" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W14" CONTENT="lines" HPOS="2308" VPOS="120" WIDTH="3" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W15" CONTENT="down-right)" HPOS="2311" VPOS="120" WIDTH="7" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W16" CONTENT="reef" HPOS="2318" VPOS="120" WIDTH="2" HEIGHT="2964" />
+            <SP />
+            <String ID="B4_L1_W17" CONTENT="(cross-hatch)" HPOS="2320" VPOS="120" WIDTH="8" HEIGHT="2964" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="2421" VPOS="1312" WIDTH="63" HEIGHT="274">
+          <TextLine ID="B5_L1" HPOS="2421" VPOS="1312" WIDTH="63" HEIGHT="274">
+            <String ID="B5_L1_W1" CONTENT="Figure" HPOS="2421" VPOS="1312" WIDTH="54" HEIGHT="274" />
+            <SP />
+            <String ID="B5_L1_W2" CONTENT="4" HPOS="2475" VPOS="1312" WIDTH="9" HEIGHT="274" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

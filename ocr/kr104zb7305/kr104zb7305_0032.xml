@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0032.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="206" VPOS="1240" WIDTH="197" HEIGHT="906">
+          <TextLine ID="B1_L1" HPOS="206" VPOS="1240" WIDTH="197" HEIGHT="906">
+            <String ID="B1_L1_W1" CONTENT="REEF" HPOS="206" VPOS="1240" WIDTH="20" HEIGHT="906" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="SURPERCH" HPOS="226" VPOS="1240" WIDTH="40" HEIGHT="906" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="in" HPOS="266" VPOS="1240" WIDTH="10" HEIGHT="906" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="the" HPOS="276" VPOS="1240" WIDTH="15" HEIGHT="906" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="Channel" HPOS="291" VPOS="1240" WIDTH="35" HEIGHT="906" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="beyond" HPOS="326" VPOS="1240" WIDTH="30" HEIGHT="906" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="Bird" HPOS="356" VPOS="1240" WIDTH="20" HEIGHT="906" />
+            <SP />
+            <String ID="B1_L1_W8" CONTENT="Rocks" HPOS="376" VPOS="1240" WIDTH="25" HEIGHT="906" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B2" TYPE="Figure" HPOS="375" VPOS="413" WIDTH="1834" HEIGHT="2720" />
+        <TextBlock ID="B3" HPOS="2405" VPOS="1556" WIDTH="56" HEIGHT="274">
+          <TextLine ID="B3_L1" HPOS="2405" VPOS="1556" WIDTH="56" HEIGHT="274">
+            <String ID="B3_L1_W1" CONTENT="Figure" HPOS="2405" VPOS="1556" WIDTH="48" HEIGHT="274" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="7" HPOS="2453" VPOS="1556" WIDTH="8" HEIGHT="274" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

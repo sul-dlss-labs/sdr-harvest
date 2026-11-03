@@ -1,9 +1,10 @@
 """OCR every jp2 image in an SDR object and write ALTO XML per page.
 
-Usage: python ocr.py kr104zb7305
-Writes kr104zb7305/kr104zb7305_0001.xml, ...
+Usage: python ocr.py kr104zb7305 [--blocks-only] [--out DIR]
+Writes kr104zb7305/kr104zb7305_0001.xml, ... and caches the model's HTML
+as kr104zb7305/kr104zb7305_0001.html so later runs skip the OCR step.
 """
-import base64, json, os, re, sys, urllib.request
+import argparse, base64, json, os, re, sys, urllib.request
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -98,8 +99,10 @@ def is_layout_html(html):
                for div in soup.find_all("div", recursive=False))
 
 
-def process(druid):
-    outdir = Path(druid)
+def process(druid, out_dir=None, blocks_only=False):
+    htmldir = Path(druid)
+    outdir = Path(out_dir or druid)
+    htmldir.mkdir(exist_ok=True)
     outdir.mkdir(exist_ok=True)
     files = list(jp2_files(druid))
     print(f"{druid}: {len(files)} jp2 files", file=sys.stderr)
@@ -111,22 +114,29 @@ def process(druid):
         if out.exists():
             print(f"[{i}/{len(files)}] {name}: exists, skipping", file=sys.stderr)
             continue
-        print(f"[{i}/{len(files)}] {name}", file=sys.stderr)
-        try:
-            image = fetch(IIIF.format(druid=druid, name=name))
-            response = ocr(image)
-            html = extract_html(response)
-        except Exception as e:
-            print(f"  error: {e}", file=sys.stderr)
-            failures.append(name)
-            continue
-        if not is_layout_html(html):
-            raw = outdir / f"{name}.response.json"
-            raw.write_text(json.dumps(response, indent=2), encoding="utf-8")
-            print(f"  not HTML layout output, skipping (full response in {raw}):\n"
-                  f"    {describe(response)}", file=sys.stderr)
-            failures.append(name)
-            continue
+        cached = htmldir / f"{name}.html"
+        image = None
+        if cached.exists():
+            print(f"[{i}/{len(files)}] {name} (cached HTML)", file=sys.stderr)
+            html = cached.read_text(encoding="utf-8")
+        else:
+            print(f"[{i}/{len(files)}] {name}", file=sys.stderr)
+            try:
+                image = fetch(IIIF.format(druid=druid, name=name))
+                response = ocr(image)
+                html = extract_html(response)
+            except Exception as e:
+                print(f"  error: {e}", file=sys.stderr)
+                failures.append(name)
+                continue
+            if not is_layout_html(html):
+                raw = htmldir / f"{name}.response.json"
+                raw.write_text(json.dumps(response, indent=2), encoding="utf-8")
+                print(f"  not HTML layout output, skipping (full response in {raw}):\n"
+                      f"    {describe(response)}", file=sys.stderr)
+                failures.append(name)
+                continue
+            cached.write_text(html, encoding="utf-8")
         # Bboxes are normalized 0-1000, so scale them to the full-size jp2
         # dimensions rather than the 1024px derivative we sent to the model.
         pres = f.get("presentation") or {}
@@ -134,14 +144,20 @@ def process(druid):
         if size is None:
             from io import BytesIO
             from PIL import Image
+            image = image or fetch(IIIF.format(druid=druid, name=name))
             size = Image.open(BytesIO(image)).size
-        out.write_text(convert(html, filename, size=size), encoding="utf-8")
+        out.write_text(convert(html, filename, size=size, blocks_only=blocks_only),
+                       encoding="utf-8")
     if failures:
         print(f"{len(failures)} failed: {', '.join(failures)}", file=sys.stderr)
     return not failures
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit(f"usage: {sys.argv[0]} DRUID")
-    sys.exit(0 if process(sys.argv[1]) else 1)
+    ap = argparse.ArgumentParser(description="OCR an SDR object's jp2 images to ALTO XML.")
+    ap.add_argument("druid", help="object id, e.g. kr104zb7305")
+    ap.add_argument("--blocks-only", action="store_true",
+                    help="only blocks get coordinates; lines and words are text only")
+    ap.add_argument("--out", help="directory for the XML files (default: DRUID)")
+    a = ap.parse_args()
+    sys.exit(0 if process(a.druid, out_dir=a.out, blocks_only=a.blocks_only) else 1)

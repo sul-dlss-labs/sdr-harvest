@@ -1,0 +1,563 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0025.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="1071" VPOS="211" WIDTH="409" HEIGHT="52">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="FIGURE" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="LEGEND" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="408" VPOS="465" WIDTH="1856" HEIGHT="2007">
+          <TextLine ID="B2_L1">
+            <String ID="B2_L1_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="1" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="Map" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="of" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="the" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="protected" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="nearshore" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="zone" />
+            <SP />
+            <String ID="B2_L1_W10" CONTENT="off" />
+            <SP />
+            <String ID="B2_L1_W11" CONTENT="of" />
+            <SP />
+            <String ID="B2_L1_W12" CONTENT="Point" />
+            <SP />
+            <String ID="B2_L1_W13" CONTENT="Cabrillo" />
+            <SP />
+            <String ID="B2_L1_W14" CONTENT="which" />
+            <SP />
+            <String ID="B2_L1_W15" CONTENT="constituted" />
+            <SP />
+            <String ID="B2_L1_W16" CONTENT="the" />
+            <SP />
+            <String ID="B2_L1_W17" CONTENT="study" />
+            <SP />
+            <String ID="B2_L1_W18" CONTENT="area." />
+            <SP />
+            <String ID="B2_L1_W19" CONTENT="Habitat" />
+            <SP />
+            <String ID="B2_L1_W20" CONTENT="boundaries" />
+            <SP />
+            <String ID="B2_L1_W21" CONTENT="are" />
+            <SP />
+            <String ID="B2_L1_W22" CONTENT="shown." />
+          </TextLine>
+          <TextLine ID="B2_L2">
+            <String ID="B2_L2_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L2_W2" CONTENT="2" />
+            <SP />
+            <String ID="B2_L2_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L2_W4" CONTENT="Graph" />
+            <SP />
+            <String ID="B2_L2_W5" CONTENT="of" />
+            <SP />
+            <String ID="B2_L2_W6" CONTENT="the" />
+            <SP />
+            <String ID="B2_L2_W7" CONTENT="average" />
+            <SP />
+            <String ID="B2_L2_W8" CONTENT="density" />
+            <SP />
+            <String ID="B2_L2_W9" CONTENT="of" />
+            <SP />
+            <String ID="B2_L2_W10" CONTENT="the" />
+            <SP />
+            <String ID="B2_L2_W11" CONTENT="five" />
+            <SP />
+            <String ID="B2_L2_W12" CONTENT="primary" />
+            <SP />
+            <String ID="B2_L2_W13" CONTENT="Embiotocid" />
+            <SP />
+            <String ID="B2_L2_W14" CONTENT="species" />
+            <SP />
+            <String ID="B2_L2_W15" CONTENT="found" />
+            <SP />
+            <String ID="B2_L2_W16" CONTENT="in" />
+            <SP />
+            <String ID="B2_L2_W17" CONTENT="the" />
+            <SP />
+            <String ID="B2_L2_W18" CONTENT="entire" />
+            <SP />
+            <String ID="B2_L2_W19" CONTENT="study" />
+            <SP />
+            <String ID="B2_L2_W20" CONTENT="area." />
+            <SP />
+            <String ID="B2_L2_W21" CONTENT="Density" />
+            <SP />
+            <String ID="B2_L2_W22" CONTENT="measured" />
+            <SP />
+            <String ID="B2_L2_W23" CONTENT="in" />
+            <SP />
+            <String ID="B2_L2_W24" CONTENT="fish" />
+            <SP />
+            <String ID="B2_L2_W25" CONTENT="per" />
+            <SP />
+            <String ID="B2_L2_W26" CONTENT="10" />
+            <SP />
+            <String ID="B2_L2_W27" CONTENT="square" />
+            <SP />
+            <String ID="B2_L2_W28" CONTENT="meters." />
+          </TextLine>
+          <TextLine ID="B2_L3">
+            <String ID="B2_L3_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L3_W2" CONTENT="3" />
+            <SP />
+            <String ID="B2_L3_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L3_W4" CONTENT="Graph" />
+            <SP />
+            <String ID="B2_L3_W5" CONTENT="of" />
+            <SP />
+            <String ID="B2_L3_W6" CONTENT="the" />
+            <SP />
+            <String ID="B2_L3_W7" CONTENT="average" />
+            <SP />
+            <String ID="B2_L3_W8" CONTENT="density" />
+            <SP />
+            <String ID="B2_L3_W9" CONTENT="of" />
+            <SP />
+            <String ID="B2_L3_W10" CONTENT="each" />
+            <SP />
+            <String ID="B2_L3_W11" CONTENT="of" />
+            <SP />
+            <String ID="B2_L3_W12" CONTENT="the" />
+            <SP />
+            <String ID="B2_L3_W13" CONTENT="five" />
+            <SP />
+            <String ID="B2_L3_W14" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L3_W15" CONTENT="in" />
+            <SP />
+            <String ID="B2_L3_W16" CONTENT="each" />
+            <SP />
+            <String ID="B2_L3_W17" CONTENT="respective" />
+            <SP />
+            <String ID="B2_L3_W18" CONTENT="habitat." />
+            <SP />
+            <String ID="B2_L3_W19" CONTENT="Density" />
+            <SP />
+            <String ID="B2_L3_W20" CONTENT="measured" />
+            <SP />
+            <String ID="B2_L3_W21" CONTENT="in" />
+            <SP />
+            <String ID="B2_L3_W22" CONTENT="fish" />
+            <SP />
+            <String ID="B2_L3_W23" CONTENT="per" />
+            <SP />
+            <String ID="B2_L3_W24" CONTENT="10" />
+            <SP />
+            <String ID="B2_L3_W25" CONTENT="square" />
+            <SP />
+            <String ID="B2_L3_W26" CONTENT="meters." />
+          </TextLine>
+          <TextLine ID="B2_L4">
+            <String ID="B2_L4_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L4_W2" CONTENT="4" />
+            <SP />
+            <String ID="B2_L4_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L4_W4" CONTENT="Percent" />
+            <SP />
+            <String ID="B2_L4_W5" CONTENT="abundance" />
+            <SP />
+            <String ID="B2_L4_W6" CONTENT="measured" />
+            <SP />
+            <String ID="B2_L4_W7" CONTENT="solely" />
+            <SP />
+            <String ID="B2_L4_W8" CONTENT="by" />
+            <SP />
+            <String ID="B2_L4_W9" CONTENT="number" />
+            <SP />
+            <String ID="B2_L4_W10" CONTENT="of" />
+            <SP />
+            <String ID="B2_L4_W11" CONTENT="fish" />
+            <SP />
+            <String ID="B2_L4_W12" CONTENT="observed" />
+            <SP />
+            <String ID="B2_L4_W13" CONTENT="in" />
+            <SP />
+            <String ID="B2_L4_W14" CONTENT="each" />
+            <SP />
+            <String ID="B2_L4_W15" CONTENT="habitat." />
+            <SP />
+            <String ID="B2_L4_W16" CONTENT="Neither" />
+            <SP />
+            <String ID="B2_L4_W17" CONTENT="the" />
+            <SP />
+            <String ID="B2_L4_W18" CONTENT="size" />
+            <SP />
+            <String ID="B2_L4_W19" CONTENT="of" />
+            <SP />
+            <String ID="B2_L4_W20" CONTENT="the" />
+            <SP />
+            <String ID="B2_L4_W21" CONTENT="habitats" />
+            <SP />
+            <String ID="B2_L4_W22" CONTENT="nor" />
+            <SP />
+            <String ID="B2_L4_W23" CONTENT="the" />
+            <SP />
+            <String ID="B2_L4_W24" CONTENT="differing" />
+            <SP />
+            <String ID="B2_L4_W25" CONTENT="total" />
+            <SP />
+            <String ID="B2_L4_W26" CONTENT="populations" />
+            <SP />
+            <String ID="B2_L4_W27" CONTENT="of" />
+            <SP />
+            <String ID="B2_L4_W28" CONTENT="the" />
+            <SP />
+            <String ID="B2_L4_W29" CONTENT="species" />
+            <SP />
+            <String ID="B2_L4_W30" CONTENT="is" />
+            <SP />
+            <String ID="B2_L4_W31" CONTENT="taken" />
+            <SP />
+            <String ID="B2_L4_W32" CONTENT="into" />
+            <SP />
+            <String ID="B2_L4_W33" CONTENT="account." />
+          </TextLine>
+          <TextLine ID="B2_L5">
+            <String ID="B2_L5_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L5_W2" CONTENT="5" />
+            <SP />
+            <String ID="B2_L5_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L5_W4" CONTENT="Correlation" />
+            <SP />
+            <String ID="B2_L5_W5" CONTENT="between" />
+            <SP />
+            <String ID="B2_L5_W6" CONTENT="the" />
+            <SP />
+            <String ID="B2_L5_W7" CONTENT="number" />
+            <SP />
+            <String ID="B2_L5_W8" CONTENT="of" />
+            <SP />
+            <String ID="B2_L5_W9" CONTENT="black" />
+            <SP />
+            <String ID="B2_L5_W10" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L5_W11" CONTENT="observed" />
+            <SP />
+            <String ID="B2_L5_W12" CONTENT="under" />
+            <SP />
+            <String ID="B2_L5_W13" CONTENT="the" />
+            <SP />
+            <String ID="B2_L5_W14" CONTENT="railroad" />
+            <SP />
+            <String ID="B2_L5_W15" CONTENT="tracks" />
+            <SP />
+            <String ID="B2_L5_W16" CONTENT="and" />
+            <SP />
+            <String ID="B2_L5_W17" CONTENT="the" />
+            <SP />
+            <String ID="B2_L5_W18" CONTENT="height" />
+            <SP />
+            <String ID="B2_L5_W19" CONTENT="of" />
+            <SP />
+            <String ID="B2_L5_W20" CONTENT="the" />
+            <SP />
+            <String ID="B2_L5_W21" CONTENT="tide." />
+            <SP />
+            <String ID="B2_L5_W22" CONTENT="The" />
+            <SP />
+            <String ID="B2_L5_W23" CONTENT="line" />
+            <SP />
+            <String ID="B2_L5_W24" CONTENT="of" />
+            <SP />
+            <String ID="B2_L5_W25" CONTENT="regression" />
+            <SP />
+            <String ID="B2_L5_W26" CONTENT="was" />
+            <SP />
+            <String ID="B2_L5_W27" CONTENT="calculated" />
+            <SP />
+            <String ID="B2_L5_W28" CONTENT="and" />
+            <SP />
+            <String ID="B2_L5_W29" CONTENT="drawn." />
+            <SP />
+            <String ID="B2_L5_W30" CONTENT="Regression" />
+            <SP />
+            <String ID="B2_L5_W31" CONTENT="statistics" />
+            <SP />
+            <String ID="B2_L5_W32" CONTENT="presented" />
+            <SP />
+            <String ID="B2_L5_W33" CONTENT="in" />
+            <SP />
+            <String ID="B2_L5_W34" CONTENT="Table" />
+            <SP />
+            <String ID="B2_L5_W35" CONTENT="8." />
+          </TextLine>
+          <TextLine ID="B2_L6">
+            <String ID="B2_L6_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L6_W2" CONTENT="6" />
+            <SP />
+            <String ID="B2_L6_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L6_W4" CONTENT="Correlation" />
+            <SP />
+            <String ID="B2_L6_W5" CONTENT="between" />
+            <SP />
+            <String ID="B2_L6_W6" CONTENT="the" />
+            <SP />
+            <String ID="B2_L6_W7" CONTENT="number" />
+            <SP />
+            <String ID="B2_L6_W8" CONTENT="of" />
+            <SP />
+            <String ID="B2_L6_W9" CONTENT="reef" />
+            <SP />
+            <String ID="B2_L6_W10" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L6_W11" CONTENT="observed" />
+            <SP />
+            <String ID="B2_L6_W12" CONTENT="in" />
+            <SP />
+            <String ID="B2_L6_W13" CONTENT="the" />
+            <SP />
+            <String ID="B2_L6_W14" CONTENT="area" />
+            <SP />
+            <String ID="B2_L6_W15" CONTENT="protected" />
+            <SP />
+            <String ID="B2_L6_W16" CONTENT="by" />
+            <SP />
+            <String ID="B2_L6_W17" CONTENT="Seal" />
+            <SP />
+            <String ID="B2_L6_W18" CONTENT="Rocks" />
+            <SP />
+            <String ID="B2_L6_W19" CONTENT="and" />
+            <SP />
+            <String ID="B2_L6_W20" CONTENT="the" />
+            <SP />
+            <String ID="B2_L6_W21" CONTENT="height" />
+            <SP />
+            <String ID="B2_L6_W22" CONTENT="of" />
+            <SP />
+            <String ID="B2_L6_W23" CONTENT="the" />
+            <SP />
+            <String ID="B2_L6_W24" CONTENT="tide." />
+            <SP />
+            <String ID="B2_L6_W25" CONTENT="The" />
+            <SP />
+            <String ID="B2_L6_W26" CONTENT="line" />
+            <SP />
+            <String ID="B2_L6_W27" CONTENT="of" />
+            <SP />
+            <String ID="B2_L6_W28" CONTENT="regression" />
+            <SP />
+            <String ID="B2_L6_W29" CONTENT="was" />
+            <SP />
+            <String ID="B2_L6_W30" CONTENT="calculated" />
+            <SP />
+            <String ID="B2_L6_W31" CONTENT="and" />
+            <SP />
+            <String ID="B2_L6_W32" CONTENT="drawn." />
+            <SP />
+            <String ID="B2_L6_W33" CONTENT="Regression" />
+            <SP />
+            <String ID="B2_L6_W34" CONTENT="statistics" />
+            <SP />
+            <String ID="B2_L6_W35" CONTENT="presented" />
+            <SP />
+            <String ID="B2_L6_W36" CONTENT="in" />
+            <SP />
+            <String ID="B2_L6_W37" CONTENT="Table" />
+            <SP />
+            <String ID="B2_L6_W38" CONTENT="8." />
+          </TextLine>
+          <TextLine ID="B2_L7">
+            <String ID="B2_L7_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L7_W2" CONTENT="7" />
+            <SP />
+            <String ID="B2_L7_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L7_W4" CONTENT="Statistically" />
+            <SP />
+            <String ID="B2_L7_W5" CONTENT="unsignificant" />
+            <SP />
+            <String ID="B2_L7_W6" CONTENT="correlation" />
+            <SP />
+            <String ID="B2_L7_W7" CONTENT="between" />
+            <SP />
+            <String ID="B2_L7_W8" CONTENT="the" />
+            <SP />
+            <String ID="B2_L7_W9" CONTENT="number" />
+            <SP />
+            <String ID="B2_L7_W10" CONTENT="of" />
+            <SP />
+            <String ID="B2_L7_W11" CONTENT="reef" />
+            <SP />
+            <String ID="B2_L7_W12" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L7_W13" CONTENT="observed" />
+            <SP />
+            <String ID="B2_L7_W14" CONTENT="in" />
+            <SP />
+            <String ID="B2_L7_W15" CONTENT="the" />
+            <SP />
+            <String ID="B2_L7_W16" CONTENT="channel" />
+            <SP />
+            <String ID="B2_L7_W17" CONTENT="beyond" />
+            <SP />
+            <String ID="B2_L7_W18" CONTENT="Bird" />
+            <SP />
+            <String ID="B2_L7_W19" CONTENT="Rocks" />
+            <SP />
+            <String ID="B2_L7_W20" CONTENT="and" />
+            <SP />
+            <String ID="B2_L7_W21" CONTENT="the" />
+            <SP />
+            <String ID="B2_L7_W22" CONTENT="height" />
+            <SP />
+            <String ID="B2_L7_W23" CONTENT="of" />
+            <SP />
+            <String ID="B2_L7_W24" CONTENT="the" />
+            <SP />
+            <String ID="B2_L7_W25" CONTENT="tide." />
+          </TextLine>
+          <TextLine ID="B2_L8">
+            <String ID="B2_L8_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L8_W2" CONTENT="8" />
+            <SP />
+            <String ID="B2_L8_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L8_W4" CONTENT="The" />
+            <SP />
+            <String ID="B2_L8_W5" CONTENT="density" />
+            <SP />
+            <String ID="B2_L8_W6" CONTENT="change" />
+            <SP />
+            <String ID="B2_L8_W7" CONTENT="of" />
+            <SP />
+            <String ID="B2_L8_W8" CONTENT="the" />
+            <SP />
+            <String ID="B2_L8_W9" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L8_W10" CONTENT="on" />
+            <SP />
+            <String ID="B2_L8_W11" CONTENT="Hopkins" />
+            <SP />
+            <String ID="B2_L8_W12" CONTENT="Marine" />
+            <SP />
+            <String ID="B2_L8_W13" CONTENT="Life" />
+            <SP />
+            <String ID="B2_L8_W14" CONTENT="Reserve" />
+            <SP />
+            <String ID="B2_L8_W15" CONTENT="from" />
+            <SP />
+            <String ID="B2_L8_W16" CONTENT="1979" />
+            <SP />
+            <String ID="B2_L8_W17" CONTENT="to" />
+            <SP />
+            <String ID="B2_L8_W18" CONTENT="1989." />
+            <SP />
+            <String ID="B2_L8_W19" CONTENT="The" />
+            <SP />
+            <String ID="B2_L8_W20" CONTENT="1979" />
+            <SP />
+            <String ID="B2_L8_W21" CONTENT="densities" />
+            <SP />
+            <String ID="B2_L8_W22" CONTENT="are" />
+            <SP />
+            <String ID="B2_L8_W23" CONTENT="from" />
+            <SP />
+            <String ID="B2_L8_W24" CONTENT="Nichols" />
+            <SP />
+            <String ID="B2_L8_W25" CONTENT="(1979)." />
+          </TextLine>
+          <TextLine ID="B2_L9">
+            <String ID="B2_L9_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B2_L9_W2" CONTENT="9" />
+            <SP />
+            <String ID="B2_L9_W3" CONTENT="-" />
+            <SP />
+            <String ID="B2_L9_W4" CONTENT="The" />
+            <SP />
+            <String ID="B2_L9_W5" CONTENT="density" />
+            <SP />
+            <String ID="B2_L9_W6" CONTENT="change" />
+            <SP />
+            <String ID="B2_L9_W7" CONTENT="of" />
+            <SP />
+            <String ID="B2_L9_W8" CONTENT="the" />
+            <SP />
+            <String ID="B2_L9_W9" CONTENT="juvenile" />
+            <SP />
+            <String ID="B2_L9_W10" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L9_W11" CONTENT="of" />
+            <SP />
+            <String ID="B2_L9_W12" CONTENT="three" />
+            <SP />
+            <String ID="B2_L9_W13" CONTENT="species" />
+            <SP />
+            <String ID="B2_L9_W14" CONTENT="of" />
+            <SP />
+            <String ID="B2_L9_W15" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L9_W16" CONTENT="on" />
+            <SP />
+            <String ID="B2_L9_W17" CONTENT="Hopkins" />
+            <SP />
+            <String ID="B2_L9_W18" CONTENT="Marine" />
+            <SP />
+            <String ID="B2_L9_W19" CONTENT="Life" />
+            <SP />
+            <String ID="B2_L9_W20" CONTENT="Refuge" />
+            <SP />
+            <String ID="B2_L9_W21" CONTENT="from" />
+            <SP />
+            <String ID="B2_L9_W22" CONTENT="spring" />
+            <SP />
+            <String ID="B2_L9_W23" CONTENT="1979" />
+            <SP />
+            <String ID="B2_L9_W24" CONTENT="to" />
+            <SP />
+            <String ID="B2_L9_W25" CONTENT="spring" />
+            <SP />
+            <String ID="B2_L9_W26" CONTENT="1989." />
+            <SP />
+            <String ID="B2_L9_W27" CONTENT="The" />
+            <SP />
+            <String ID="B2_L9_W28" CONTENT="1979" />
+            <SP />
+            <String ID="B2_L9_W29" CONTENT="densities" />
+            <SP />
+            <String ID="B2_L9_W30" CONTENT="are" />
+            <SP />
+            <String ID="B2_L9_W31" CONTENT="from" />
+            <SP />
+            <String ID="B2_L9_W32" CONTENT="Nichols" />
+            <SP />
+            <String ID="B2_L9_W33" CONTENT="(1979)." />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

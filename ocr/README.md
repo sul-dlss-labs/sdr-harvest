@@ -48,6 +48,37 @@ Pages that already have an `.xml` file are skipped, so you can rerun the
 command to retry pages that failed. Failed pages are listed at the end and
 the script exits non-zero.
 
+The model's HTML is cached as `kr104zb7305/kr104zb7305_0001.html`, etc. When
+a cached HTML file exists, the OCR step is skipped and the ALTO is rebuilt
+from it, so you can change the conversion without rerunning the model.
+
+### Blocks-only ALTO
+
+By default `html2alto.py` estimates line and word positions inside each
+block (one line per `<p>`, word widths from letter counts). Those positions
+are guesses. With `--blocks-only`, only blocks get coordinates; `TextLine`
+and `String` carry the text with no position (valid ALTO v4), and lines
+follow the HTML's `<p>`, `<li>` and `<br>` structure:
+
+    uv run python ocr.py kr104zb7305 --blocks-only --out kr104zb7305-blocks
+
+To convert ALTO made before HTML caching existed, strip the estimated
+positions instead (lines are not split at `<br>`):
+
+    uv run python strip_positions.py kr104zb7305 kr104zb7305-blocks
+
+## Viewing the results
+
+    uv run python build_viewer.py kr104zb7305
+    open kr104zb7305-viewer.html
+
+This builds a single offline HTML file with every page scan and both the
+Chandra ALTO and the ABBYY ALTO already in SDR drawn over it. Pick layers to
+show, hover a box to see its text and coordinates, and search for a word.
+Use `--alto DIR` to view a different set of files, e.g.
+`--alto kr104zb7305-blocks --out kr104zb7305-blocks-viewer.html`.
+
 ## Converting a single page by hand
 
     uv run python html2alto.py output.html page.png > page.alto.xml
+    uv run python html2alto.py --blocks-only output.html page.png > page.alto.xml

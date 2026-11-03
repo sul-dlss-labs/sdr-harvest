@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0030.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="201" VPOS="1201" WIDTH="114" HEIGHT="981">
+          <TextLine ID="B1_L1" HPOS="201" VPOS="1201" WIDTH="114" HEIGHT="981">
+            <String ID="B1_L1_W1" CONTENT="BLACK" HPOS="201" VPOS="1201" WIDTH="40" HEIGHT="981" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="SURFPERCH" HPOS="241" VPOS="1201" WIDTH="73" HEIGHT="981" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="322" VPOS="1218" WIDTH="84" HEIGHT="938">
+          <TextLine ID="B2_L1" HPOS="322" VPOS="1218" WIDTH="84" HEIGHT="938">
+            <String ID="B2_L1_W1" CONTENT="Under" HPOS="322" VPOS="1218" WIDTH="14" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="the" HPOS="336" VPOS="1218" WIDTH="8" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="Railroad" HPOS="344" VPOS="1218" WIDTH="23" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="Tracks" HPOS="367" VPOS="1218" WIDTH="17" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="(" HPOS="384" VPOS="1218" WIDTH="2" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="P" HPOS="386" VPOS="1218" WIDTH="2" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="&lt;" HPOS="388" VPOS="1218" WIDTH="2" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT=".01" HPOS="390" VPOS="1218" WIDTH="8" HEIGHT="938" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT=")" HPOS="398" VPOS="1218" WIDTH="2" HEIGHT="938" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B3" TYPE="Figure" HPOS="385" VPOS="358" WIDTH="1859" HEIGHT="2781" />
+        <TextBlock ID="B4" HPOS="2418" VPOS="1530" WIDTH="61" HEIGHT="280">
+          <TextLine ID="B4_L1" HPOS="2418" VPOS="1530" WIDTH="61" HEIGHT="280">
+            <String ID="B4_L1_W1" CONTENT="Figure" HPOS="2418" VPOS="1530" WIDTH="52" HEIGHT="280" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="5" HPOS="2470" VPOS="1530" WIDTH="8" HEIGHT="280" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>
