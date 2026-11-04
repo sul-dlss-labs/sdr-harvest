@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-d3d6de1r5u7tsn54lsepcl",
+  "object": "chat.completion",
+  "created": 1793749899,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [165, 69, 900, 396],\n        \"lines\": [\n            \"The rainbow surfperch were the least dense of the five\",\n            \"primary Embiotocids in the study area. They were observed in\",\n            \"greatest density in the exposed habitat between Bird and Seal\",\n            \"Rocks in schools of 10 to 20 on the sandy bottom. The same\",\n            \"behavior was observed in the area around the railroad tracks\",\n            \"and on the south edge of the Seal Rocks habitat on the border\",\n            \"of the sand channel. I often observed rainbow surfperch\",\n            \"feeding by picking at the algal turf of the sandy ocean\",\n            \"floor. H. Caryi were rarely seen outside of their schools as\",\n            \"individuals. I observed two noticeably pregnant rainbow\",\n            \"surfperch.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 439, 586, 460],\n        \"lines\": [\n            \"Reef Surfperch (Micrometrus aurora)\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 471, 900, 765],\n        \"lines\": [\n            \"The most dense Embiotocid in the entire study area was\",\n            \"seen primarily in the area protected by Seal Rocks. A\",\n            \"statistically significant correlation was found between the\",\n            \"number of reef surfperch in this habitat and the height of\",\n            \"the tide: the lower the tide, the greater the number of fish\",\n            \"inhabiting this area. (See figure 6) During low tides, the\",\n            \"reef surfperch were observed in large schools of 50 to 100 in\",\n            \"the shallow, sandy, nearshore section. Several times I\",\n            \"noticed the presence of these schools while standing on the\",\n            \"rocks next to the water at low tide.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 776, 900, 917],\n        \"lines\": [\n            \"The other fairly abundant appearance the reef surfperch\",\n            \"made was in the channel beyond Bird Rocks. Here, they\",\n            \"appeared in the more protected section of the channel. In\",\n            \"this habitat as well in front of Seal Rocks they seemed to be\",\n            \"more abundant at low tides. (See figure 7) Although the\"\n        ]\n    },\n    {\n        \"bbox_2d\": [440, 947, 455, 960],\n        \"lines\": [\n            \"9\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 611,
+    "total_tokens": 769,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}

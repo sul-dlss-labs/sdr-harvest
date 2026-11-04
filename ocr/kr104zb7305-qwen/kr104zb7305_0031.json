@@ -1,0 +1,47 @@
+[
+ {
+  "text": "REEF SURFPERCH",
+  "bbox_2d": [
+   78,
+   395,
+   120,
+   667
+  ]
+ },
+ {
+  "text": "in area protected by Seal Rocks (P<.01)",
+  "bbox_2d": [
+   128,
+   367,
+   155,
+   687
+  ]
+ },
+ {
+  "text": "NUMBER OF FISH",
+  "bbox_2d": [
+   378,
+   955,
+   564,
+   967
+  ]
+ },
+ {
+  "text": "HEIGHT OF TIDE",
+  "bbox_2d": [
+   852,
+   470,
+   872,
+   584
+  ]
+ },
+ {
+  "text": "Figure 6",
+  "bbox_2d": [
+   944,
+   485,
+   964,
+   562
+  ]
+ }
+]

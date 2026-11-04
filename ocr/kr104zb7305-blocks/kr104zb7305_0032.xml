@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0032.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="206" VPOS="1240" WIDTH="197" HEIGHT="906">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="REEF" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="SURPERCH" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="in" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="the" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="Channel" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="beyond" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="Bird" />
+            <SP />
+            <String ID="B1_L1_W8" CONTENT="Rocks" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B2" TYPE="Figure" HPOS="375" VPOS="413" WIDTH="1834" HEIGHT="2720" />
+        <TextBlock ID="B3" HPOS="2405" VPOS="1556" WIDTH="56" HEIGHT="274">
+          <TextLine ID="B3_L1">
+            <String ID="B3_L1_W1" CONTENT="Figure" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="7" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

@@ -1,0 +1,335 @@
+[
+ {
+  "text": "REGRESSION STATISTICS",
+  "bbox_2d": [
+   306,
+   72,
+   562,
+   84
+  ]
+ },
+ {
+  "text": "Correlation between black surfperch under the tracks",
+  "bbox_2d": [
+   125,
+   116,
+   757,
+   129
+  ]
+ },
+ {
+  "text": "and the height of the tide",
+  "bbox_2d": [
+   274,
+   134,
+   587,
+   147
+  ]
+ },
+ {
+  "text": "Regression Output:",
+  "bbox_2d": [
+   345,
+   166,
+   558,
+   179
+  ]
+ },
+ {
+  "text": "Constant",
+  "bbox_2d": [
+   234,
+   182,
+   327,
+   194
+  ]
+ },
+ {
+  "text": "42.09085",
+  "bbox_2d": [
+   562,
+   182,
+   654,
+   194
+  ]
+ },
+ {
+  "text": "Std Err of Y Est",
+  "bbox_2d": [
+   234,
+   197,
+   407,
+   209
+  ]
+ },
+ {
+  "text": "12.41612",
+  "bbox_2d": [
+   562,
+   197,
+   654,
+   209
+  ]
+ },
+ {
+  "text": "R Squared",
+  "bbox_2d": [
+   234,
+   212,
+   345,
+   224
+  ]
+ },
+ {
+  "text": "0.389240",
+  "bbox_2d": [
+   562,
+   212,
+   654,
+   224
+  ]
+ },
+ {
+  "text": "No. of Observations",
+  "bbox_2d": [
+   234,
+   227,
+   462,
+   239
+  ]
+ },
+ {
+  "text": "24",
+  "bbox_2d": [
+   634,
+   227,
+   654,
+   239
+  ]
+ },
+ {
+  "text": "Degrees of Freedom",
+  "bbox_2d": [
+   234,
+   242,
+   457,
+   254
+  ]
+ },
+ {
+  "text": "22",
+  "bbox_2d": [
+   634,
+   242,
+   654,
+   254
+  ]
+ },
+ {
+  "text": "X Coefficient(s)",
+  "bbox_2d": [
+   234,
+   272,
+   447,
+   284
+  ]
+ },
+ {
+  "text": "-7.25476",
+  "bbox_2d": [
+   457,
+   272,
+   552,
+   284
+  ]
+ },
+ {
+  "text": "Std Err of Coef.",
+  "bbox_2d": [
+   234,
+   287,
+   427,
+   299
+  ]
+ },
+ {
+  "text": "1.937537",
+  "bbox_2d": [
+   457,
+   287,
+   552,
+   299
+  ]
+ },
+ {
+  "text": "Correlation between the number of reef surfperch",
+  "bbox_2d": [
+   147,
+   347,
+   732,
+   360
+  ]
+ },
+ {
+  "text": "in the area protected by Seal Rocks",
+  "bbox_2d": [
+   234,
+   362,
+   654,
+   375
+  ]
+ },
+ {
+  "text": "and the height of the tide",
+  "bbox_2d": [
+   274,
+   377,
+   587,
+   390
+  ]
+ },
+ {
+  "text": "Regression Output:",
+  "bbox_2d": [
+   345,
+   409,
+   558,
+   422
+  ]
+ },
+ {
+  "text": "Constant",
+  "bbox_2d": [
+   234,
+   425,
+   327,
+   437
+  ]
+ },
+ {
+  "text": "159.3666",
+  "bbox_2d": [
+   562,
+   425,
+   654,
+   437
+  ]
+ },
+ {
+  "text": "Std Err of Y Est",
+  "bbox_2d": [
+   234,
+   440,
+   407,
+   452
+  ]
+ },
+ {
+  "text": "55.03032",
+  "bbox_2d": [
+   562,
+   440,
+   654,
+   452
+  ]
+ },
+ {
+  "text": "R Squared",
+  "bbox_2d": [
+   234,
+   455,
+   345,
+   467
+  ]
+ },
+ {
+  "text": "0.405103",
+  "bbox_2d": [
+   562,
+   455,
+   654,
+   467
+  ]
+ },
+ {
+  "text": "No. of Observations",
+  "bbox_2d": [
+   234,
+   470,
+   462,
+   482
+  ]
+ },
+ {
+  "text": "19",
+  "bbox_2d": [
+   634,
+   470,
+   654,
+   482
+  ]
+ },
+ {
+  "text": "Degrees of Freedom",
+  "bbox_2d": [
+   234,
+   485,
+   457,
+   497
+  ]
+ },
+ {
+  "text": "15",
+  "bbox_2d": [
+   634,
+   485,
+   654,
+   497
+  ]
+ },
+ {
+  "text": "X Coefficient(s)",
+  "bbox_2d": [
+   234,
+   515,
+   447,
+   527
+  ]
+ },
+ {
+  "text": "-33.7242",
+  "bbox_2d": [
+   457,
+   515,
+   552,
+   527
+  ]
+ },
+ {
+  "text": "Std Err of Coef.",
+  "bbox_2d": [
+   234,
+   530,
+   427,
+   542
+  ]
+ },
+ {
+  "text": "10.21691",
+  "bbox_2d": [
+   457,
+   530,
+   552,
+   542
+  ]
+ },
+ {
+  "text": "Table 8",
+  "bbox_2d": [
+   412,
+   592,
+   500,
+   604
+  ]
+ }
+]

@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0023.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="870" VPOS="299" WIDTH="839" HEIGHT="104">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="." />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="COMPOSITE" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="DATA" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="FOR" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="THE" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="ENTIRE" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="STUDY" />
+            <SP />
+            <String ID="B1_L1_W8" CONTENT="PERIOD" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="501" VPOS="599" WIDTH="860" HEIGHT="58">
+          <TextLine ID="B2_L1">
+            <String ID="B2_L1_W1" CONTENT="DENSITY" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="(fish" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="per" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="ten" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="sq" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="m):" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="496" VPOS="648" WIDTH="1680" HEIGHT="364">
+          <TextLine ID="B3_L1">
+            <String ID="B3_L1_W1" CONTENT="black" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="striped" />
+            <SP />
+            <String ID="B3_L1_W3" CONTENT="pile" />
+            <SP />
+            <String ID="B3_L1_W4" CONTENT="rainbow" />
+            <SP />
+            <String ID="B3_L1_W5" CONTENT="reef" />
+            <SP />
+            <String ID="B3_L1_W6" CONTENT="average" />
+            <SP />
+            <String ID="B3_L1_W7" CONTENT="0.09" />
+            <SP />
+            <String ID="B3_L1_W8" CONTENT="0.19" />
+            <SP />
+            <String ID="B3_L1_W9" CONTENT="0.17" />
+            <SP />
+            <String ID="B3_L1_W10" CONTENT="0.04" />
+            <SP />
+            <String ID="B3_L1_W11" CONTENT="0.21" />
+            <SP />
+            <String ID="B3_L1_W12" CONTENT="tracks" />
+            <SP />
+            <String ID="B3_L1_W13" CONTENT="0.60" />
+            <SP />
+            <String ID="B3_L1_W14" CONTENT="0.21" />
+            <SP />
+            <String ID="B3_L1_W15" CONTENT="0.13" />
+            <SP />
+            <String ID="B3_L1_W16" CONTENT="0.05" />
+            <SP />
+            <String ID="B3_L1_W17" CONTENT="0.02" />
+            <SP />
+            <String ID="B3_L1_W18" CONTENT="seal" />
+            <SP />
+            <String ID="B3_L1_W19" CONTENT="0.05" />
+            <SP />
+            <String ID="B3_L1_W20" CONTENT="0.14" />
+            <SP />
+            <String ID="B3_L1_W21" CONTENT="0.14" />
+            <SP />
+            <String ID="B3_L1_W22" CONTENT="0.04" />
+            <SP />
+            <String ID="B3_L1_W23" CONTENT="0.36" />
+            <SP />
+            <String ID="B3_L1_W24" CONTENT="between" />
+            <SP />
+            <String ID="B3_L1_W25" CONTENT="0.05" />
+            <SP />
+            <String ID="B3_L1_W26" CONTENT="0.30" />
+            <SP />
+            <String ID="B3_L1_W27" CONTENT="0.29" />
+            <SP />
+            <String ID="B3_L1_W28" CONTENT="0.11" />
+            <SP />
+            <String ID="B3_L1_W29" CONTENT="0.02" />
+            <SP />
+            <String ID="B3_L1_W30" CONTENT="bird" />
+            <SP />
+            <String ID="B3_L1_W31" CONTENT="0.00" />
+            <SP />
+            <String ID="B3_L1_W32" CONTENT="0.10" />
+            <SP />
+            <String ID="B3_L1_W33" CONTENT="0.11" />
+            <SP />
+            <String ID="B3_L1_W34" CONTENT="0.00" />
+            <SP />
+            <String ID="B3_L1_W35" CONTENT="0.08" />
+            <SP />
+            <String ID="B3_L1_W36" CONTENT="channel" />
+            <SP />
+            <String ID="B3_L1_W37" CONTENT="0.02" />
+            <SP />
+            <String ID="B3_L1_W38" CONTENT="0.35" />
+            <SP />
+            <String ID="B3_L1_W39" CONTENT="0.25" />
+            <SP />
+            <String ID="B3_L1_W40" CONTENT="0.01" />
+            <SP />
+            <String ID="B3_L1_W41" CONTENT="0.29" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B4" HPOS="501" VPOS="1208" WIDTH="623" HEIGHT="55">
+          <TextLine ID="B4_L1">
+            <String ID="B4_L1_W1" CONTENT="ABUNDANCE" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="(by" />
+            <SP />
+            <String ID="B4_L1_W3" CONTENT="fish):" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="496" VPOS="1253" WIDTH="1642" HEIGHT="365">
+          <TextLine ID="B5_L1">
+            <String ID="B5_L1_W1" CONTENT="black" />
+            <SP />
+            <String ID="B5_L1_W2" CONTENT="striped" />
+            <SP />
+            <String ID="B5_L1_W3" CONTENT="pile" />
+            <SP />
+            <String ID="B5_L1_W4" CONTENT="rainbow" />
+            <SP />
+            <String ID="B5_L1_W5" CONTENT="reef" />
+            <SP />
+            <String ID="B5_L1_W6" CONTENT="tracks" />
+            <SP />
+            <String ID="B5_L1_W7" CONTENT="65.55" />
+            <SP />
+            <String ID="B5_L1_W8" CONTENT="10.60" />
+            <SP />
+            <String ID="B5_L1_W9" CONTENT="7.45" />
+            <SP />
+            <String ID="B5_L1_W10" CONTENT="12.80" />
+            <SP />
+            <String ID="B5_L1_W11" CONTENT="0.92" />
+            <SP />
+            <String ID="B5_L1_W12" CONTENT="seal" />
+            <SP />
+            <String ID="B5_L1_W13" CONTENT="22.69" />
+            <SP />
+            <String ID="B5_L1_W14" CONTENT="30.00" />
+            <SP />
+            <String ID="B5_L1_W15" CONTENT="34.32" />
+            <SP />
+            <String ID="B5_L1_W16" CONTENT="43.60" />
+            <SP />
+            <String ID="B5_L1_W17" CONTENT="70.42" />
+            <SP />
+            <String ID="B5_L1_W18" CONTENT="between" />
+            <SP />
+            <String ID="B5_L1_W19" CONTENT="8.57" />
+            <SP />
+            <String ID="B5_L1_W20" CONTENT="22.00" />
+            <SP />
+            <String ID="B5_L1_W21" CONTENT="23.45" />
+            <SP />
+            <String ID="B5_L1_W22" CONTENT="39.75" />
+            <SP />
+            <String ID="B5_L1_W23" CONTENT="1.20" />
+            <SP />
+            <String ID="B5_L1_W24" CONTENT="bird" />
+            <SP />
+            <String ID="B5_L1_W25" CONTENT="0.20" />
+            <SP />
+            <String ID="B5_L1_W26" CONTENT="9.70" />
+            <SP />
+            <String ID="B5_L1_W27" CONTENT="12.89" />
+            <SP />
+            <String ID="B5_L1_W28" CONTENT="0.45" />
+            <SP />
+            <String ID="B5_L1_W29" CONTENT="7.36" />
+            <SP />
+            <String ID="B5_L1_W30" CONTENT="channel" />
+            <SP />
+            <String ID="B5_L1_W31" CONTENT="2.99" />
+            <SP />
+            <String ID="B5_L1_W32" CONTENT="27.70" />
+            <SP />
+            <String ID="B5_L1_W33" CONTENT="21.89" />
+            <SP />
+            <String ID="B5_L1_W34" CONTENT="3.40" />
+            <SP />
+            <String ID="B5_L1_W35" CONTENT="20.10" />
+            <SP />
+            <String ID="B5_L1_W36" CONTENT="total" />
+            <SP />
+            <String ID="B5_L1_W37" CONTENT="100.00" />
+            <SP />
+            <String ID="B5_L1_W38" CONTENT="100.00" />
+            <SP />
+            <String ID="B5_L1_W39" CONTENT="100.00" />
+            <SP />
+            <String ID="B5_L1_W40" CONTENT="100.00" />
+            <SP />
+            <String ID="B5_L1_W41" CONTENT="100.00" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B6" HPOS="1134" VPOS="2931" WIDTH="220" HEIGHT="52">
+          <TextLine ID="B6_L1">
+            <String ID="B6_L1_W1" CONTENT="Table" />
+            <SP />
+            <String ID="B6_L1_W2" CONTENT="7" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

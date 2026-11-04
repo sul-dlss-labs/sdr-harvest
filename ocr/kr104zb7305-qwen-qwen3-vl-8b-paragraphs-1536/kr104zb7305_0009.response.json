@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-29wf0prk99mm47ga28ki8r",
+  "object": "chat.completion",
+  "created": 1793749867,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [166, 83, 885, 168],\n        \"lines\": [\n            \"period I began to notice many striped perch that seemed very\",\n            \"light in color or bleached out. I once noted a harbor seal\",\n            \"chasing an E. lateralis.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 206, 590, 227],\n        \"lines\": [\n            \"Pile Surfperch (Damalichthys vacca)\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 237, 885, 563],\n        \"lines\": [\n            \"The pile and the striped surfperch were consistently\",\n            \"similar in density and abundance throughout the study area.\",\n            \"Like the striped, pile surfperch were found to be most dense\",\n            \"in the two most exposed habitats: between Bird and Seal\",\n            \"Rocks and the channel beyond Bird Rocks. Next, they were\",\n            \"observed in almost identical density as E. lateralis in the\",\n            \"area protected by Seal Rocks. I observed less pile than\",\n            \"striped in the railroad tracks habitat and a different\",\n            \"behavior: the pile were seen mainly as individuals swimming\",\n            \"around the railroad track area as opposed to beneath the\",\n            \"tracks.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 575, 896, 747],\n        \"lines\": [\n            \"The pile surfperch were the most dense fish seen in the\",\n            \"habitat protected by Bird Rocks, the area which contained by\",\n            \"far the lowest numbers of surfperch. D. vacca, as well as E.\",\n            \"lateralis, seemed to thrive primarily in the rough, exposed\",\n            \"areas but able to live successfully throughout the study\",\n            \"area.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 759, 893, 840],\n        \"lines\": [\n            \"The pile surfperch often swam in small groups of five to\",\n            \"fifteen. I observed four juvenile and two pregnant pile\",\n            \"surfperch.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 884, 574, 904],\n        \"lines\": [\n            \"Rainbow Surfperch (Hypsurus carvi)\"\n        ]\n    },\n    {\n        \"bbox_2d\": [438, 946, 454, 960],\n        \"lines\": [\n            \"8\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 615,
+    "total_tokens": 773,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}

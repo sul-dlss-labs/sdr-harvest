@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-gu95e89vlf98i5xzltab4k",
+  "object": "chat.completion",
+  "created": 1793749679,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [164, 68, 896, 396],\n        \"lines\": [\n            \"distribution and behavior of the Embiotocidae in a 3800\",\n            \"square meter section of the protected nearshore zone at Point\",\n            \"Cabrillo, California (see figure 1). I used snorkeling and\",\n            \"occasionally SCUBA diving gear and recorded my counts and\",\n            \"observations on underwater paper. Observations were\",\n            \"conducted at different times during the day and tidal cycle.\",\n            \"The study area was divided into five separate habitats; the\",\n            \"time spent in each was recorded and remained fairly constant\",\n            \"for each respective area. A structured pattern was followed\",\n            \"on each snorkel survey in order to avoid as much repetitive\",\n            \"counting of individuals as possible.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [164, 406, 896, 642],\n        \"lines\": [\n            \"Habitat A (370 square meters), the area under and around\",\n            \"the railroad tracks, is very well-protected from surge and\",\n            \"breaking waves by Seal Rocks. Phyllospadix covers the\",\n            \"shallow intertidal area of the tracks; algae grows all over\",\n            \"the submerged tracks and ties which are approximately one\",\n            \"foot above the sandy bottom. The area slopes down to a depth\",\n            \"of 10-15 feet, where the tracks end and a small grove of\",\n            \"Macrocystis begins. I usually spent 15 minutes here.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [164, 653, 885, 916],\n        \"lines\": [\n            \"Habitat B (1600 square meters), the area protected by\",\n            \"Seal Rocks, is marked on its southern boundary by a sand\",\n            \"channel. The bottom is characterized by medium-sized and\",\n            \"large rocks, thick Phyllospadix, and sandy patches. Other\",\n            \"than the sandy, shallow area near the shore, the approximate\",\n            \"depth of this habitat ranges from 4 to 8 feet. Surge is\",\n            \"greater in this area than at the railroad tracks, but rarely\",\n            \"strong. This is a popular swimming area for harbor seals.\",\n            \"My observation time here was about 30 minutes.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [440, 948, 455, 962],\n        \"lines\": [\n            \"3\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 596,
+    "total_tokens": 754,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}

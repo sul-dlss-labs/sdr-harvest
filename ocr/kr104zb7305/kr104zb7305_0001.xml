@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0001.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="688" VPOS="1231" WIDTH="1402" HEIGHT="156">
+          <TextLine ID="B1_L1" HPOS="688" VPOS="1231" WIDTH="1402" HEIGHT="156">
+            <String ID="B1_L1_W1" CONTENT="DISTRIBUTION" HPOS="688" VPOS="1231" WIDTH="168" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="AND" HPOS="856" VPOS="1231" WIDTH="42" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="BEHAVIOR" HPOS="898" VPOS="1231" WIDTH="112" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="OF" HPOS="1010" VPOS="1231" WIDTH="28" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="SURPERCH" HPOS="1038" VPOS="1231" WIDTH="112" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="(Embiotocidae)" HPOS="1150" VPOS="1231" WIDTH="196" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="IN" HPOS="1346" VPOS="1231" WIDTH="28" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W8" CONTENT="THE" HPOS="1374" VPOS="1231" WIDTH="42" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W9" CONTENT="PROTECTED" HPOS="1416" VPOS="1231" WIDTH="126" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W10" CONTENT="NEARSHORE" HPOS="1542" VPOS="1231" WIDTH="126" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W11" CONTENT="ZONE" HPOS="1668" VPOS="1231" WIDTH="56" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W12" CONTENT="OF" HPOS="1724" VPOS="1231" WIDTH="28" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W13" CONTENT="POINT" HPOS="1752" VPOS="1231" WIDTH="70" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W14" CONTENT="CABRILLO," HPOS="1822" VPOS="1231" WIDTH="126" HEIGHT="156" />
+            <SP />
+            <String ID="B1_L1_W15" CONTENT="CALIFORNIA" HPOS="1948" VPOS="1231" WIDTH="140" HEIGHT="156" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="1039" VPOS="2237" WIDTH="688" HEIGHT="202">
+          <TextLine ID="B2_L1" HPOS="1039" VPOS="2237" WIDTH="688" HEIGHT="202">
+            <String ID="B2_L1_W1" CONTENT="Maggie" HPOS="1039" VPOS="2237" WIDTH="66" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="Harrison" HPOS="1105" VPOS="2237" WIDTH="88" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="Spring" HPOS="1193" VPOS="2237" WIDTH="66" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="1989" HPOS="1259" VPOS="2237" WIDTH="44" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="Hopkins" HPOS="1303" VPOS="2237" WIDTH="77" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="Marine" HPOS="1380" VPOS="2237" WIDTH="66" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="Station" HPOS="1446" VPOS="2237" WIDTH="77" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="Stanford" HPOS="1523" VPOS="2237" WIDTH="88" HEIGHT="202" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="University" HPOS="1611" VPOS="2237" WIDTH="110" HEIGHT="202" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

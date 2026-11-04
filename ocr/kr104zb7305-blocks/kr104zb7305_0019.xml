@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0019.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="562" VPOS="94" WIDTH="1450" HEIGHT="55">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="SPECIES" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="OF" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="EMBIOTOCIDAE" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="OBSERVED" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="IN" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="STUDY" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="AREA" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="264" VPOS="247" WIDTH="1718" HEIGHT="1189">
+          <TextLine ID="B2_L1">
+            <String ID="B2_L1_W1" CONTENT="Common" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="Scientific" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="Black" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="Embiotoca" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="jacksoni" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="Striped" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="Embiotoca" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="lateralis" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="Pile" />
+            <SP />
+            <String ID="B2_L1_W10" CONTENT="Damalichthys" />
+            <SP />
+            <String ID="B2_L1_W11" CONTENT="vacca" />
+            <SP />
+            <String ID="B2_L1_W12" CONTENT="Rainbow" />
+            <SP />
+            <String ID="B2_L1_W13" CONTENT="Hypstrus" />
+            <SP />
+            <String ID="B2_L1_W14" CONTENT="caryi" />
+            <SP />
+            <String ID="B2_L1_W15" CONTENT="Reef" />
+            <SP />
+            <String ID="B2_L1_W16" CONTENT="Micrometrus" />
+            <SP />
+            <String ID="B2_L1_W17" CONTENT="aurora" />
+            <SP />
+            <String ID="B2_L1_W18" CONTENT="Dwarf" />
+            <SP />
+            <String ID="B2_L1_W19" CONTENT="Micrometrus" />
+            <SP />
+            <String ID="B2_L1_W20" CONTENT="minimus" />
+            <SP />
+            <String ID="B2_L1_W21" CONTENT="Shiner" />
+            <SP />
+            <String ID="B2_L1_W22" CONTENT="Cymatogaster" />
+            <SP />
+            <String ID="B2_L1_W23" CONTENT="aggregata" />
+            <SP />
+            <String ID="B2_L1_W24" CONTENT="Barred" />
+            <SP />
+            <String ID="B2_L1_W25" CONTENT="Amphistichus" />
+            <SP />
+            <String ID="B2_L1_W26" CONTENT="argenteus" />
+            <SP />
+            <String ID="B2_L1_W27" CONTENT="Silver" />
+            <SP />
+            <String ID="B2_L1_W28" CONTENT="Hyperprosopon" />
+            <SP />
+            <String ID="B2_L1_W29" CONTENT="ellipticum" />
+            <SP />
+            <String ID="B2_L1_W30" CONTENT="Kelp" />
+            <SP />
+            <String ID="B2_L1_W31" CONTENT="Brachyistius" />
+            <SP />
+            <String ID="B2_L1_W32" CONTENT="frenatus" />
+            <SP />
+            <String ID="B2_L1_W33" CONTENT="Rubberlip" />
+            <SP />
+            <String ID="B2_L1_W34" CONTENT="Rhacochilus" />
+            <SP />
+            <String ID="B2_L1_W35" CONTENT="tokotes" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="1187" VPOS="2823" WIDTH="230" HEIGHT="52">
+          <TextLine ID="B3_L1">
+            <String ID="B3_L1_W1" CONTENT="Table" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="1" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

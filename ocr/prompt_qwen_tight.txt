@@ -1,0 +1,3 @@
+Perform OCR on this image line by line. Return a JSON array where each item is {"text": "...", "bbox_2d": [x1, y1, x2, y2]}, one entry per text line, in reading order.
+
+Each bbox_2d must tightly enclose the characters of that one line. x1 is where that line's first character begins, so a line that is indented (such as the first line of a paragraph) has a larger x1 than the lines around it. y1 and y2 are the top and bottom of that line's characters; measure each line separately rather than assuming even spacing.

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0031.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="196" VPOS="1286" WIDTH="106" HEIGHT="886">
+          <TextLine ID="B1_L1" HPOS="196" VPOS="1286" WIDTH="106" HEIGHT="886">
+            <String ID="B1_L1_W1" CONTENT="REEF" HPOS="196" VPOS="1286" WIDTH="32" HEIGHT="886" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="SURFPERCH" HPOS="228" VPOS="1286" WIDTH="73" HEIGHT="886" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="322" VPOS="1195" WIDTH="1100" HEIGHT="1954">
+          <TextLine ID="B2_L1" HPOS="322" VPOS="1195" WIDTH="68" HEIGHT="1042">
+            <String ID="B2_L1_W1" CONTENT="in" HPOS="322" VPOS="1195" WIDTH="4" HEIGHT="1042" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="area" HPOS="326" VPOS="1195" WIDTH="8" HEIGHT="1042" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="protected" HPOS="334" VPOS="1195" WIDTH="18" HEIGHT="1042" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="by" HPOS="352" VPOS="1195" WIDTH="4" HEIGHT="1042" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="Seal" HPOS="356" VPOS="1195" WIDTH="8" HEIGHT="1042" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="Rocks" HPOS="364" VPOS="1195" WIDTH="10" HEIGHT="1042" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="(P&lt;.01)" HPOS="374" VPOS="1195" WIDTH="14" HEIGHT="1042" />
+          </TextLine>
+          <TextLine ID="B2_L2" HPOS="953" VPOS="3110" WIDTH="469" HEIGHT="39">
+            <String ID="B2_L2_W1" CONTENT="NUMBER" HPOS="953" VPOS="3110" WIDTH="234" HEIGHT="39" />
+            <SP />
+            <String ID="B2_L2_W2" CONTENT="OF" HPOS="1187" VPOS="3110" WIDTH="78" HEIGHT="39" />
+            <SP />
+            <String ID="B2_L2_W3" CONTENT="FISH" HPOS="1265" VPOS="3110" WIDTH="156" HEIGHT="39" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="2148" VPOS="1530" WIDTH="283" HEIGHT="372">
+          <TextLine ID="B3_L1" HPOS="2148" VPOS="1530" WIDTH="51" HEIGHT="372">
+            <String ID="B3_L1_W1" CONTENT="HEIGHT" HPOS="2148" VPOS="1530" WIDTH="25" HEIGHT="372" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="OF" HPOS="2173" VPOS="1530" WIDTH="8" HEIGHT="372" />
+            <SP />
+            <String ID="B3_L1_W3" CONTENT="TIDE" HPOS="2181" VPOS="1530" WIDTH="17" HEIGHT="372" />
+          </TextLine>
+          <TextLine ID="B3_L2" HPOS="2380" VPOS="1579" WIDTH="51" HEIGHT="251">
+            <String ID="B3_L2_W1" CONTENT="Figure" HPOS="2380" VPOS="1579" WIDTH="43" HEIGHT="251" />
+            <SP />
+            <String ID="B3_L2_W2" CONTENT="6" HPOS="2423" VPOS="1579" WIDTH="7" HEIGHT="251" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

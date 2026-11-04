@@ -1,0 +1,741 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0022.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="348" VPOS="299" WIDTH="1266" HEIGHT="59">
+          <TextLine ID="B1_L1" HPOS="348" VPOS="299" WIDTH="1266" HEIGHT="59">
+            <String ID="B1_L1_W1" CONTENT="HABITAT" HPOS="348" VPOS="299" WIDTH="268" HEIGHT="59" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="D:" HPOS="616" VPOS="299" WIDTH="76" HEIGHT="59" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="AREA" HPOS="692" VPOS="299" WIDTH="153" HEIGHT="59" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="PROTECTED" HPOS="845" VPOS="299" WIDTH="345" HEIGHT="59" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="BY" HPOS="1190" VPOS="299" WIDTH="76" HEIGHT="59" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="BIRD" HPOS="1266" VPOS="299" WIDTH="153" HEIGHT="59" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="ROCKS" HPOS="1419" VPOS="299" WIDTH="191" HEIGHT="59" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="348" VPOS="381" WIDTH="2010" HEIGHT="944">
+          <TextLine ID="B2_L1" HPOS="348" VPOS="381" WIDTH="2010" HEIGHT="944">
+            <String ID="B2_L1_W1" CONTENT="date" HPOS="348" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="time" HPOS="369" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="tidal" HPOS="390" VPOS="381" WIDTH="26" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="level" HPOS="416" VPOS="381" WIDTH="26" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="striped" HPOS="442" VPOS="381" WIDTH="36" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="pregnant" HPOS="478" VPOS="381" WIDTH="42" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="striped" HPOS="520" VPOS="381" WIDTH="36" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="pregnant" HPOS="556" VPOS="381" WIDTH="42" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="striped" HPOS="598" VPOS="381" WIDTH="36" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W10" CONTENT="v07" HPOS="634" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W11" CONTENT="striped" HPOS="649" VPOS="381" WIDTH="36" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W12" CONTENT="pile" HPOS="685" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W13" CONTENT="rest" HPOS="706" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W14" CONTENT="dwarf" HPOS="727" VPOS="381" WIDTH="26" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W15" CONTENT="shiner" HPOS="753" VPOS="381" WIDTH="31" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W16" CONTENT="black" HPOS="784" VPOS="381" WIDTH="26" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W17" CONTENT="rainbow" HPOS="810" VPOS="381" WIDTH="36" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W18" CONTENT="22" HPOS="846" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W19" CONTENT="1200" HPOS="856" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W20" CONTENT="2.3" HPOS="877" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W21" CONTENT="7" HPOS="892" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W22" CONTENT="0" HPOS="897" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W23" CONTENT="0" HPOS="902" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W24" CONTENT="15" HPOS="907" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W25" CONTENT="40" HPOS="917" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W26" CONTENT="0" HPOS="927" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W27" CONTENT="0" HPOS="932" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W28" CONTENT="0" HPOS="937" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W29" CONTENT="23" HPOS="942" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W30" CONTENT="1430" HPOS="952" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W31" CONTENT="3.9" HPOS="973" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W32" CONTENT="29" HPOS="988" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W33" CONTENT="0" HPOS="998" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W34" CONTENT="4" HPOS="1003" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W35" CONTENT="17" HPOS="1008" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W36" CONTENT="23" HPOS="1018" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W37" CONTENT="1" HPOS="1028" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W38" CONTENT="0" HPOS="1033" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W39" CONTENT="0" HPOS="1038" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W40" CONTENT="24" HPOS="1043" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W41" CONTENT="1700" HPOS="1053" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W42" CONTENT="3.7" HPOS="1074" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W43" CONTENT="5" HPOS="1089" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W44" CONTENT="0" HPOS="1094" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W45" CONTENT="0" HPOS="1099" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W46" CONTENT="13" HPOS="1104" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W47" CONTENT="0" HPOS="1114" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W48" CONTENT="0" HPOS="1119" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W49" CONTENT="0" HPOS="1124" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W50" CONTENT="0" HPOS="1129" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W51" CONTENT="26" HPOS="1134" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W52" CONTENT="1800" HPOS="1144" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W53" CONTENT="3.6" HPOS="1165" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W54" CONTENT="3" HPOS="1180" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W55" CONTENT="0" HPOS="1185" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W56" CONTENT="1" HPOS="1190" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W57" CONTENT="6" HPOS="1195" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W58" CONTENT="0" HPOS="1200" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W59" CONTENT="0" HPOS="1205" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W60" CONTENT="0" HPOS="1210" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W61" CONTENT="0" HPOS="1215" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W62" CONTENT="29-1" HPOS="1220" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W63" CONTENT="1315" HPOS="1241" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W64" CONTENT="1.4" HPOS="1262" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W65" CONTENT="0" HPOS="1277" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W66" CONTENT="0" HPOS="1282" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W67" CONTENT="0" HPOS="1287" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W68" CONTENT="0" HPOS="1292" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W69" CONTENT="0" HPOS="1297" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W70" CONTENT="1" HPOS="1302" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W71" CONTENT="0" HPOS="1307" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W72" CONTENT="0" HPOS="1312" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W73" CONTENT="29-2" HPOS="1317" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W74" CONTENT="1640" HPOS="1338" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W75" CONTENT="3.5" HPOS="1359" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W76" CONTENT="2" HPOS="1374" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W77" CONTENT="0" HPOS="1379" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W78" CONTENT="0" HPOS="1384" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W79" CONTENT="2" HPOS="1389" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W80" CONTENT="0" HPOS="1394" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W81" CONTENT="0" HPOS="1399" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W82" CONTENT="0" HPOS="1404" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W83" CONTENT="0" HPOS="1409" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W84" CONTENT="29-3" HPOS="1414" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W85" CONTENT="2000" HPOS="1435" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W86" CONTENT="4.4" HPOS="1456" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W87" CONTENT="7" HPOS="1471" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W88" CONTENT="0" HPOS="1476" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W89" CONTENT="1" HPOS="1481" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W90" CONTENT="17" HPOS="1486" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W91" CONTENT="0" HPOS="1496" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W92" CONTENT="0" HPOS="1501" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W93" CONTENT="0" HPOS="1506" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W94" CONTENT="0" HPOS="1511" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W95" CONTENT="30-1" HPOS="1516" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W96" CONTENT="845" HPOS="1537" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W97" CONTENT="2.9" HPOS="1552" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W98" CONTENT="11" HPOS="1567" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W99" CONTENT="0" HPOS="1577" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W100" CONTENT="2" HPOS="1582" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W101" CONTENT="12" HPOS="1587" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W102" CONTENT="7" HPOS="1597" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W103" CONTENT="0" HPOS="1602" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W104" CONTENT="1" HPOS="1607" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W105" CONTENT="0" HPOS="1612" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W106" CONTENT="30-2" HPOS="1617" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W107" CONTENT="1330" HPOS="1638" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W108" CONTENT="1.4" HPOS="1659" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W109" CONTENT="1" HPOS="1674" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W110" CONTENT="0" HPOS="1679" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W111" CONTENT="1" HPOS="1684" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W112" CONTENT="0" HPOS="1689" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W113" CONTENT="3" HPOS="1694" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W114" CONTENT="0" HPOS="1699" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W115" CONTENT="0" HPOS="1704" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W116" CONTENT="0" HPOS="1709" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W117" CONTENT="30-3" HPOS="1714" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W118" CONTENT="1720" HPOS="1735" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W119" CONTENT="4" HPOS="1756" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W120" CONTENT="6" HPOS="1761" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W121" CONTENT="0" HPOS="1766" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W122" CONTENT="7" HPOS="1771" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W123" CONTENT="9" HPOS="1776" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W124" CONTENT="0" HPOS="1781" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W125" CONTENT="0" HPOS="1786" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W126" CONTENT="0" HPOS="1791" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W127" CONTENT="1" HPOS="1796" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W128" CONTENT="30-4" HPOS="1801" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W129" CONTENT="2020" HPOS="1822" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W130" CONTENT="4.8" HPOS="1843" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W131" CONTENT="6" HPOS="1858" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W132" CONTENT="0" HPOS="1863" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W133" CONTENT="1" HPOS="1868" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W134" CONTENT="2" HPOS="1873" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W135" CONTENT="0" HPOS="1878" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W136" CONTENT="0" HPOS="1883" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W137" CONTENT="0" HPOS="1888" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W138" CONTENT="0" HPOS="1893" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W139" CONTENT="31-1" HPOS="1898" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W140" CONTENT="950" HPOS="1919" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W141" CONTENT="3.3" HPOS="1934" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W142" CONTENT="10" HPOS="1949" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W143" CONTENT="1" HPOS="1959" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W144" CONTENT="2" HPOS="1964" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W145" CONTENT="18" HPOS="1969" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W146" CONTENT="2" HPOS="1979" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W147" CONTENT="0" HPOS="1984" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W148" CONTENT="0" HPOS="1989" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W149" CONTENT="0" HPOS="1994" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W150" CONTENT="31-2" HPOS="1999" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W151" CONTENT="1510" HPOS="2020" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W152" CONTENT="2.5" HPOS="2041" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W153" CONTENT="1" HPOS="2056" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W154" CONTENT="0" HPOS="2061" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W155" CONTENT="1" HPOS="2066" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W156" CONTENT="2" HPOS="2071" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W157" CONTENT="15" HPOS="2076" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W158" CONTENT="0" HPOS="2086" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W159" CONTENT="0" HPOS="2091" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W160" CONTENT="0" HPOS="2096" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W161" CONTENT="01-1" HPOS="2101" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W162" CONTENT="35" HPOS="2122" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W163" CONTENT="1.7" HPOS="2132" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W164" CONTENT="4" HPOS="2147" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W165" CONTENT="0" HPOS="2152" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W166" CONTENT="4" HPOS="2157" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W167" CONTENT="0" HPOS="2162" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W168" CONTENT="0" HPOS="2167" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W169" CONTENT="0" HPOS="2172" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W170" CONTENT="0" HPOS="2177" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W171" CONTENT="0" HPOS="2182" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W172" CONTENT="01-2" HPOS="2187" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W173" CONTENT="1935" HPOS="2208" VPOS="381" WIDTH="21" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W174" CONTENT="5.3" HPOS="2229" VPOS="381" WIDTH="15" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W175" CONTENT="14" HPOS="2244" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W176" CONTENT="0" HPOS="2254" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W177" CONTENT="0" HPOS="2259" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W178" CONTENT="15" HPOS="2264" VPOS="381" WIDTH="10" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W179" CONTENT="0" HPOS="2274" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W180" CONTENT="0" HPOS="2279" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W181" CONTENT="0" HPOS="2284" VPOS="381" WIDTH="5" HEIGHT="944" />
+            <SP />
+            <String ID="B2_L1_W182" CONTENT="0" HPOS="2289" VPOS="381" WIDTH="5" HEIGHT="944" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="348" VPOS="1371" WIDTH="1853" HEIGHT="58">
+          <TextLine ID="B3_L1" HPOS="348" VPOS="1371" WIDTH="1853" HEIGHT="58">
+            <String ID="B3_L1_W1" CONTENT="AVERAGE" HPOS="348" VPOS="1371" WIDTH="324" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="7.06" HPOS="672" VPOS="1371" WIDTH="185" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W3" CONTENT="0.06" HPOS="857" VPOS="1371" WIDTH="185" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W4" CONTENT="1.33" HPOS="1042" VPOS="1371" WIDTH="185" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W5" CONTENT="8.26" HPOS="1227" VPOS="1371" WIDTH="185" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W6" CONTENT="6" HPOS="1412" VPOS="1371" WIDTH="46" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W7" CONTENT="0.06" HPOS="1458" VPOS="1371" WIDTH="185" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W8" CONTENT="0.06" HPOS="1643" VPOS="1371" WIDTH="185" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W9" CONTENT="0.06" HPOS="1828" VPOS="1371" WIDTH="185" HEIGHT="58" />
+            <SP />
+            <String ID="B3_L1_W10" CONTENT="0.06" HPOS="2013" VPOS="1371" WIDTH="185" HEIGHT="58" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B4" HPOS="348" VPOS="1475" WIDTH="1853" HEIGHT="59">
+          <TextLine ID="B4_L1" HPOS="348" VPOS="1475" WIDTH="1853" HEIGHT="59">
+            <String ID="B4_L1_W1" CONTENT="DENSITY" HPOS="348" VPOS="1475" WIDTH="301" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W2" CONTENT="0.00" HPOS="649" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W3" CONTENT="0.00" HPOS="821" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W4" CONTENT="0.00" HPOS="993" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W5" CONTENT="0.01" HPOS="1165" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W6" CONTENT="0.00" HPOS="1337" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W7" CONTENT="0.00" HPOS="1509" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W8" CONTENT="0.00" HPOS="1681" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W9" CONTENT="0.00" HPOS="1853" VPOS="1475" WIDTH="172" HEIGHT="59" />
+            <SP />
+            <String ID="B4_L1_W10" CONTENT="0.00" HPOS="2025" VPOS="1475" WIDTH="172" HEIGHT="59" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="1266" VPOS="1563" WIDTH="229" HEIGHT="52">
+          <TextLine ID="B5_L1" HPOS="1266" VPOS="1563" WIDTH="229" HEIGHT="52">
+            <String ID="B5_L1_W1" CONTENT="Table" HPOS="1266" VPOS="1563" WIDTH="190" HEIGHT="52" />
+            <SP />
+            <String ID="B5_L1_W2" CONTENT="5" HPOS="1456" VPOS="1563" WIDTH="38" HEIGHT="52" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B6" HPOS="348" VPOS="1732" WIDTH="1104" HEIGHT="56">
+          <TextLine ID="B6_L1" HPOS="348" VPOS="1732" WIDTH="1104" HEIGHT="56">
+            <String ID="B6_L1_W1" CONTENT="HABITAT" HPOS="348" VPOS="1732" WIDTH="266" HEIGHT="56" />
+            <SP />
+            <String ID="B6_L1_W2" CONTENT="E:" HPOS="614" VPOS="1732" WIDTH="76" HEIGHT="56" />
+            <SP />
+            <String ID="B6_L1_W3" CONTENT="CHANNEL" HPOS="690" VPOS="1732" WIDTH="266" HEIGHT="56" />
+            <SP />
+            <String ID="B6_L1_W4" CONTENT="PAST" HPOS="956" VPOS="1732" WIDTH="152" HEIGHT="56" />
+            <SP />
+            <String ID="B6_L1_W5" CONTENT="BIRD" HPOS="1108" VPOS="1732" WIDTH="152" HEIGHT="56" />
+            <SP />
+            <String ID="B6_L1_W6" CONTENT="ROCKS" HPOS="1260" VPOS="1732" WIDTH="190" HEIGHT="56" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B7" HPOS="348" VPOS="1742" WIDTH="1687" HEIGHT="762">
+          <TextLine ID="B7_L1" HPOS="348" VPOS="1742" WIDTH="1687" HEIGHT="762">
+            <String ID="B7_L1_W1" CONTENT="date" HPOS="348" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W2" CONTENT="time" HPOS="373" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W3" CONTENT="tidal" HPOS="398" VPOS="1742" WIDTH="31" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W4" CONTENT="level" HPOS="429" VPOS="1742" WIDTH="31" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W5" CONTENT="black" HPOS="460" VPOS="1742" WIDTH="31" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W6" CONTENT="rainbow" HPOS="491" VPOS="1742" WIDTH="44" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W7" CONTENT="striped" HPOS="535" VPOS="1742" WIDTH="44" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W8" CONTENT="pregnant" HPOS="579" VPOS="1742" WIDTH="50" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W9" CONTENT="striped" HPOS="629" VPOS="1742" WIDTH="44" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W10" CONTENT="v07" HPOS="673" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W11" CONTENT="striped" HPOS="691" VPOS="1742" WIDTH="44" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W12" CONTENT="pile" HPOS="735" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W13" CONTENT="rest" HPOS="760" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W14" CONTENT="rainbow" HPOS="785" VPOS="1742" WIDTH="44" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W15" CONTENT="29-1" HPOS="829" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W16" CONTENT="1330" HPOS="854" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W17" CONTENT="1.5" HPOS="879" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W18" CONTENT="1" HPOS="897" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W19" CONTENT="10" HPOS="903" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W20" CONTENT="0" HPOS="915" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W21" CONTENT="4" HPOS="921" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W22" CONTENT="15" HPOS="927" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W23" CONTENT="104" HPOS="939" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W24" CONTENT="1" HPOS="957" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W25" CONTENT="29-2" HPOS="963" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W26" CONTENT="1650" HPOS="988" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W27" CONTENT="3.6" HPOS="1013" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W28" CONTENT="2" HPOS="1031" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W29" CONTENT="12" HPOS="1037" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W30" CONTENT="0" HPOS="1049" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W31" CONTENT="2" HPOS="1055" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W32" CONTENT="0" HPOS="1061" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W33" CONTENT="0" HPOS="1067" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W34" CONTENT="29-3" HPOS="1073" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W35" CONTENT="2015" HPOS="1098" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W36" CONTENT="4.3" HPOS="1123" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W37" CONTENT="0" HPOS="1141" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W38" CONTENT="10" HPOS="1147" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W39" CONTENT="0" HPOS="1159" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W40" CONTENT="1" HPOS="1165" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W41" CONTENT="8" HPOS="1171" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W42" CONTENT="0" HPOS="1177" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W43" CONTENT="1" HPOS="1183" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W44" CONTENT="30-1" HPOS="1189" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W45" CONTENT="900" HPOS="1214" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W46" CONTENT="2.8" HPOS="1232" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W47" CONTENT="0" HPOS="1250" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W48" CONTENT="21" HPOS="1256" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W49" CONTENT="0" HPOS="1268" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W50" CONTENT="11" HPOS="1274" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W51" CONTENT="9" HPOS="1286" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W52" CONTENT="5" HPOS="1292" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W53" CONTENT="0" HPOS="1298" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W54" CONTENT="30-2" HPOS="1304" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W55" CONTENT="1340" HPOS="1329" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W56" CONTENT="1.5" HPOS="1354" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W57" CONTENT="1" HPOS="1372" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W58" CONTENT="45" HPOS="1378" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W59" CONTENT="1" HPOS="1390" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W60" CONTENT="38" HPOS="1396" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W61" CONTENT="25" HPOS="1408" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W62" CONTENT="32" HPOS="1420" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W63" CONTENT="0" HPOS="1432" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W64" CONTENT="30-3" HPOS="1438" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W65" CONTENT="1730" HPOS="1463" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W66" CONTENT="4.1" HPOS="1488" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W67" CONTENT="3" HPOS="1506" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W68" CONTENT="17" HPOS="1512" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W69" CONTENT="7" HPOS="1524" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W70" CONTENT="1" HPOS="1530" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W71" CONTENT="3" HPOS="1536" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W72" CONTENT="0" HPOS="1542" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W73" CONTENT="1" HPOS="1548" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W74" CONTENT="31-1" HPOS="1554" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W75" CONTENT="1000" HPOS="1579" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W76" CONTENT="3.2" HPOS="1604" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W77" CONTENT="0" HPOS="1622" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W78" CONTENT="6" HPOS="1628" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W79" CONTENT="0" HPOS="1634" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W80" CONTENT="2" HPOS="1640" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W81" CONTENT="9" HPOS="1646" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W82" CONTENT="6" HPOS="1652" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W83" CONTENT="0" HPOS="1658" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W84" CONTENT="31-2" HPOS="1664" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W85" CONTENT="1530" HPOS="1689" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W86" CONTENT="2.7" HPOS="1714" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W87" CONTENT="3" HPOS="1732" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W88" CONTENT="39" HPOS="1738" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W89" CONTENT="1" HPOS="1750" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W90" CONTENT="34" HPOS="1756" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W91" CONTENT="18" HPOS="1768" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W92" CONTENT="17" HPOS="1780" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W93" CONTENT="2" HPOS="1792" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W94" CONTENT="01" HPOS="1798" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W95" CONTENT="45" HPOS="1810" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W96" CONTENT="1.5" HPOS="1822" VPOS="1742" WIDTH="18" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W97" CONTENT="0" HPOS="1840" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W98" CONTENT="27" HPOS="1846" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W99" CONTENT="2" HPOS="1858" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W100" CONTENT="7" HPOS="1864" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W101" CONTENT="9" HPOS="1870" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W102" CONTENT="0" HPOS="1876" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W103" CONTENT="0" HPOS="1882" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W104" CONTENT="03" HPOS="1888" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W105" CONTENT="1600" HPOS="1900" VPOS="1742" WIDTH="25" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W106" CONTENT="3" HPOS="1925" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W107" CONTENT="0" HPOS="1931" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W108" CONTENT="16" HPOS="1937" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W109" CONTENT="0" HPOS="1949" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W110" CONTENT="2" HPOS="1955" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W111" CONTENT="45" HPOS="1961" VPOS="1742" WIDTH="12" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W112" CONTENT="0" HPOS="1973" VPOS="1742" WIDTH="6" HEIGHT="762" />
+            <SP />
+            <String ID="B7_L1_W113" CONTENT="0" HPOS="1979" VPOS="1742" WIDTH="6" HEIGHT="762" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B8" HPOS="348" VPOS="2546" WIDTH="1543" HEIGHT="56">
+          <TextLine ID="B8_L1" HPOS="348" VPOS="2546" WIDTH="1543" HEIGHT="56">
+            <String ID="B8_L1_W1" CONTENT="AVERAGE" HPOS="348" VPOS="2546" WIDTH="360" HEIGHT="56" />
+            <SP />
+            <String ID="B8_L1_W2" CONTENT="1" HPOS="708" VPOS="2546" WIDTH="51" HEIGHT="56" />
+            <SP />
+            <String ID="B8_L1_W3" CONTENT="20.3" HPOS="759" VPOS="2546" WIDTH="205" HEIGHT="56" />
+            <SP />
+            <String ID="B8_L1_W4" CONTENT="1.1" HPOS="964" VPOS="2546" WIDTH="154" HEIGHT="56" />
+            <SP />
+            <String ID="B8_L1_W5" CONTENT="10.2" HPOS="1118" VPOS="2546" WIDTH="205" HEIGHT="56" />
+            <SP />
+            <String ID="B8_L1_W6" CONTENT="14.1" HPOS="1323" VPOS="2546" WIDTH="205" HEIGHT="56" />
+            <SP />
+            <String ID="B8_L1_W7" CONTENT="16.4" HPOS="1528" VPOS="2546" WIDTH="205" HEIGHT="56" />
+            <SP />
+            <String ID="B8_L1_W8" CONTENT="0.5" HPOS="1733" VPOS="2546" WIDTH="154" HEIGHT="56" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B9" HPOS="348" VPOS="2647" WIDTH="1543" HEIGHT="59">
+          <TextLine ID="B9_L1" HPOS="348" VPOS="2647" WIDTH="1543" HEIGHT="59">
+            <String ID="B9_L1_W1" CONTENT="DENSITY" HPOS="348" VPOS="2647" WIDTH="308" HEIGHT="59" />
+            <SP />
+            <String ID="B9_L1_W2" CONTENT="0.00" HPOS="656" VPOS="2647" WIDTH="176" HEIGHT="59" />
+            <SP />
+            <String ID="B9_L1_W3" CONTENT="0.03" HPOS="832" VPOS="2647" WIDTH="176" HEIGHT="59" />
+            <SP />
+            <String ID="B9_L1_W4" CONTENT="0.00" HPOS="1008" VPOS="2647" WIDTH="176" HEIGHT="59" />
+            <SP />
+            <String ID="B9_L1_W5" CONTENT="0.01" HPOS="1184" VPOS="2647" WIDTH="176" HEIGHT="59" />
+            <SP />
+            <String ID="B9_L1_W6" CONTENT="0.02" HPOS="1360" VPOS="2647" WIDTH="176" HEIGHT="59" />
+            <SP />
+            <String ID="B9_L1_W7" CONTENT="0.02" HPOS="1536" VPOS="2647" WIDTH="176" HEIGHT="59" />
+            <SP />
+            <String ID="B9_L1_W8" CONTENT="0.00" HPOS="1712" VPOS="2647" WIDTH="176" HEIGHT="59" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B10" HPOS="1278" VPOS="2755" WIDTH="225" HEIGHT="52">
+          <TextLine ID="B10_L1" HPOS="1278" VPOS="2755" WIDTH="225" HEIGHT="52">
+            <String ID="B10_L1_W1" CONTENT="Table" HPOS="1278" VPOS="2755" WIDTH="187" HEIGHT="52" />
+            <SP />
+            <String ID="B10_L1_W2" CONTENT="6" HPOS="1465" VPOS="2755" WIDTH="37" HEIGHT="52" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

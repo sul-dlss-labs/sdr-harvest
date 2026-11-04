@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0002.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="1250" VPOS="231" WIDTH="258" HEIGHT="45">
+          <TextLine ID="B1_L1" HPOS="1250" VPOS="231" WIDTH="258" HEIGHT="45">
+            <String ID="B1_L1_W1" CONTENT="ABSTRACT" HPOS="1250" VPOS="231" WIDTH="258" HEIGHT="45" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="403" VPOS="426" WIDTH="1861" HEIGHT="1362">
+          <TextLine ID="B2_L1" HPOS="403" VPOS="426" WIDTH="1861" HEIGHT="1362">
+            <String ID="B2_L1_W1" CONTENT="To" HPOS="403" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="examine" HPOS="408" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="what" HPOS="427" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="factors" HPOS="438" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="influence" HPOS="457" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="surfperch" HPOS="482" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="distribution" HPOS="507" VPOS="426" WIDTH="33" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="and" HPOS="540" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="behavior," HPOS="548" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W10" CONTENT="I" HPOS="573" VPOS="426" WIDTH="2" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W11" CONTENT="made" HPOS="575" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W12" CONTENT="observations" HPOS="586" VPOS="426" WIDTH="33" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W13" CONTENT="of" HPOS="619" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W14" CONTENT="a" HPOS="624" VPOS="426" WIDTH="2" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W15" CONTENT="protected" HPOS="626" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W16" CONTENT="nearshore" HPOS="651" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W17" CONTENT="area" HPOS="676" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W18" CONTENT="off" HPOS="687" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W19" CONTENT="Point" HPOS="695" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W20" CONTENT="Cabrillo," HPOS="709" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W21" CONTENT="California" HPOS="734" VPOS="426" WIDTH="28" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W22" CONTENT="at" HPOS="762" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W23" CONTENT="different" HPOS="767" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W24" CONTENT="times" HPOS="792" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W25" CONTENT="of" HPOS="806" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W26" CONTENT="the" HPOS="811" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W27" CONTENT="day" HPOS="819" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W28" CONTENT="and" HPOS="827" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W29" CONTENT="tidal" HPOS="835" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W30" CONTENT="cycle." HPOS="849" VPOS="426" WIDTH="16" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W31" CONTENT="Within" HPOS="865" VPOS="426" WIDTH="16" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W32" CONTENT="the" HPOS="881" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W33" CONTENT="study" HPOS="889" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W34" CONTENT="area," HPOS="903" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W35" CONTENT="there" HPOS="917" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W36" CONTENT="was" HPOS="931" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W37" CONTENT="substantial" HPOS="939" VPOS="426" WIDTH="31" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W38" CONTENT="niche" HPOS="970" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W39" CONTENT="diversity" HPOS="984" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W40" CONTENT="in" HPOS="1009" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W41" CONTENT="the" HPOS="1014" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W42" CONTENT="members" HPOS="1022" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W43" CONTENT="of" HPOS="1041" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W44" CONTENT="the" HPOS="1046" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W45" CONTENT="family" HPOS="1054" VPOS="426" WIDTH="16" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W46" CONTENT="Embiotocidae" HPOS="1070" VPOS="426" WIDTH="33" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W47" CONTENT="among" HPOS="1103" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W48" CONTENT="different" HPOS="1117" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W49" CONTENT="habitats" HPOS="1142" VPOS="426" WIDTH="22" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W50" CONTENT="of" HPOS="1164" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W51" CONTENT="similar" HPOS="1169" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W52" CONTENT="depths." HPOS="1188" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W53" CONTENT="The" HPOS="1207" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W54" CONTENT="black" HPOS="1215" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W55" CONTENT="surfperch" HPOS="1229" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W56" CONTENT="were" HPOS="1254" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W57" CONTENT="found" HPOS="1265" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W58" CONTENT="in" HPOS="1279" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W59" CONTENT="the" HPOS="1284" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W60" CONTENT="most" HPOS="1292" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W61" CONTENT="protected" HPOS="1303" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W62" CONTENT="area" HPOS="1328" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W63" CONTENT="of" HPOS="1339" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W64" CONTENT="the" HPOS="1344" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W65" CONTENT="study" HPOS="1352" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W66" CONTENT="and" HPOS="1366" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W67" CONTENT="in" HPOS="1374" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W68" CONTENT="highest" HPOS="1379" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W69" CONTENT="densities" HPOS="1398" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W70" CONTENT="at" HPOS="1423" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W71" CONTENT="low" HPOS="1428" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W72" CONTENT="tide." HPOS="1436" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W73" CONTENT="The" HPOS="1450" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W74" CONTENT="striped" HPOS="1458" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W75" CONTENT="and" HPOS="1477" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W76" CONTENT="pile" HPOS="1485" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W77" CONTENT="surfperch" HPOS="1496" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W78" CONTENT="were" HPOS="1521" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W79" CONTENT="equal" HPOS="1532" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W80" CONTENT="in" HPOS="1546" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W81" CONTENT="abundance" HPOS="1551" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W82" CONTENT="in" HPOS="1576" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W83" CONTENT="all" HPOS="1581" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W84" CONTENT="habitats." HPOS="1589" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W85" CONTENT="The" HPOS="1614" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W86" CONTENT="rainbow" HPOS="1622" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W87" CONTENT="surfperch" HPOS="1641" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W88" CONTENT="were" HPOS="1666" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W89" CONTENT="seen" HPOS="1677" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W90" CONTENT="in" HPOS="1688" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W91" CONTENT="small" HPOS="1693" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W92" CONTENT="schools" HPOS="1707" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W93" CONTENT="on" HPOS="1726" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W94" CONTENT="sandy" HPOS="1731" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W95" CONTENT="bottoms." HPOS="1745" VPOS="426" WIDTH="22" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W96" CONTENT="The" HPOS="1767" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W97" CONTENT="reef" HPOS="1775" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W98" CONTENT="surfperch" HPOS="1786" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W99" CONTENT="were" HPOS="1811" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W100" CONTENT="the" HPOS="1822" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W101" CONTENT="most" HPOS="1830" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W102" CONTENT="abundant" HPOS="1841" VPOS="426" WIDTH="22" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W103" CONTENT="species" HPOS="1863" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W104" CONTENT="of" HPOS="1882" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W105" CONTENT="Embiotocid:" HPOS="1887" VPOS="426" WIDTH="31" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W106" CONTENT="they" HPOS="1918" VPOS="426" WIDTH="11" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W107" CONTENT="inhabited" HPOS="1929" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W108" CONTENT="a" HPOS="1954" VPOS="426" WIDTH="2" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W109" CONTENT="shallow" HPOS="1956" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W110" CONTENT="nearshore" HPOS="1975" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W111" CONTENT="region" HPOS="2000" VPOS="426" WIDTH="16" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W112" CONTENT="and" HPOS="2016" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W113" CONTENT="concentrated" HPOS="2024" VPOS="426" WIDTH="33" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W114" CONTENT="in" HPOS="2057" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W115" CONTENT="large" HPOS="2062" VPOS="426" WIDTH="14" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W116" CONTENT="schools" HPOS="2076" VPOS="426" WIDTH="19" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W117" CONTENT="at" HPOS="2095" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W118" CONTENT="the" HPOS="2100" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W119" CONTENT="entrances" HPOS="2108" VPOS="426" WIDTH="25" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W120" CONTENT="to" HPOS="2133" VPOS="426" WIDTH="5" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W121" CONTENT="channels" HPOS="2138" VPOS="426" WIDTH="22" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W122" CONTENT="during" HPOS="2160" VPOS="426" WIDTH="16" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W123" CONTENT="low" HPOS="2176" VPOS="426" WIDTH="8" HEIGHT="1362" />
+            <SP />
+            <String ID="B2_L1_W124" CONTENT="tides." HPOS="2184" VPOS="426" WIDTH="16" HEIGHT="1362" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="408" VPOS="1833" WIDTH="1854" HEIGHT="352">
+          <TextLine ID="B3_L1" HPOS="408" VPOS="1833" WIDTH="1854" HEIGHT="352">
+            <String ID="B3_L1_W1" CONTENT="Niche" HPOS="408" VPOS="1833" WIDTH="59" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="diversification" HPOS="467" VPOS="1833" WIDTH="178" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W3" CONTENT="seems" HPOS="645" VPOS="1833" WIDTH="59" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W4" CONTENT="to" HPOS="704" VPOS="1833" WIDTH="23" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W5" CONTENT="be" HPOS="727" VPOS="1833" WIDTH="23" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W6" CONTENT="a" HPOS="750" VPOS="1833" WIDTH="11" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W7" CONTENT="relevant" HPOS="761" VPOS="1833" WIDTH="95" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W8" CONTENT="way" HPOS="856" VPOS="1833" WIDTH="35" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W9" CONTENT="of" HPOS="891" VPOS="1833" WIDTH="23" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W10" CONTENT="viewing" HPOS="914" VPOS="1833" WIDTH="83" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W11" CONTENT="dynamic" HPOS="997" VPOS="1833" WIDTH="83" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W12" CONTENT="fish" HPOS="1080" VPOS="1833" WIDTH="47" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W13" CONTENT="distributions" HPOS="1127" VPOS="1833" WIDTH="154" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W14" CONTENT="and" HPOS="1281" VPOS="1833" WIDTH="35" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W15" CONTENT="an" HPOS="1316" VPOS="1833" WIDTH="23" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W16" CONTENT="important" HPOS="1339" VPOS="1833" WIDTH="106" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W17" CONTENT="factor" HPOS="1445" VPOS="1833" WIDTH="71" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W18" CONTENT="to" HPOS="1516" VPOS="1833" WIDTH="23" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W19" CONTENT="be" HPOS="1539" VPOS="1833" WIDTH="23" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W20" CONTENT="considered" HPOS="1562" VPOS="1833" WIDTH="118" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W21" CONTENT="in" HPOS="1680" VPOS="1833" WIDTH="23" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W22" CONTENT="choosing" HPOS="1703" VPOS="1833" WIDTH="95" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W23" CONTENT="methods" HPOS="1798" VPOS="1833" WIDTH="83" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W24" CONTENT="for" HPOS="1881" VPOS="1833" WIDTH="35" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W25" CONTENT="conducting" HPOS="1916" VPOS="1833" WIDTH="118" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W26" CONTENT="population" HPOS="2034" VPOS="1833" WIDTH="118" HEIGHT="352" />
+            <SP />
+            <String ID="B3_L1_W27" CONTENT="studies." HPOS="2152" VPOS="1833" WIDTH="95" HEIGHT="352" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B4" HPOS="1192" VPOS="2335" WIDTH="384" HEIGHT="42">
+          <TextLine ID="B4_L1" HPOS="1192" VPOS="2335" WIDTH="384" HEIGHT="42">
+            <String ID="B4_L1_W1" CONTENT="INTRODUCTION" HPOS="1192" VPOS="2335" WIDTH="384" HEIGHT="42" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="408" VPOS="2533" WIDTH="1793" HEIGHT="456">
+          <TextLine ID="B5_L1" HPOS="408" VPOS="2533" WIDTH="1793" HEIGHT="456">
+            <String ID="B5_L1_W1" CONTENT="Embiotocidae" HPOS="408" VPOS="2533" WIDTH="88" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W2" CONTENT="(surfperch)" HPOS="496" VPOS="2533" WIDTH="80" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W3" CONTENT="is" HPOS="576" VPOS="2533" WIDTH="14" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W4" CONTENT="a" HPOS="590" VPOS="2533" WIDTH="7" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W5" CONTENT="viviparous" HPOS="597" VPOS="2533" WIDTH="73" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W6" CONTENT="fish" HPOS="670" VPOS="2533" WIDTH="29" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W7" CONTENT="family" HPOS="699" VPOS="2533" WIDTH="44" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W8" CONTENT="found" HPOS="743" VPOS="2533" WIDTH="36" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W9" CONTENT="only" HPOS="779" VPOS="2533" WIDTH="29" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W10" CONTENT="in" HPOS="808" VPOS="2533" WIDTH="14" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W11" CONTENT="the" HPOS="822" VPOS="2533" WIDTH="22" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W12" CONTENT="North" HPOS="844" VPOS="2533" WIDTH="36" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W13" CONTENT="Pacific" HPOS="880" VPOS="2533" WIDTH="51" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W14" CONTENT="and" HPOS="931" VPOS="2533" WIDTH="22" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W15" CONTENT="fairly" HPOS="953" VPOS="2533" WIDTH="44" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W16" CONTENT="abundantly" HPOS="997" VPOS="2533" WIDTH="73" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W17" CONTENT="in" HPOS="1070" VPOS="2533" WIDTH="14" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W18" CONTENT="Monterey" HPOS="1084" VPOS="2533" WIDTH="58" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W19" CONTENT="Bay." HPOS="1142" VPOS="2533" WIDTH="29" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W20" CONTENT="A" HPOS="1171" VPOS="2533" WIDTH="7" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W21" CONTENT="diverse" HPOS="1178" VPOS="2533" WIDTH="51" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W22" CONTENT="population" HPOS="1229" VPOS="2533" WIDTH="73" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W23" CONTENT="occurs" HPOS="1302" VPOS="2533" WIDTH="44" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W24" CONTENT="in" HPOS="1346" VPOS="2533" WIDTH="14" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W25" CONTENT="the" HPOS="1360" VPOS="2533" WIDTH="22" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W26" CONTENT="protected" HPOS="1382" VPOS="2533" WIDTH="66" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W27" CONTENT="nearshore" HPOS="1448" VPOS="2533" WIDTH="66" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W28" CONTENT="area" HPOS="1514" VPOS="2533" WIDTH="29" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W29" CONTENT="of" HPOS="1543" VPOS="2533" WIDTH="14" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W30" CONTENT="Point" HPOS="1557" VPOS="2533" WIDTH="36" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W31" CONTENT="Cabrillo." HPOS="1593" VPOS="2533" WIDTH="66" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W32" CONTENT="As" HPOS="1659" VPOS="2533" WIDTH="14" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W33" CONTENT="with" HPOS="1673" VPOS="2533" WIDTH="29" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W34" CONTENT="other" HPOS="1702" VPOS="2533" WIDTH="36" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W35" CONTENT="viviparous" HPOS="1738" VPOS="2533" WIDTH="73" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W36" CONTENT="animals," HPOS="1811" VPOS="2533" WIDTH="58" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W37" CONTENT="the" HPOS="1869" VPOS="2533" WIDTH="22" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W38" CONTENT="young" HPOS="1891" VPOS="2533" WIDTH="36" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W39" CONTENT="are" HPOS="1927" VPOS="2533" WIDTH="22" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W40" CONTENT="nurtured" HPOS="1949" VPOS="2533" WIDTH="58" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W41" CONTENT="internally" HPOS="2007" VPOS="2533" WIDTH="73" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W42" CONTENT="by" HPOS="2080" VPOS="2533" WIDTH="14" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W43" CONTENT="their" HPOS="2094" VPOS="2533" WIDTH="36" HEIGHT="456" />
+            <SP />
+            <String ID="B5_L1_W44" CONTENT="mother." HPOS="2130" VPOS="2533" WIDTH="51" HEIGHT="456" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B6" HPOS="1104" VPOS="3084" WIDTH="35" HEIGHT="45">
+          <TextLine ID="B6_L1" HPOS="1104" VPOS="3084" WIDTH="35" HEIGHT="45">
+            <String ID="B6_L1_W1" CONTENT="1" HPOS="1104" VPOS="3084" WIDTH="35" HEIGHT="45" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

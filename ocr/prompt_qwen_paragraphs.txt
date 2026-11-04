@@ -1,0 +1,3 @@
+Perform OCR on this image. Group the text into blocks in reading order: each paragraph, heading, caption, list item, and page number is its own block. Return a JSON array where each item is {"bbox_2d": [x1, y1, x2, y2], "lines": [{"text": "...", "bbox_2d": [x1, y1, x2, y2]}, ...]}, with one entry in "lines" for each printed line of that block.
+
+Each bbox_2d must tightly enclose the characters it covers. A line's x1 is where its first character begins, so an indented first line has a larger x1 than the lines below it.

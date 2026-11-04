@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0001.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="698" VPOS="1244" WIDTH="1377" HEIGHT="136">
+          <TextLine ID="B1_L1" HPOS="807" VPOS="1244" WIDTH="1155" HEIGHT="42">
+            <String ID="B1_L1_W1" CONTENT="DISTRIBUTION" HPOS="807" VPOS="1244" WIDTH="407" HEIGHT="42" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="AND" HPOS="1214" VPOS="1244" WIDTH="101" HEIGHT="42" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="BEHAVIOR" HPOS="1315" VPOS="1244" WIDTH="271" HEIGHT="42" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="OF" HPOS="1586" VPOS="1244" WIDTH="67" HEIGHT="42" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="SURFPERCH" HPOS="1653" VPOS="1244" WIDTH="305" HEIGHT="42" />
+          </TextLine>
+          <TextLine ID="B1_L2" HPOS="698" VPOS="1289" WIDTH="1377" HEIGHT="43">
+            <String ID="B1_L2_W1" CONTENT="(Embiotocidae)" HPOS="698" VPOS="1289" WIDTH="470" HEIGHT="43" />
+            <SP />
+            <String ID="B1_L2_W2" CONTENT="IN" HPOS="1168" VPOS="1289" WIDTH="67" HEIGHT="43" />
+            <SP />
+            <String ID="B1_L2_W3" CONTENT="THE" HPOS="1235" VPOS="1289" WIDTH="100" HEIGHT="43" />
+            <SP />
+            <String ID="B1_L2_W4" CONTENT="PROTECTED" HPOS="1335" VPOS="1289" WIDTH="302" HEIGHT="43" />
+            <SP />
+            <String ID="B1_L2_W5" CONTENT="NEARSHORE" HPOS="1637" VPOS="1289" WIDTH="302" HEIGHT="43" />
+            <SP />
+            <String ID="B1_L2_W6" CONTENT="ZONE" HPOS="1939" VPOS="1289" WIDTH="134" HEIGHT="43" />
+          </TextLine>
+          <TextLine ID="B1_L3" HPOS="953" VPOS="1335" WIDTH="883" HEIGHT="45">
+            <String ID="B1_L3_W1" CONTENT="OF" HPOS="953" VPOS="1335" WIDTH="67" HEIGHT="45" />
+            <SP />
+            <String ID="B1_L3_W2" CONTENT="POINT" HPOS="1020" VPOS="1335" WIDTH="169" HEIGHT="45" />
+            <SP />
+            <String ID="B1_L3_W3" CONTENT="CABRILLO," HPOS="1189" VPOS="1335" WIDTH="305" HEIGHT="45" />
+            <SP />
+            <String ID="B1_L3_W4" CONTENT="CALIFORNIA" HPOS="1494" VPOS="1335" WIDTH="339" HEIGHT="45" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="1044" VPOS="2244" WIDTH="670" HEIGHT="182">
+          <TextLine ID="B2_L1" HPOS="1170" VPOS="2244" WIDTH="454" HEIGHT="42">
+            <String ID="B2_L1_W1" CONTENT="Maggie" HPOS="1170" VPOS="2244" WIDTH="194" HEIGHT="42" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="Harrison" HPOS="1364" VPOS="2244" WIDTH="259" HEIGHT="42" />
+          </TextLine>
+          <TextLine ID="B2_L2" HPOS="1228" VPOS="2289" WIDTH="335" HEIGHT="43">
+            <String ID="B2_L2_W1" CONTENT="Spring" HPOS="1228" VPOS="2289" WIDTH="201" HEIGHT="43" />
+            <SP />
+            <String ID="B2_L2_W2" CONTENT="1989" HPOS="1429" VPOS="2289" WIDTH="134" HEIGHT="43" />
+          </TextLine>
+          <TextLine ID="B2_L3" HPOS="1044" VPOS="2335" WIDTH="670" HEIGHT="45">
+            <String ID="B2_L3_W1" CONTENT="Hopkins" HPOS="1044" VPOS="2335" WIDTH="234" HEIGHT="45" />
+            <SP />
+            <String ID="B2_L3_W2" CONTENT="Marine" HPOS="1278" VPOS="2335" WIDTH="201" HEIGHT="45" />
+            <SP />
+            <String ID="B2_L3_W3" CONTENT="Station" HPOS="1479" VPOS="2335" WIDTH="234" HEIGHT="45" />
+          </TextLine>
+          <TextLine ID="B2_L4" HPOS="1104" VPOS="2384" WIDTH="578" HEIGHT="42">
+            <String ID="B2_L4_W1" CONTENT="Stanford" HPOS="1104" VPOS="2384" WIDTH="256" HEIGHT="42" />
+            <SP />
+            <String ID="B2_L4_W2" CONTENT="University" HPOS="1360" VPOS="2384" WIDTH="321" HEIGHT="42" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

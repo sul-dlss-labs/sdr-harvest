@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-6fna8566ubmaioxnmycazo",
+  "object": "chat.completion",
+  "created": 1793749801,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [165, 83, 845, 133],\n        \"lines\": [\n            \"substantial. As the habitats became rougher and less\",\n            \"protected, their respective densities seemed to decrease.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 143, 897, 287],\n        \"lines\": [\n            \"An interesting and statistically significant correlation\",\n            \"was discovered between the number of black surfperch under\",\n            \"the railroad tracks and the height of the tide. (See figure\",\n            \"5) As the tide rises, the number of E. jacksoni beneath the\",\n            \"tracks decreases.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 296, 897, 692],\n        \"lines\": [\n            \"I usually found these fish concentrated in tight groups\",\n            \"of about 15 under each of the algae covered railroad ties and\",\n            \"maintaining a pacing behavior back and forth to either side\",\n            \"of the ties. Along with the relatively calm water in this\",\n            \"habitat, the tracks seemed to afford these perch a protected\",\n            \"area and a large, open, horizontal plane of water to inhabit.\",\n            \"They were all adults (20 to 30 cm in length); I once saw a\",\n            \"large black chase a smaller black from beneath a railroad\",\n            \"tie. I recognized four pregnant females and one juvenile. I\",\n            \"witnessed black surfperch feeding both by picking and\",\n            \"winnowing. On seven sightings throughout the study I\",\n            \"observed E. jacksoni moving in odd manners: quivering and\",\n            \"flipping to one side seemingly scratching their dorsal fins.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 696, 897, 812],\n        \"lines\": [\n            \"Interestingly, I saw higher numbers of black surfperch\",\n            \"than usual in the area protected by seal rocks during my two\",\n            \"night snorkels. They seemed less active nocturnally than any\",\n            \"other species.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 853, 632, 872],\n        \"lines\": [\n            \"Striped Surfperch (Embiotoca lateralis)\"\n        ]\n    },\n    {\n        \"bbox_2d\": [225, 884, 880, 901],\n        \"lines\": [\n            \"The second most dense species in the entire study area,\"\n        ]\n    },\n    {\n        \"bbox_2d\": [440, 948, 455, 960],\n        \"lines\": [\n            \"6\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 642,
+    "total_tokens": 800,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}

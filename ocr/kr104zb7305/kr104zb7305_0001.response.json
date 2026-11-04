@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-k3ckbkit54jz0e6cdtoqs",
+  "object": "chat.completion",
+  "created": 1793738412,
+  "model": "chandra-ocr-2",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "",
+        "reasoning_content": "<div data-bbox=\"273 378 829 426\" data-label=\"Section-Header\"><p>DISTRIBUTION AND BEHAVIOR OF SURPERCH<br/>(Embiotocidae) IN THE PROTECTED NEARSHORE ZONE<br/>OF POINT CABRILLO, CALIFORNIA</p></div><div data-bbox=\"412 687 685 749\" data-label=\"Text\"><p>Maggie Harrison<br/>Spring 1989<br/>Hopkins Marine Station<br/>Stanford University</p></div>",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1391,
+    "completion_tokens": 132,
+    "total_tokens": 1523,
+    "completion_tokens_details": {
+      "reasoning_tokens": 129
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "chandra-ocr-2"
+}

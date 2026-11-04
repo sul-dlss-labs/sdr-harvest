@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0033.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="206" VPOS="472" WIDTH="121" HEIGHT="2329">
+          <TextLine ID="B1_L1" HPOS="206" VPOS="472" WIDTH="121" HEIGHT="2329">
+            <String ID="B1_L1_W1" CONTENT="SURPERCH" HPOS="206" VPOS="472" WIDTH="30" HEIGHT="2329" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="DENSITY" HPOS="236" VPOS="472" WIDTH="26" HEIGHT="2329" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="CHANGE" HPOS="262" VPOS="472" WIDTH="22" HEIGHT="2329" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="IN" HPOS="284" VPOS="472" WIDTH="7" HEIGHT="2329" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="ONE" HPOS="291" VPOS="472" WIDTH="11" HEIGHT="2329" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="DECADE" HPOS="302" VPOS="472" WIDTH="22" HEIGHT="2329" />
+          </TextLine>
+        </TextBlock>
+        <Illustration ID="B2" TYPE="Figure" HPOS="385" VPOS="381" WIDTH="1910" HEIGHT="2713" />
+        <TextBlock ID="B3" HPOS="2416" VPOS="1452" WIDTH="55" HEIGHT="283">
+          <TextLine ID="B3_L1" HPOS="2416" VPOS="1452" WIDTH="55" HEIGHT="283">
+            <String ID="B3_L1_W1" CONTENT="Figure" HPOS="2416" VPOS="1452" WIDTH="47" HEIGHT="283" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="8" HPOS="2463" VPOS="1452" WIDTH="7" HEIGHT="283" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

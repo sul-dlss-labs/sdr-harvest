@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0026.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="2365" VPOS="1521" WIDTH="48" HEIGHT="244">
+          <TextLine ID="B1_L1" HPOS="2365" VPOS="1521" WIDTH="48" HEIGHT="244">
+            <String ID="B1_L1_W1" CONTENT="Figure" HPOS="2365" VPOS="1521" WIDTH="41" HEIGHT="244" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="1" HPOS="2406" VPOS="1521" WIDTH="6" HEIGHT="244" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="660" VPOS="560" WIDTH="316" HEIGHT="635">
+          <TextLine ID="B2_L1" HPOS="912" VPOS="560" WIDTH="64" HEIGHT="244">
+            <String ID="B2_L1_W1" CONTENT="50" HPOS="912" VPOS="560" WIDTH="42" HEIGHT="244" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="m" HPOS="954" VPOS="560" WIDTH="21" HEIGHT="244" />
+          </TextLine>
+          <TextLine ID="B2_L2" HPOS="660" VPOS="1139" WIDTH="63" HEIGHT="56">
+            <String ID="B2_L2_W1" CONTENT="N" HPOS="660" VPOS="1139" WIDTH="63" HEIGHT="56" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="282" VPOS="2273" WIDTH="378" HEIGHT="257">
+          <TextLine ID="B3_L1" HPOS="282" VPOS="2273" WIDTH="76" HEIGHT="257">
+            <String ID="B3_L1_W1" CONTENT="A" HPOS="282" VPOS="2273" WIDTH="4" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L1_W2" CONTENT="-" HPOS="286" VPOS="2273" WIDTH="4" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L1_W3" CONTENT="Railroad" HPOS="290" VPOS="2273" WIDTH="38" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L1_W4" CONTENT="Tracks" HPOS="328" VPOS="2273" WIDTH="28" HEIGHT="257" />
+          </TextLine>
+          <TextLine ID="B3_L2" HPOS="358" VPOS="2273" WIDTH="75" HEIGHT="257">
+            <String ID="B3_L2_W1" CONTENT="B" HPOS="358" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L2_W2" CONTENT="-" HPOS="361" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L2_W3" CONTENT="Protected" HPOS="364" VPOS="2273" WIDTH="30" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L2_W4" CONTENT="by" HPOS="394" VPOS="2273" WIDTH="6" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L2_W5" CONTENT="Seal" HPOS="400" VPOS="2273" WIDTH="13" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L2_W6" CONTENT="Rocks" HPOS="413" VPOS="2273" WIDTH="17" HEIGHT="257" />
+          </TextLine>
+          <TextLine ID="B3_L3" HPOS="433" VPOS="2273" WIDTH="76" HEIGHT="257">
+            <String ID="B3_L3_W1" CONTENT="C" HPOS="433" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L3_W2" CONTENT="-" HPOS="436" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L3_W3" CONTENT="Between" HPOS="439" VPOS="2273" WIDTH="21" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L3_W4" CONTENT="Seal" HPOS="460" VPOS="2273" WIDTH="12" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L3_W5" CONTENT="and" HPOS="472" VPOS="2273" WIDTH="9" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L3_W6" CONTENT="Bird" HPOS="481" VPOS="2273" WIDTH="12" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L3_W7" CONTENT="Rocks" HPOS="493" VPOS="2273" WIDTH="15" HEIGHT="257" />
+          </TextLine>
+          <TextLine ID="B3_L4" HPOS="509" VPOS="2273" WIDTH="76" HEIGHT="257">
+            <String ID="B3_L4_W1" CONTENT="D" HPOS="509" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L4_W2" CONTENT="-" HPOS="512" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L4_W3" CONTENT="Protected" HPOS="515" VPOS="2273" WIDTH="31" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L4_W4" CONTENT="by" HPOS="546" VPOS="2273" WIDTH="6" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L4_W5" CONTENT="Bird" HPOS="552" VPOS="2273" WIDTH="13" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L4_W6" CONTENT="Rocks" HPOS="565" VPOS="2273" WIDTH="17" HEIGHT="257" />
+          </TextLine>
+          <TextLine ID="B3_L5" HPOS="585" VPOS="2273" WIDTH="75" HEIGHT="257">
+            <String ID="B3_L5_W1" CONTENT="E" HPOS="585" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L5_W2" CONTENT="-" HPOS="588" VPOS="2273" WIDTH="3" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L5_W3" CONTENT="Channel" HPOS="591" VPOS="2273" WIDTH="21" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L5_W4" CONTENT="beyond" HPOS="612" VPOS="2273" WIDTH="18" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L5_W5" CONTENT="Bird" HPOS="630" VPOS="2273" WIDTH="12" HEIGHT="257" />
+            <SP />
+            <String ID="B3_L5_W6" CONTENT="Rocks" HPOS="642" VPOS="2273" WIDTH="15" HEIGHT="257" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B4" HPOS="423" VPOS="641" WIDTH="227" HEIGHT="196">
+          <TextLine ID="B4_L1" HPOS="423" VPOS="641" WIDTH="76" HEIGHT="196">
+            <String ID="B4_L1_W1" CONTENT="MARINE" HPOS="423" VPOS="641" WIDTH="76" HEIGHT="196" />
+          </TextLine>
+          <TextLine ID="B4_L2" HPOS="499" VPOS="641" WIDTH="76" HEIGHT="196">
+            <String ID="B4_L2_W1" CONTENT="LIFE" HPOS="499" VPOS="641" WIDTH="76" HEIGHT="196" />
+          </TextLine>
+          <TextLine ID="B4_L3" HPOS="575" VPOS="641" WIDTH="75" HEIGHT="196">
+            <String ID="B4_L3_W1" CONTENT="RESCUE" HPOS="575" VPOS="641" WIDTH="75" HEIGHT="196" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

@@ -1,0 +1,101 @@
+[
+ {
+  "text": "Figure 1",
+  "bbox_2d": [
+   939,
+   469,
+   956,
+   544
+  ]
+ },
+ {
+  "text": "REPUGE",
+  "bbox_2d": [
+   223,
+   115,
+   241,
+   176
+  ]
+ },
+ {
+  "text": "Channel beyond Bird Rocks",
+  "bbox_2d": [
+   210,
+   633,
+   227,
+   900
+  ]
+ },
+ {
+  "text": "LIVE",
+  "bbox_2d": [
+   192,
+   152,
+   210,
+   188
+  ]
+ },
+ {
+  "text": "Protected by Bird Rocks",
+  "bbox_2d": [
+   188,
+   651,
+   205,
+   900
+  ]
+ },
+ {
+  "text": "MARINE",
+  "bbox_2d": [
+   171,
+   201,
+   191,
+   261
+  ]
+ },
+ {
+  "text": "Between Seal and Bird Rocks",
+  "bbox_2d": [
+   168,
+   613,
+   185,
+   900
+  ]
+ },
+ {
+  "text": "HOPKING",
+  "bbox_2d": [
+   141,
+   210,
+   160,
+   282
+  ]
+ },
+ {
+  "text": "Protected by Seal Rocks",
+  "bbox_2d": [
+   143,
+   651,
+   160,
+   900
+  ]
+ },
+ {
+  "text": "A-Railroad Tracks",
+  "bbox_2d": [
+   123,
+   726,
+   140,
+   902
+  ]
+ },
+ {
+  "text": "50 m",
+  "bbox_2d": [
+   360,
+   167,
+   389,
+   229
+  ]
+ }
+]

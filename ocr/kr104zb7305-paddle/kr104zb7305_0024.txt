@@ -1,0 +1,36 @@
+REGRESSION STATISTICS
+
+Correlation between black surfperch under the tracks
+and the height of the tide
+Regression Output:
+Constant
+42.09085
+Std Err of Y Est
+12.41612
+R Squared
+0.389240
+No. of Observations
+24
+Degrees of Freedom
+22
+X Coefficient(s) -7.25496
+Std Err of Coef. 1.937537
+
+Correlation between the number of reef surfperch
+in the area protected by Seal Rocks
+and the height of the tide
+Regression Output:
+Constant
+159.3666
+Std Err of Y Est
+55.03032
+R Squared
+0.405103
+No. of Observations
+18
+Degrees of Freedom
+16
+X Coefficient(s) -33.7242
+Std Err of Coef. 10.21691
+
+Table 8

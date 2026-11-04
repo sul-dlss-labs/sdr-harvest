@@ -1,0 +1,476 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0018.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="1197" VPOS="214" WIDTH="374" HEIGHT="49">
+          <TextLine ID="B1_L1">
+            <String ID="B1_L1_W1" CONTENT="BIBLIOGRAPHY" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="408" VPOS="413" WIDTH="1995" HEIGHT="2059">
+          <TextLine ID="B2_L1">
+            <String ID="B2_L1_W1" CONTENT="Baltz," />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="Donald" />
+            <SP />
+            <String ID="B2_L1_W3" CONTENT="M." />
+            <SP />
+            <String ID="B2_L1_W4" CONTENT="and" />
+            <SP />
+            <String ID="B2_L1_W5" CONTENT="Moyle," />
+            <SP />
+            <String ID="B2_L1_W6" CONTENT="Peter" />
+            <SP />
+            <String ID="B2_L1_W7" CONTENT="B." />
+            <SP />
+            <String ID="B2_L1_W8" CONTENT="1982." />
+            <SP />
+            <String ID="B2_L1_W9" CONTENT="Life" />
+            <SP />
+            <String ID="B2_L1_W10" CONTENT="history" />
+            <SP />
+            <String ID="B2_L1_W11" CONTENT="characteristics" />
+            <SP />
+            <String ID="B2_L1_W12" CONTENT="of" />
+            <SP />
+            <String ID="B2_L1_W13" CONTENT="tule" />
+            <SP />
+            <String ID="B2_L1_W14" CONTENT="perch" />
+            <SP />
+            <String ID="B2_L1_W15" CONTENT="(" />
+            <SP />
+            <String ID="B2_L1_W16" CONTENT="Hysterocarpus" />
+            <SP />
+            <String ID="B2_L1_W17" CONTENT="braski" />
+            <SP />
+            <String ID="B2_L1_W18" CONTENT=")" />
+            <SP />
+            <String ID="B2_L1_W19" CONTENT="populations" />
+            <SP />
+            <String ID="B2_L1_W20" CONTENT="in" />
+            <SP />
+            <String ID="B2_L1_W21" CONTENT="contrasting" />
+            <SP />
+            <String ID="B2_L1_W22" CONTENT="environments." />
+            <SP />
+            <String ID="B2_L1_W23" CONTENT="Env." />
+            <SP />
+            <String ID="B2_L1_W24" CONTENT="Biol." />
+            <SP />
+            <String ID="B2_L1_W25" CONTENT="Fish." />
+            <SP />
+            <String ID="B2_L1_W26" CONTENT="Vol." />
+            <SP />
+            <String ID="B2_L1_W27" CONTENT="7," />
+            <SP />
+            <String ID="B2_L1_W28" CONTENT="No." />
+            <SP />
+            <String ID="B2_L1_W29" CONTENT="3," />
+            <SP />
+            <String ID="B2_L1_W30" CONTENT="pp." />
+            <SP />
+            <String ID="B2_L1_W31" CONTENT="287-242." />
+          </TextLine>
+          <TextLine ID="B2_L2">
+            <String ID="B2_L2_W1" CONTENT="Behrens," />
+            <SP />
+            <String ID="B2_L2_W2" CONTENT="David" />
+            <SP />
+            <String ID="B2_L2_W3" CONTENT="W." />
+            <SP />
+            <String ID="B2_L2_W4" CONTENT="1977." />
+            <SP />
+            <String ID="B2_L2_W5" CONTENT="Fecundity" />
+            <SP />
+            <String ID="B2_L2_W6" CONTENT="and" />
+            <SP />
+            <String ID="B2_L2_W7" CONTENT="reproduction" />
+            <SP />
+            <String ID="B2_L2_W8" CONTENT="of" />
+            <SP />
+            <String ID="B2_L2_W9" CONTENT="the" />
+            <SP />
+            <String ID="B2_L2_W10" CONTENT="viviparous" />
+            <SP />
+            <String ID="B2_L2_W11" CONTENT="perches" />
+            <SP />
+            <String ID="B2_L2_W12" CONTENT="Hypsurus" />
+            <SP />
+            <String ID="B2_L2_W13" CONTENT="caryi" />
+            <SP />
+            <String ID="B2_L2_W14" CONTENT="(Agassiz)" />
+            <SP />
+            <String ID="B2_L2_W15" CONTENT="and" />
+            <SP />
+            <String ID="B2_L2_W16" CONTENT="Embiotoca" />
+            <SP />
+            <String ID="B2_L2_W17" CONTENT="jacksoni" />
+            <SP />
+            <String ID="B2_L2_W18" CONTENT="Agassiz." />
+            <SP />
+            <String ID="B2_L2_W19" CONTENT="Calif." />
+            <SP />
+            <String ID="B2_L2_W20" CONTENT="Fish" />
+            <SP />
+            <String ID="B2_L2_W21" CONTENT="and" />
+            <SP />
+            <String ID="B2_L2_W22" CONTENT="Game" />
+            <SP />
+            <String ID="B2_L2_W23" CONTENT="63(4):" />
+            <SP />
+            <String ID="B2_L2_W24" CONTENT="234-252." />
+          </TextLine>
+          <TextLine ID="B2_L3">
+            <String ID="B2_L3_W1" CONTENT="Burgess," />
+            <SP />
+            <String ID="B2_L3_W2" CONTENT="Dr." />
+            <SP />
+            <String ID="B2_L3_W3" CONTENT="Warren" />
+            <SP />
+            <String ID="B2_L3_W4" CONTENT="C." />
+            <SP />
+            <String ID="B2_L3_W5" CONTENT="and" />
+            <SP />
+            <String ID="B2_L3_W6" CONTENT="Axelrod," />
+            <SP />
+            <String ID="B2_L3_W7" CONTENT="Dr." />
+            <SP />
+            <String ID="B2_L3_W8" CONTENT="Herbert" />
+            <SP />
+            <String ID="B2_L3_W9" CONTENT="R.," />
+            <SP />
+            <String ID="B2_L3_W10" CONTENT="1984," />
+            <SP />
+            <String ID="B2_L3_W11" CONTENT="Fishes" />
+            <SP />
+            <String ID="B2_L3_W12" CONTENT="of" />
+            <SP />
+            <String ID="B2_L3_W13" CONTENT="California" />
+            <SP />
+            <String ID="B2_L3_W14" CONTENT="and" />
+            <SP />
+            <String ID="B2_L3_W15" CONTENT="Western" />
+            <SP />
+            <String ID="B2_L3_W16" CONTENT="Mexico" />
+            <SP />
+            <String ID="B2_L3_W17" CONTENT="," />
+            <SP />
+            <String ID="B2_L3_W18" CONTENT="Pacific" />
+            <SP />
+            <String ID="B2_L3_W19" CONTENT="Marine" />
+            <SP />
+            <String ID="B2_L3_W20" CONTENT="Fishes," />
+            <SP />
+            <String ID="B2_L3_W21" CONTENT="Book" />
+            <SP />
+            <String ID="B2_L3_W22" CONTENT="B," />
+            <SP />
+            <String ID="B2_L3_W23" CONTENT="T." />
+            <SP />
+            <String ID="B2_L3_W24" CONTENT="F." />
+            <SP />
+            <String ID="B2_L3_W25" CONTENT="H." />
+            <SP />
+            <String ID="B2_L3_W26" CONTENT="Publications," />
+            <SP />
+            <String ID="B2_L3_W27" CONTENT="Inc." />
+            <SP />
+            <String ID="B2_L3_W28" CONTENT="Ltd.," />
+            <SP />
+            <String ID="B2_L3_W29" CONTENT="pp." />
+            <SP />
+            <String ID="B2_L3_W30" CONTENT="2029-2039." />
+          </TextLine>
+          <TextLine ID="B2_L4">
+            <String ID="B2_L4_W1" CONTENT="DeMartini," />
+            <SP />
+            <String ID="B2_L4_W2" CONTENT="Edward" />
+            <SP />
+            <String ID="B2_L4_W3" CONTENT="E.," />
+            <SP />
+            <String ID="B2_L4_W4" CONTENT="Moore," />
+            <SP />
+            <String ID="B2_L4_W5" CONTENT="Thomas" />
+            <SP />
+            <String ID="B2_L4_W6" CONTENT="O.," />
+            <SP />
+            <String ID="B2_L4_W7" CONTENT="and" />
+            <SP />
+            <String ID="B2_L4_W8" CONTENT="Plummer," />
+            <SP />
+            <String ID="B2_L4_W9" CONTENT="Kenneth" />
+            <SP />
+            <String ID="B2_L4_W10" CONTENT="M." />
+            <SP />
+            <String ID="B2_L4_W11" CONTENT="1983." />
+            <SP />
+            <String ID="B2_L4_W12" CONTENT="Reproductive" />
+            <SP />
+            <String ID="B2_L4_W13" CONTENT="and" />
+            <SP />
+            <String ID="B2_L4_W14" CONTENT="growth" />
+            <SP />
+            <String ID="B2_L4_W15" CONTENT="dynamics" />
+            <SP />
+            <String ID="B2_L4_W16" CONTENT="of" />
+            <SP />
+            <String ID="B2_L4_W17" CONTENT="Hyperprosopon" />
+            <SP />
+            <String ID="B2_L4_W18" CONTENT="argenteum" />
+            <SP />
+            <String ID="B2_L4_W19" CONTENT="(Embiotocidae)" />
+            <SP />
+            <String ID="B2_L4_W20" CONTENT="near" />
+            <SP />
+            <String ID="B2_L4_W21" CONTENT="San" />
+            <SP />
+            <String ID="B2_L4_W22" CONTENT="Diego," />
+            <SP />
+            <String ID="B2_L4_W23" CONTENT="California." />
+            <SP />
+            <String ID="B2_L4_W24" CONTENT="Env." />
+            <SP />
+            <String ID="B2_L4_W25" CONTENT="Biol." />
+            <SP />
+            <String ID="B2_L4_W26" CONTENT="Fish." />
+            <SP />
+            <String ID="B2_L4_W27" CONTENT="Vol." />
+            <SP />
+            <String ID="B2_L4_W28" CONTENT="8," />
+            <SP />
+            <String ID="B2_L4_W29" CONTENT="No." />
+            <SP />
+            <String ID="B2_L4_W30" CONTENT="1," />
+            <SP />
+            <String ID="B2_L4_W31" CONTENT="pp.29-36." />
+          </TextLine>
+          <TextLine ID="B2_L5">
+            <String ID="B2_L5_W1" CONTENT="Hixon," />
+            <SP />
+            <String ID="B2_L5_W2" CONTENT="Mark" />
+            <SP />
+            <String ID="B2_L5_W3" CONTENT="A." />
+            <SP />
+            <String ID="B2_L5_W4" CONTENT="1980." />
+            <SP />
+            <String ID="B2_L5_W5" CONTENT="Competitive" />
+            <SP />
+            <String ID="B2_L5_W6" CONTENT="interactions" />
+            <SP />
+            <String ID="B2_L5_W7" CONTENT="between" />
+            <SP />
+            <String ID="B2_L5_W8" CONTENT="California" />
+            <SP />
+            <String ID="B2_L5_W9" CONTENT="reef" />
+            <SP />
+            <String ID="B2_L5_W10" CONTENT="fishes" />
+            <SP />
+            <String ID="B2_L5_W11" CONTENT="of" />
+            <SP />
+            <String ID="B2_L5_W12" CONTENT="the" />
+            <SP />
+            <String ID="B2_L5_W13" CONTENT="Genus" />
+            <SP />
+            <String ID="B2_L5_W14" CONTENT="Embiotoca" />
+            <SP />
+            <String ID="B2_L5_W15" CONTENT="." />
+            <SP />
+            <String ID="B2_L5_W16" CONTENT="Ecology" />
+            <SP />
+            <String ID="B2_L5_W17" CONTENT="61(4):" />
+            <SP />
+            <String ID="B2_L5_W18" CONTENT="918-931." />
+          </TextLine>
+          <TextLine ID="B2_L6">
+            <String ID="B2_L6_W1" CONTENT="Hixon," />
+            <SP />
+            <String ID="B2_L6_W2" CONTENT="Mark" />
+            <SP />
+            <String ID="B2_L6_W3" CONTENT="A." />
+            <SP />
+            <String ID="B2_L6_W4" CONTENT="1981." />
+            <SP />
+            <String ID="B2_L6_W5" CONTENT="An" />
+            <SP />
+            <String ID="B2_L6_W6" CONTENT="experimental" />
+            <SP />
+            <String ID="B2_L6_W7" CONTENT="analysis" />
+            <SP />
+            <String ID="B2_L6_W8" CONTENT="of" />
+            <SP />
+            <String ID="B2_L6_W9" CONTENT="territoriality" />
+            <SP />
+            <String ID="B2_L6_W10" CONTENT="in" />
+            <SP />
+            <String ID="B2_L6_W11" CONTENT="the" />
+            <SP />
+            <String ID="B2_L6_W12" CONTENT="California" />
+            <SP />
+            <String ID="B2_L6_W13" CONTENT="reef" />
+            <SP />
+            <String ID="B2_L6_W14" CONTENT="fish" />
+            <SP />
+            <String ID="B2_L6_W15" CONTENT="Embiotoca" />
+            <SP />
+            <String ID="B2_L6_W16" CONTENT="jacksoni" />
+            <SP />
+            <String ID="B2_L6_W17" CONTENT="(Embiotocidae)." />
+            <SP />
+            <String ID="B2_L6_W18" CONTENT="Copeia" />
+            <SP />
+            <String ID="B2_L6_W19" CONTENT="1981(3):" />
+            <SP />
+            <String ID="B2_L6_W20" CONTENT="653-665." />
+          </TextLine>
+          <TextLine ID="B2_L7">
+            <String ID="B2_L7_W1" CONTENT="Laur," />
+            <SP />
+            <String ID="B2_L7_W2" CONTENT="David" />
+            <SP />
+            <String ID="B2_L7_W3" CONTENT="R." />
+            <SP />
+            <String ID="B2_L7_W4" CONTENT="and" />
+            <SP />
+            <String ID="B2_L7_W5" CONTENT="Ebeling," />
+            <SP />
+            <String ID="B2_L7_W6" CONTENT="Alfred" />
+            <SP />
+            <String ID="B2_L7_W7" CONTENT="W." />
+            <SP />
+            <String ID="B2_L7_W8" CONTENT="1983." />
+            <SP />
+            <String ID="B2_L7_W9" CONTENT="Predator-prey" />
+            <SP />
+            <String ID="B2_L7_W10" CONTENT="brelationships" />
+            <SP />
+            <String ID="B2_L7_W11" CONTENT="in" />
+            <SP />
+            <String ID="B2_L7_W12" CONTENT="surfperches." />
+            <SP />
+            <String ID="B2_L7_W13" CONTENT="Env." />
+            <SP />
+            <String ID="B2_L7_W14" CONTENT="Biol." />
+            <SP />
+            <String ID="B2_L7_W15" CONTENT="Fish." />
+            <SP />
+            <String ID="B2_L7_W16" CONTENT="Vol." />
+            <SP />
+            <String ID="B2_L7_W17" CONTENT="8," />
+            <SP />
+            <String ID="B2_L7_W18" CONTENT="No." />
+            <SP />
+            <String ID="B2_L7_W19" CONTENT="3/4," />
+            <SP />
+            <String ID="B2_L7_W20" CONTENT="pp." />
+            <SP />
+            <String ID="B2_L7_W21" CONTENT="217-229." />
+          </TextLine>
+          <TextLine ID="B2_L8">
+            <String ID="B2_L8_W1" CONTENT="Nichols," />
+            <SP />
+            <String ID="B2_L8_W2" CONTENT="Andrew" />
+            <SP />
+            <String ID="B2_L8_W3" CONTENT="W." />
+            <SP />
+            <String ID="B2_L8_W4" CONTENT="Spring" />
+            <SP />
+            <String ID="B2_L8_W5" CONTENT="1979." />
+            <SP />
+            <String ID="B2_L8_W6" CONTENT="Predation" />
+            <SP />
+            <String ID="B2_L8_W7" CONTENT="by" />
+            <SP />
+            <String ID="B2_L8_W8" CONTENT="tidepool" />
+            <SP />
+            <String ID="B2_L8_W9" CONTENT="and" />
+            <SP />
+            <String ID="B2_L8_W10" CONTENT="nearshore" />
+            <SP />
+            <String ID="B2_L8_W11" CONTENT="fishes" />
+            <SP />
+            <String ID="B2_L8_W12" CONTENT="and" />
+            <SP />
+            <String ID="B2_L8_W13" CONTENT="its" />
+            <SP />
+            <String ID="B2_L8_W14" CONTENT="impact" />
+            <SP />
+            <String ID="B2_L8_W15" CONTENT="on" />
+            <SP />
+            <String ID="B2_L8_W16" CONTENT="the" />
+            <SP />
+            <String ID="B2_L8_W17" CONTENT="rocky" />
+            <SP />
+            <String ID="B2_L8_W18" CONTENT="intertidal" />
+            <SP />
+            <String ID="B2_L8_W19" CONTENT="zone" />
+            <SP />
+            <String ID="B2_L8_W20" CONTENT="community." />
+          </TextLine>
+          <TextLine ID="B2_L9">
+            <String ID="B2_L9_W1" CONTENT="Tom," />
+            <SP />
+            <String ID="B2_L9_W2" CONTENT="Tiffany" />
+            <SP />
+            <String ID="B2_L9_W3" CONTENT="W." />
+            <SP />
+            <String ID="B2_L9_W4" CONTENT="C." />
+            <SP />
+            <String ID="B2_L9_W5" CONTENT="May" />
+            <SP />
+            <String ID="B2_L9_W6" CONTENT="1988." />
+            <SP />
+            <String ID="B2_L9_W7" CONTENT="A" />
+            <SP />
+            <String ID="B2_L9_W8" CONTENT="regional" />
+            <SP />
+            <String ID="B2_L9_W9" CONTENT="absence" />
+            <SP />
+            <String ID="B2_L9_W10" CONTENT="of" />
+            <SP />
+            <String ID="B2_L9_W11" CONTENT="competition" />
+            <SP />
+            <String ID="B2_L9_W12" CONTENT="between" />
+            <SP />
+            <String ID="B2_L9_W13" CONTENT="congeneric" />
+            <SP />
+            <String ID="B2_L9_W14" CONTENT="surfperch" />
+            <SP />
+            <String ID="B2_L9_W15" CONTENT="sharing" />
+            <SP />
+            <String ID="B2_L9_W16" CONTENT="the" />
+            <SP />
+            <String ID="B2_L9_W17" CONTENT="same" />
+            <SP />
+            <String ID="B2_L9_W18" CONTENT="dietary" />
+            <SP />
+            <String ID="B2_L9_W19" CONTENT="preferences" />
+            <SP />
+            <String ID="B2_L9_W20" CONTENT="and" />
+            <SP />
+            <String ID="B2_L9_W21" CONTENT="spatial" />
+            <SP />
+            <String ID="B2_L9_W22" CONTENT="distribution." />
+            <SP />
+            <String ID="B2_L9_W23" CONTENT="M." />
+            <SP />
+            <String ID="B2_L9_W24" CONTENT="S." />
+            <SP />
+            <String ID="B2_L9_W25" CONTENT="Thesis," />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="1097" VPOS="3074" WIDTH="73" HEIGHT="46">
+          <TextLine ID="B3_L1">
+            <String ID="B3_L1_W1" CONTENT="17" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

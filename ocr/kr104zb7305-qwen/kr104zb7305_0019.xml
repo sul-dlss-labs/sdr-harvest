@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0019.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="269" VPOS="104" WIDTH="1738" HEIGHT="1316">
+          <TextLine ID="B1_L1" HPOS="564" VPOS="104" WIDTH="1443" HEIGHT="49">
+            <String ID="B1_L1_W1" CONTENT="SPECIES" HPOS="564" VPOS="104" WIDTH="252" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="OF" HPOS="816" VPOS="104" WIDTH="72" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L1_W3" CONTENT="EMBIOTOCIDAE" HPOS="888" VPOS="104" WIDTH="432" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L1_W4" CONTENT="OBSERVED" HPOS="1320" VPOS="104" WIDTH="288" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L1_W5" CONTENT="IN" HPOS="1608" VPOS="104" WIDTH="72" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L1_W6" CONTENT="STUDY" HPOS="1680" VPOS="104" WIDTH="180" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L1_W7" CONTENT="AREA" HPOS="1860" VPOS="104" WIDTH="144" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L2" HPOS="269" VPOS="254" WIDTH="202" HEIGHT="48">
+            <String ID="B1_L2_W1" CONTENT="Common" HPOS="269" VPOS="254" WIDTH="202" HEIGHT="48" />
+          </TextLine>
+          <TextLine ID="B1_L3" HPOS="1228" VPOS="254" WIDTH="307" HEIGHT="48">
+            <String ID="B1_L3_W1" CONTENT="Scientific" HPOS="1228" VPOS="254" WIDTH="307" HEIGHT="48" />
+          </TextLine>
+          <TextLine ID="B1_L4" HPOS="269" VPOS="355" WIDTH="154" HEIGHT="48">
+            <String ID="B1_L4_W1" CONTENT="Black" HPOS="269" VPOS="355" WIDTH="154" HEIGHT="48" />
+          </TextLine>
+          <TextLine ID="B1_L5" HPOS="1228" VPOS="355" WIDTH="547" HEIGHT="48">
+            <String ID="B1_L5_W1" CONTENT="Embiotoca" HPOS="1228" VPOS="355" WIDTH="289" HEIGHT="48" />
+            <SP />
+            <String ID="B1_L5_W2" CONTENT="jacksoni" HPOS="1517" VPOS="355" WIDTH="257" HEIGHT="48" />
+          </TextLine>
+          <TextLine ID="B1_L6" HPOS="269" VPOS="462" WIDTH="227" HEIGHT="49">
+            <String ID="B1_L6_W1" CONTENT="Striped" HPOS="269" VPOS="462" WIDTH="227" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L7" HPOS="1228" VPOS="462" WIDTH="582" HEIGHT="49">
+            <String ID="B1_L7_W1" CONTENT="Embiotoca" HPOS="1228" VPOS="462" WIDTH="291" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L7_W2" CONTENT="lateralis" HPOS="1519" VPOS="462" WIDTH="291" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L8" HPOS="269" VPOS="563" WIDTH="129" HEIGHT="49">
+            <String ID="B1_L8_W1" CONTENT="Pile" HPOS="269" VPOS="563" WIDTH="129" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L9" HPOS="1228" VPOS="563" WIDTH="555" HEIGHT="49">
+            <String ID="B1_L9_W1" CONTENT="Damalichthys" HPOS="1228" VPOS="563" WIDTH="391" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L9_W2" CONTENT="vacca" HPOS="1619" VPOS="563" WIDTH="163" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L10" HPOS="269" VPOS="664" WIDTH="227" HEIGHT="49">
+            <String ID="B1_L10_W1" CONTENT="Rainbow" HPOS="269" VPOS="664" WIDTH="227" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L11" HPOS="1228" VPOS="664" WIDTH="421" HEIGHT="49">
+            <String ID="B1_L11_W1" CONTENT="Hypstrus" HPOS="1228" VPOS="664" WIDTH="259" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L11_W2" CONTENT="garyi" HPOS="1487" VPOS="664" WIDTH="161" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L12" HPOS="269" VPOS="765" WIDTH="129" HEIGHT="49">
+            <String ID="B1_L12_W1" CONTENT="Reef" HPOS="269" VPOS="765" WIDTH="129" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L13" HPOS="1228" VPOS="765" WIDTH="555" HEIGHT="49">
+            <String ID="B1_L13_W1" CONTENT="Micrometrus" HPOS="1228" VPOS="765" WIDTH="359" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L13_W2" CONTENT="aurora" HPOS="1587" VPOS="765" WIDTH="195" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L14" HPOS="269" VPOS="866" WIDTH="154" HEIGHT="49">
+            <String ID="B1_L14_W1" CONTENT="Dwarf" HPOS="269" VPOS="866" WIDTH="154" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L15" HPOS="1228" VPOS="866" WIDTH="587" HEIGHT="49">
+            <String ID="B1_L15_W1" CONTENT="Micrometrus" HPOS="1228" VPOS="866" WIDTH="358" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L15_W2" CONTENT="minimus" HPOS="1586" VPOS="866" WIDTH="228" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L16" HPOS="269" VPOS="967" WIDTH="179" HEIGHT="49">
+            <String ID="B1_L16_W1" CONTENT="Shiner" HPOS="269" VPOS="967" WIDTH="179" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L17" HPOS="1228" VPOS="967" WIDTH="683" HEIGHT="49">
+            <String ID="B1_L17_W1" CONTENT="C.matogaster" HPOS="1228" VPOS="967" WIDTH="409" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L17_W2" CONTENT="aurguata" HPOS="1637" VPOS="967" WIDTH="273" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L18" HPOS="269" VPOS="1068" WIDTH="179" HEIGHT="49">
+            <String ID="B1_L18_W1" CONTENT="Barred" HPOS="269" VPOS="1068" WIDTH="179" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L19" HPOS="1228" VPOS="1068" WIDTH="683" HEIGHT="49">
+            <String ID="B1_L19_W1" CONTENT="Amphistichus" HPOS="1228" VPOS="1068" WIDTH="409" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L19_W2" CONTENT="argentus" HPOS="1637" VPOS="1068" WIDTH="273" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L20" HPOS="269" VPOS="1169" WIDTH="179" HEIGHT="49">
+            <String ID="B1_L20_W1" CONTENT="Silver" HPOS="269" VPOS="1169" WIDTH="179" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L21" HPOS="1228" VPOS="1169" WIDTH="749" HEIGHT="49">
+            <String ID="B1_L21_W1" CONTENT="Hyperprosopon" HPOS="1228" VPOS="1169" WIDTH="423" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L21_W2" CONTENT="ellipticum" HPOS="1651" VPOS="1169" WIDTH="325" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L22" HPOS="269" VPOS="1270" WIDTH="154" HEIGHT="49">
+            <String ID="B1_L22_W1" CONTENT="Kelp" HPOS="269" VPOS="1270" WIDTH="154" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L23" HPOS="1228" VPOS="1270" WIDTH="653" HEIGHT="49">
+            <String ID="B1_L23_W1" CONTENT="Brachyistius" HPOS="1228" VPOS="1270" WIDTH="391" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L23_W2" CONTENT="frenatus" HPOS="1619" VPOS="1270" WIDTH="261" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L24" HPOS="269" VPOS="1371" WIDTH="295" HEIGHT="49">
+            <String ID="B1_L24_W1" CONTENT="Rubberlip" HPOS="269" VPOS="1371" WIDTH="295" HEIGHT="49" />
+          </TextLine>
+          <TextLine ID="B1_L25" HPOS="1228" VPOS="1371" WIDTH="587" HEIGHT="49">
+            <String ID="B1_L25_W1" CONTENT="Rhacochilus" HPOS="1228" VPOS="1371" WIDTH="358" HEIGHT="49" />
+            <SP />
+            <String ID="B1_L25_W2" CONTENT="toxotes" HPOS="1586" VPOS="1371" WIDTH="228" HEIGHT="49" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="1195" VPOS="2817" WIDTH="209" HEIGHT="45">
+          <TextLine ID="B2_L1" HPOS="1195" VPOS="2817" WIDTH="209" HEIGHT="45">
+            <String ID="B2_L1_W1" CONTENT="Table" HPOS="1195" VPOS="2817" WIDTH="174" HEIGHT="45" />
+            <SP />
+            <String ID="B2_L1_W2" CONTENT="!" HPOS="1369" VPOS="2817" WIDTH="34" HEIGHT="45" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>
