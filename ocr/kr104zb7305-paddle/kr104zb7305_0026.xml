@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0026.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="2368" VPOS="1527" WIDTH="43" HEIGHT="244">
+          <TextLine ID="B1_L1" HPOS="2368" VPOS="1527" WIDTH="43" HEIGHT="244">
+            <String ID="B1_L1_W1" CONTENT="Figure" HPOS="2368" VPOS="1527" WIDTH="36" HEIGHT="244" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="1" HPOS="2404" VPOS="1527" WIDTH="6" HEIGHT="244" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

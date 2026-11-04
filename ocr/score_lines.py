@@ -39,24 +39,31 @@ def margin(xs):
 
 
 def score_page(lines, ab, W, H):
-    """Return per-line (abbyy_y_err, is_paragraph_start, abbyy_indent, model_indent)."""
+    """Return per-line (abbyy_y_err, is_paragraph_start, abbyy_indent, model_indent,
+    starts_model_block)."""
     pairs = []
-    for l in lines:
+    for k, l in enumerate(lines):
         t = norm(l["text"])
         if len(t) <= 15:
             continue
-        best = max(ab, key=lambda a: difflib.SequenceMatcher(None, t, a[0]).ratio())
-        if difflib.SequenceMatcher(None, t, best[0]).ratio() > .8:
-            x1, y1, _, y2 = l["bbox_2d"]
-            pairs.append((x1 * W / 1000, (y1 + y2) / 2 * H / 1000, best[1], best[2]))
+        x1, y1, _, y2 = l["bbox_2d"]
+        ratios = [(difflib.SequenceMatcher(None, t, a[0]).ratio(), a) for a in ab]
+        top = max(r for r, _ in ratios)
+        if top > .8:
+            # Repeated text (e.g. two tables with the same row labels): among
+            # equally good text matches, use the nearest one.
+            qy = (y1 + y2) / 2 * H / 1000
+            best = min((a for r, a in ratios if r >= top - .05), key=lambda a: abs(a[2] - qy))
+            new_block = "block" in l and (k == 0 or lines[k - 1].get("block") != l["block"])
+            pairs.append((x1 * W / 1000, (y1 + y2) / 2 * H / 1000, best[1], best[2], new_block))
     if len(pairs) < 5:
         return []
     am, qm = margin(p[2] for p in pairs), margin(p[0] for p in pairs)
     rows = []
-    for k, (qx, qy, ax, ay) in enumerate(pairs):
+    for k, (qx, qy, ax, ay, nb) in enumerate(pairs):
         start = k == 0 or ay - pairs[k - 1][3] > 1.4 * (pairs[1][3] - pairs[0][3] or 1) \
             or ax - am > 100
-        rows.append((ay - qy, start, ax - am > 100, qx - qm > 100))
+        rows.append((ay - qy, start, ax - am > 100, qx - qm > 100, nb))
     return rows
 
 
@@ -70,7 +77,7 @@ def main():
     files = list(jp2_files(a.druid))
     ab_cache = {}
     print(f"{'dir':28} {'lines':>5} {'mean |y err|':>12} {'para starts':>11} {'other':>7} "
-          f"{'max':>6} {'indents found':>13}")
+          f"{'max':>6} {'indents found':>13} {'paragraph splits':>16}")
     for d in a.dirs:
         rows = []
         for i, f in enumerate(files, 1):
@@ -92,8 +99,15 @@ def main():
         other = [abs(r[0]) for r in rows if not r[1]]
         ind = [r for r in rows if r[2]]
         found = sum(1 for r in ind if r[3])
+        # Only for block-structured output: ABBYY indented lines that start a
+        # model block, and model blocks starting on a line ABBYY doesn't indent.
+        splits = ""
+        if any(r[4] for r in rows):
+            hit = sum(1 for r in ind if r[4])
+            extra = sum(1 for r in rows if r[4] and not r[2])
+            splits = f"{hit} of {len(ind)} (+{extra} other)"
         print(f"{d:28} {len(rows):5d} {mean(err):10.1f}px {mean(starts):9.1f}px "
-              f"{mean(other):5.1f}px {max(err):4.0f}px {found:5d} of {len(ind):<3d}")
+              f"{mean(other):5.1f}px {max(err):4.0f}px {found:5d} of {len(ind):<3d}  {splits:>16}")
 
 
 if __name__ == "__main__":

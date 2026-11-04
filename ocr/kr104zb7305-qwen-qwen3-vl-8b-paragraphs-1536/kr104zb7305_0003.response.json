@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-e1b2ss9kq3504zmcm8ln99n",
+  "object": "chat.completion",
+  "created": 1793749646,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [165, 85, 860, 230],\n        \"lines\": [\n            \"These fish have a gestation period of approximately five to\",\n            \"six months (Burgess and Axelrod 1984), ending in the\",\n            \"springtime. Live-bearing is an evolutionary adaptation to\",\n            \"reduce early direct mortality; thousands less eggs are\",\n            \"fertilized yearly.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 238, 895, 536],\n        \"lines\": [\n            \"Behavioral and dietary studies have been conducted in on\",\n            \"two congenereic species, E. jacksoni and E. lateralis. Hixon\",\n            \"(1980) observed competitive interactions between the two\",\n            \"species in Santa Barbara and found the striped surfperch to\",\n            \"be the dominant competitor over the shallow algae-covered\",\n            \"reef, leaving the black surfperch to forage over deeper turf.\",\n            \"Similar studies at Hopkins Marine Station by Tom (1988)\",\n            \"reported that the black and striped surfperch there share\",\n            \"their available prey resources and do not differ\",\n            \"significantly in distribution.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [165, 545, 871, 782],\n        \"lines\": [\n            \"Observations made by Nichols (1979) of the surfperch in\",\n            \"a 20 square meter transect in the same area as my study\",\n            \"reported sharpnose and shiner surfperch, both found in\",\n            \"schools, to be the most abundant Embiotocids, followed by\",\n            \"pile, black striped, and calico surfperch. A personal\",\n            \"communication by C. Baxter reported large schools of shiner\",\n            \"surfperch from 1974 to 1988 and an abundance of dwarf\",\n            \"surfperch from 1985 to 1987.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [426, 823, 680, 839],\n        \"lines\": [\n            \"MATERIALS AND METHODS\"\n        ]\n    },\n    {\n        \"bbox_2d\": [222, 885, 881, 901],\n        \"lines\": [\n            \"From May 15 to June 3, 1989, I made observations of the\"\n        ]\n    },\n    {\n        \"bbox_2d\": [439, 948, 455, 962],\n        \"lines\": [\n            \"2\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 623,
+    "total_tokens": 781,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}

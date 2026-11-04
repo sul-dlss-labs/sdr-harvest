@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>kr104zb7305_0032.jp2</fileName>
+    </sourceImageInformation>
+  </Description>
+  <Layout>
+    <Page ID="P1" WIDTH="2522" HEIGHT="3257" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2522" HEIGHT="3257">
+        <TextBlock ID="B1" HPOS="2436" VPOS="1599" WIDTH="48" HEIGHT="273">
+          <TextLine ID="B1_L1" HPOS="2436" VPOS="1599" WIDTH="48" HEIGHT="273">
+            <String ID="B1_L1_W1" CONTENT="Figure" HPOS="2436" VPOS="1599" WIDTH="41" HEIGHT="273" />
+            <SP />
+            <String ID="B1_L1_W2" CONTENT="7" HPOS="2477" VPOS="1599" WIDTH="6" HEIGHT="273" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B2" HPOS="2052" VPOS="3152" WIDTH="51" HEIGHT="105">
+          <TextLine ID="B2_L1" HPOS="2052" VPOS="3152" WIDTH="51" HEIGHT="105">
+            <String ID="B2_L1_W1" CONTENT="1.4" HPOS="2052" VPOS="3152" WIDTH="51" HEIGHT="105" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B3" HPOS="2052" VPOS="501" WIDTH="53" HEIGHT="1036">
+          <TextLine ID="B3_L1" HPOS="2057" VPOS="501" WIDTH="48" HEIGHT="108">
+            <String ID="B3_L1_W1" CONTENT="4.2" HPOS="2057" VPOS="501" WIDTH="48" HEIGHT="108" />
+          </TextLine>
+          <TextLine ID="B3_L2" HPOS="2055" VPOS="850" WIDTH="48" HEIGHT="104">
+            <String ID="B3_L2_W1" CONTENT="3.8" HPOS="2055" VPOS="850" WIDTH="48" HEIGHT="104" />
+          </TextLine>
+          <TextLine ID="B3_L3" HPOS="2052" VPOS="1179" WIDTH="48" HEIGHT="107">
+            <String ID="B3_L3_W1" CONTENT="3.4" HPOS="2052" VPOS="1179" WIDTH="48" HEIGHT="107" />
+          </TextLine>
+          <TextLine ID="B3_L4" HPOS="2057" VPOS="1481" WIDTH="48" HEIGHT="56">
+            <String ID="B3_L4_W1" CONTENT="3" HPOS="2057" VPOS="1481" WIDTH="48" HEIGHT="56" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B4" HPOS="2055" VPOS="1814" WIDTH="48" HEIGHT="101">
+          <TextLine ID="B4_L1" HPOS="2055" VPOS="1814" WIDTH="48" HEIGHT="101">
+            <String ID="B4_L1_W1" CONTENT="2.6" HPOS="2055" VPOS="1814" WIDTH="48" HEIGHT="101" />
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="B5" HPOS="2052" VPOS="2410" WIDTH="53" HEIGHT="91">
+          <TextLine ID="B5_L1" HPOS="2052" VPOS="2410" WIDTH="53" HEIGHT="91">
+            <String ID="B5_L1_W1" CONTENT="1.8" HPOS="2052" VPOS="2410" WIDTH="53" HEIGHT="91" />
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

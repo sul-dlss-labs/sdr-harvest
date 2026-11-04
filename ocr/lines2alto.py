@@ -1,7 +1,9 @@
 """Convert line-level OCR JSON (Qwen3-VL style) to ALTO XML.
 
 Input is a JSON array of {"text": "...", "bbox_2d": [x1, y1, x2, y2]} with
-bboxes normalized 0-1000, one entry per text line in reading order.
+bboxes normalized 0-1000, one entry per text line in reading order. It may
+instead be an array of blocks, {"bbox_2d": [...], "lines": [{"text", "bbox_2d"}, ...]},
+in which case the model's blocks are kept instead of guessed from gaps.
 
 Usage: python lines2alto.py page.json page.jpg [--no-word-boxes] > page.xml
 """
@@ -27,7 +29,8 @@ def parse_lines(text):
     Handles <think> blocks, ```json fences, output cut off mid-array, and
     small syntax slips (e.g. a box closed with ")" or '"' instead of "]") by falling
     back to reading each {"text", "bbox_2d"} entry on its own.
-    Returns a list of valid line dicts.
+    Returns a list of valid line dicts. Lines from block-structured output
+    carry a "block" number.
     """
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.S)
     start = text.find("[")
@@ -39,23 +42,61 @@ def parse_lines(text):
     except ValueError:
         data = [{"text": json.loads(f'"{t}"'), "bbox_2d": [float(v) for v in b.split(",")]}
                 for t, b in ENTRY.findall(body) if len(b.split(",")) == 4]
+    # Flatten [{"lines": [...]}, ...] into lines tagged with their block number.
+    flat = []
+    for k, item in enumerate(data if isinstance(data, list) else []):
+        if isinstance(item, dict) and isinstance(item.get("lines"), list):
+            flat += [dict(l, block=k) for l in item["lines"] if isinstance(l, dict)]
+        else:
+            flat.append(item)
     lines = []
-    for item in data if isinstance(data, list) else []:
+    for item in flat:
         if not isinstance(item, dict):
             continue
         t, b = item.get("text"), item.get("bbox_2d")
         if (isinstance(t, str) and t.strip() and isinstance(b, list) and len(b) == 4
                 and all(isinstance(v, (int, float)) for v in b)):
             x1, y1, x2, y2 = (min(1000, max(0, v)) for v in b)
-            lines.append({"text": " ".join(t.split()),
-                          "bbox_2d": [min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)]})
+            line = {"text": " ".join(t.split()),
+                    "bbox_2d": [min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)]}
+            if isinstance(item.get("block"), int):
+                line["block"] = item["block"]
+            lines.append(line)
+    return lines
+
+
+# PaddleOCR-VL "Spotting:" output: one line per row, text followed by the
+# four corners of its box as <|LOC_n|> tokens (x, y pairs, 0-1000).
+LOC_LINE = re.compile(r"^(.*?)((?:<\|LOC_\d+\|>){8})\s*$")
+LOC = re.compile(r"<\|LOC_(\d+)\|>")
+
+
+def parse_loc_lines(text):
+    """Parse PaddleOCR-VL spotting output into line dicts (bbox = the quad's bounds)."""
+    lines = []
+    for row in text.splitlines():
+        m = LOC_LINE.match(row.strip())
+        if not m or not m.group(1).strip():
+            continue
+        v = [int(n) for n in LOC.findall(m.group(2))]
+        xs, ys = v[0::2], v[1::2]
+        lines.append({"text": " ".join(m.group(1).split()),
+                      "bbox_2d": [min(xs), min(ys), max(xs), max(ys)]})
     return lines
 
 
 def group_blocks(lines):
-    """Split lines into blocks at large vertical gaps or upward jumps (new column)."""
+    """Group lines into blocks: the model's blocks when given, otherwise split
+    at large vertical gaps or upward jumps (new column)."""
     if not lines:
         return []
+    if all("block" in l for l in lines):
+        blocks = []
+        for l in lines:
+            if not blocks or blocks[-1][-1]["block"] != l["block"]:
+                blocks.append([])
+            blocks[-1].append(l)
+        return blocks
     heights = [l["bbox_2d"][3] - l["bbox_2d"][1] for l in lines]
     mh = median(heights) or 1
     blocks, cur = [], [lines[0]]

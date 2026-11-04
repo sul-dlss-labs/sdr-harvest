@@ -83,7 +83,45 @@ does the conversion: line boxes come from the model, lines are grouped into
 blocks at large vertical gaps, and word positions inside a line are estimated
 from letter counts. Add `--blocks-only` to keep the block and line boxes but
 leave words without a position. Use `--model` to try another model id with
-the same prompt.
+the same prompt, and `--prompt FILE` to try another prompt
+(`prompt_qwen_tight.txt` and `prompt_qwen_paragraphs.txt` are included; the
+paragraph format, blocks each holding their lines, keeps the model's blocks).
+
+## Line-level OCR with PaddleOCR-VL
+
+`--engine paddle` uses PaddleOCR-VL 1.6
+(https://huggingface.co/jmbarrancoidener/PaddleOCR-VL-1.6-mlx-8bit, loaded in
+LM Studio as `paddleocr-vl-1.6-mlx`) in its text spotting mode. The prompt is
+the model's fixed task string `Spotting:`, and it replies with one line of text
+per row followed by the four corners of the line as `<|LOC_n|>` tokens on a
+0-1000 scale. The default image size for this engine is 1440px on the long
+edge, about the 1.6 megapixels PaddleOCR's own pipeline uses for spotting.
+
+    uv run python ocr.py kr104zb7305 --engine paddle
+
+Output goes to `kr104zb7305-paddle/`. It is the most accurate engine here for
+line positions and indents, and the fastest (about 5 seconds a page).
+
+## Options for any engine
+
+- `--pages 5,7` only processes those page numbers.
+- `--image-size N` sets the long edge of the image sent to the model.
+- A non-default `--model`, `--prompt` or `--image-size` gets its own output
+  folder, e.g. `kr104zb7305-qwen-qwen3-vl-8b-tight-1536/`, so runs don't reuse
+  each other's cached results.
+- If the output hits `max_tokens`, the raw response is saved next to the
+  output as `<page>.response.json`.
+
+## Scoring line positions against ABBYY
+
+    uv run python score_lines.py kr104zb7305 kr104zb7305-qwen kr104zb7305-paddle --pages 1,2,3
+
+Matches each model line to the ABBYY line in SDR with the most similar text
+and reports the average and worst vertical error in full-size pixels (overall,
+for paragraph first lines and for other lines), how many of ABBYY's indented
+first lines the model also indents, and, for block-structured output, how
+many paragraph starts begin a model block. Pages with little ordinary text,
+like tables and figures, can't be scored.
 
 ## Viewing the results
 

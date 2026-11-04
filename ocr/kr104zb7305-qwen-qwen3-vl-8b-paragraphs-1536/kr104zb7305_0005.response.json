@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-xk6i5snj78yb37l9qs7na",
+  "object": "chat.completion",
+  "created": 1793749710,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [164, 85, 898, 289],\n        \"lines\": [\n            \"Habitat C (530 square meters) is the relatively\",\n            \"unprotected area between Seal and Bird Rocks. Surge and\",\n            \"swell increase fairly dramatically as one moves into this\",\n            \"habitat; waves are often breaking just south of Bird Rocks.\",\n            \"The depth here is 10 to 15 feet; it contains the sparse edges\",\n            \"of the kelp forest and some Phyllospadix covered rocks. I\",\n            \"spent 10 minutes observing this area.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [164, 296, 898, 596],\n        \"lines\": [\n            \"Habitat D (730 square meters), the area protected by\",\n            \"Bird Rocks, is marked on its southern boundary by Pete's\",\n            \"Rock. It is a shallow area of approximately 5 feet in depth\",\n            \"with parts being too shallow to snorkel at low tide. The\",\n            \"bottom of the southern side is light-colored and sandy, while\",\n            \"Phyllospadix grows thickly in the northern section. Although\",\n            \"this habitat is protected from breaking waves, the water\",\n            \"currents can be very strong as the water moves through the\",\n            \"channel in one direction to the south. Observation time here\",\n            \"ranged from 10 to 15 minutes.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [164, 605, 898, 903],\n        \"lines\": [\n            \"Habitat E (570 square meters) is the channel beyond Bird\",\n            \"Rocks that leads into a more exposed section of Monterey Bay.\",\n            \"Phyllospadix is heavy, but as the area slopes down to its\",\n            \"maximum depth of 15 feet, the surfgrass divides to line the\",\n            \"edges of the sandy channel. The channel opens up onto some\",\n            \"scattered Macrocystis plants which mark the end of my study\",\n            \"area. This is the most violent water of my study: water\",\n            \"rushes between the rocks at high speeds, the surge and swell\",\n            \"are very large, and waves are often breaking at the mouth of\",\n            \"the channel. There is a small, more shallow and protected\"\n        ]\n    },\n    {\n        \"bbox_2d\": [440, 946, 455, 959],\n        \"lines\": [\n            \"4\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 595,
+    "total_tokens": 753,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}

@@ -129,23 +129,43 @@ ENGINES = {
         load=json.loads,
         convert=lambda lines, fn, size, blocks_only:
             lines2alto.convert(lines, fn, size=size, word_boxes=not blocks_only)),
+    # PaddleOCR-VL's text spotting mode: a fixed task prompt, and boxes as
+    # <|LOC_n|> corner tokens. ~1.6 MP is the size its own pipeline uses.
+    "paddle": dict(
+        model="paddleocr-vl-1.6-mlx", prompt="Spotting:", ext="json", suffix="-paddle",
+        image_size=1440,
+        extract=lambda r: lines2alto.parse_loc_lines(
+            r["choices"][0]["message"].get("content") or ""),
+        ok=bool,
+        dump=lambda lines: json.dumps(lines, indent=1, ensure_ascii=False),
+        load=json.loads,
+        convert=lambda lines, fn, size, blocks_only:
+            lines2alto.convert(lines, fn, size=size, word_boxes=not blocks_only)),
 }
 
 
 def process(druid, out_dir=None, blocks_only=False, engine="chandra", model=None,
-            image_size=IMAGE_SIZE, pages=None):
+            image_size=None, pages=None, prompt_file=None):
     eng = ENGINES[engine]
     model = model or eng["model"]
+    default_size = eng.get("image_size", IMAGE_SIZE)
+    image_size = image_size or default_size
+    prompt = (Path(prompt_file).read_text(encoding="utf-8").strip()
+              if prompt_file else eng["prompt"])
     # A non-default model or image size gets its own cache, e.g.
     # kr104zb7305-qwen-1536/ or kr104zb7305-qwen-qwen3-vl-8b-1536/
     model_suffix = "" if model == eng["model"] else "-" + re.sub(r"[^\w.-]+", "-", model.split("/")[-1])
-    size_suffix = "" if image_size == IMAGE_SIZE else f"-{image_size}"
-    cachedir = Path(druid + eng["suffix"] + model_suffix + size_suffix)
+    # A prompt file other than the default adds its name, e.g. prompt_qwen_tight.txt -> -tight
+    prompt_suffix = ("-" + re.sub(r"^prompt_(qwen_)?", "", Path(prompt_file).stem)
+                     if prompt_file and prompt != eng["prompt"] else "")
+    size_suffix = "" if image_size == default_size else f"-{image_size}"
+    cachedir = Path(druid + eng["suffix"] + model_suffix + prompt_suffix + size_suffix)
     outdir = Path(out_dir) if out_dir else cachedir
     cachedir.mkdir(exist_ok=True)
     outdir.mkdir(exist_ok=True)
     files = list(jp2_files(druid))
-    print(f"{druid}: {len(files)} jp2 files, engine={engine} model={model}", file=sys.stderr)
+    print(f"{druid}: {len(files)} jp2 files, engine={engine} model={model} -> {outdir}/",
+          file=sys.stderr)
     failures = []
     for i, f in enumerate(files, 1):
         if pages and i not in pages:
@@ -165,7 +185,7 @@ def process(druid, out_dir=None, blocks_only=False, engine="chandra", model=None
             print(f"[{i}/{len(files)}] {name}", file=sys.stderr)
             try:
                 image = fetch(IIIF.format(druid=druid, name=name, size=image_size))
-                response = ocr(image, model=model, prompt=eng["prompt"])
+                response = ocr(image, model=model, prompt=prompt)
                 result = eng["extract"](response)
             except Exception as e:
                 print(f"  error: {e}", file=sys.stderr)
@@ -179,8 +199,10 @@ def process(druid, out_dir=None, blocks_only=False, engine="chandra", model=None
                 failures.append(name)
                 continue
             if response["choices"][0].get("finish_reason") == "length":
-                print("  warning: output hit max_tokens; later lines may be missing",
-                      file=sys.stderr)
+                raw = cachedir / f"{name}.response.json"
+                raw.write_text(json.dumps(response, indent=2), encoding="utf-8")
+                print(f"  warning: output hit max_tokens; later lines may be missing "
+                      f"(full response in {raw})", file=sys.stderr)
             cached.write_text(eng["dump"](result), encoding="utf-8")
         # Bboxes are normalized 0-1000, so scale them to the full-size jp2
         # dimensions rather than the 1024px derivative we sent to the model.
@@ -202,17 +224,21 @@ if __name__ == "__main__":
     ap.add_argument("druid", help="object id, e.g. kr104zb7305")
     ap.add_argument("--engine", choices=ENGINES, default="chandra",
                     help="chandra: layout blocks as HTML (default); "
-                         "qwen: text lines as JSON (qwen/qwen3-vl-4b)")
+                         "qwen: text lines as JSON (qwen/qwen3-vl-4b); "
+                         "paddle: text lines from PaddleOCR-VL spotting")
     ap.add_argument("--model", help="override the LM Studio model id for the engine")
     ap.add_argument("--blocks-only", action="store_true",
                     help="drop estimated positions: chandra keeps only block boxes, "
                          "qwen keeps block and line boxes but not word boxes")
-    ap.add_argument("--image-size", type=int, default=IMAGE_SIZE,
-                    help=f"long edge in pixels of the image sent to the model (default: {IMAGE_SIZE})")
+    ap.add_argument("--prompt", help="prompt file to use instead of the engine's default")
+    ap.add_argument("--image-size", type=int,
+                    help=f"long edge in pixels of the image sent to the model "
+                         f"(default: {IMAGE_SIZE}, or 1440 for paddle)")
     ap.add_argument("--pages", type=lambda v: {int(x) for x in v.split(",")},
                     help="only these page numbers, e.g. 5,7")
     ap.add_argument("--out", help="directory for the XML files (default: DRUID, "
                                   "DRUID-qwen for qwen, plus -MODEL and -SIZE for a non-default --model or --image-size)")
     a = ap.parse_args()
     sys.exit(0 if process(a.druid, out_dir=a.out, blocks_only=a.blocks_only,
-                          engine=a.engine, model=a.model, image_size=a.image_size, pages=a.pages) else 1)
+                          engine=a.engine, model=a.model, image_size=a.image_size, pages=a.pages,
+                          prompt_file=a.prompt) else 1)

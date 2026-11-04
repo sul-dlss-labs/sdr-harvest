@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-i95baw5eewaqfbvtsptrb",
+  "object": "chat.completion",
+  "created": 1793749614,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [498, 71, 595, 86],\n        \"lines\": [\n            \"ABSTRACT\"\n        ]\n    },\n    {\n        \"bbox_2d\": [163, 133, 898, 552],\n        \"lines\": [\n            \"To examine what factors influence surfperch distribution\",\n            \"and behavior, I made observations of a protected nearshore\",\n            \"area off Point Cabrillo, California at different times of the\",\n            \"day and tidal cycle. Within the study area, there was\",\n            \"substantial niche diversity in the members of the family\",\n            \"Embiotocidae among different habitats of similar depths. The\",\n            \"black surfperch were found in the most protected area of the\",\n            \"study and in highest densities at low tide. The striped and\",\n            \"pile surfperch were equal in abundance in all habitats. The\",\n            \"rainbow surfperch were seen in small schools on sandy\",\n            \"bottoms. The reef surfperch were the most abundant species\",\n            \"of Embiotocid: they inhabited a shallow nearshore region and\",\n            \"concentrated in large schools at the entrances to channels\",\n            \"during low tides.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [163, 563, 898, 676],\n        \"lines\": [\n            \"Niche diversification seems to be a relevant way of\",\n            \"viewing dynamic fish distributions and an important factor to\",\n            \"be considered in choosing methods for conducting population\",\n            \"studies.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [476, 715, 620, 731],\n        \"lines\": [\n            \"INTRODUCTION\"\n        ]\n    },\n    {\n        \"bbox_2d\": [163, 778, 872, 918],\n        \"lines\": [\n            \"Embiotocidae (surfperch) is a viviparous fish family\",\n            \"found only in the North Pacific and fairly abundantly in\",\n            \"Monterey Bay. A diverse population occurs in the protected\",\n            \"nearshore area of Point Cabrillo. As with other viviparous\",\n            \"animals, the young are nurtured internally by their mother.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [439, 950, 453, 963],\n        \"lines\": [\n            \"1\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 575,
+    "total_tokens": 733,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}

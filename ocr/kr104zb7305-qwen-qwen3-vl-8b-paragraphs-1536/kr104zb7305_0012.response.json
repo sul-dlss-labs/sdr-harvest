@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-hs7a6jdoobmcpanvfl9",
+  "object": "chat.completion",
+  "created": 1793749987,
+  "model": "qwen/qwen3-vl-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```json\n[\n    {\n        \"bbox_2d\": [166, 66, 875, 213],\n        \"lines\": [\n            \"significantly different diets. While the striped surfperch\",\n            \"feed from the algal turf, the pile surfperch appear to be\",\n            \"selective visual feeders on larger snails and hermit crabs.\",\n            \"(Nichols 1979) This separation apparently permits them to\",\n            \"exploit their respective resources without competition.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 221, 883, 487],\n        \"lines\": [\n            \"The rainbow surfperch, though not as abundant as the\",\n            \"other four species, were consistently found in small schools\",\n            \"on sandy bottoms in depths of ten or more feet. Although\",\n            \"they did not occur in the exposed channel past Bird Rocks\",\n            \"which does have a sandy bottom, they appeared to be\",\n            \"successful in the rough but less-exposed area between Bird\",\n            \"and Seal Rocks. Perhaps the rainbow surfperch can live\",\n            \"successfully in schools on any sandy bottom so long as the\",\n            \"surge or rough water is under some critical point.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 497, 888, 766],\n        \"lines\": [\n            \"The most dynamic population of Embiotocids was the reef\",\n            \"surfperch: depending on the height of the tide, their\",\n            \"numbers ranged from zero to 250. Figure 6 suggests that\",\n            \"there could exist some critical tidal level such as 1.5 feet,\",\n            \"under which the large schools of reef are always in the Seal\",\n            \"Rocks habitat. As with the black perch, I have only\",\n            \"speculative insight into the high-tide habitat of the\",\n            \"Micrometrus aurora; they could be broadly spread through the\",\n            \"complex rocky shallow water habitat.\"\n        ]\n    },\n    {\n        \"bbox_2d\": [166, 776, 883, 917],\n        \"lines\": [\n            \"According to the personal observations of Chuck Baxter,\",\n            \"large schools of dwarf surfperch (Micrometrus minimus,\",\n            \"congener of the reef surfperch) inhabited the nearshore zone\",\n            \"off of Point Cabrillo from 1985 to 1987. He also reported\",\n            \"similar large schools of shiner surfperch, related in size\"\n        ]\n    },\n    {\n        \"bbox_2d\": [441, 946, 466, 960],\n        \"lines\": [\n            \"11\"\n        ]\n    }\n]\n```",
+        "reasoning_content": "",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 628,
+    "total_tokens": 786,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen/qwen3-vl-8b"
+}
