@@ -1,0 +1,34 @@
+FIGURE LEGEND
+
+Figure 1 - Map of the protected nearshore zone off of Point
+Cabrillo which constituted the study area. Habitat
+boundaries are shown.
+Figure 2 - Graph of the average density of the five primary
+Embiotocid species found in the entire study area.
+Density measured in fish per 10 square meters.
+Figure 3 - Graph of the average density of each of the five
+surfperch in each respective habitat. Density measured
+in fish per 10 square meters.
+Figure 4 - Percent abundance measured solely by number of
+fish observed in each habitat. Neither the size of the
+habitats nor the differing total populations of the
+species is taken into account.
+Figure 5 - Correlation between the number of black surfperch
+observed under the railroad tracks and the height of
+the tide. The line of regression was calculated and
+drawn. Regression statistics presented in Table 8.
+Figure 6 - Correlation between the number of reef surfperch
+observed in the area protected by Seal Rocks and the
+height of the tide. The line of regression was
+calculated and drawn. Regression statistics presented
+in Table 8.
+Figure 7 - Statistically unsignificant correlation between
+the number of reef surfperch observed in the channel
+beyond Bird Rocks and the height of the tide.
+Figure 8 - The density change of the surfperch on Hopkins
+Marine Life Reserve from 1979 to 1989. The 1979
+densities are from Nichols (1979).
+Figure 9 - The density change of the juvenile surfperch of
+three species of surfperch on Hopkins Marine Life
+Refuge from spring 1979 to spring 1989. The 1979
+densities are from Nichols (1979).
