@@ -3,7 +3,7 @@
   "text": "area on the west side of section E near the shore. I",
   "bbox_2d": [
    166,
-   71,
+   72,
    798,
    86
   ]
@@ -11,10 +11,10 @@
  {
   "text": "observed in this channel for approximately 10 minutes.",
   "bbox_2d": [
-   167,
+   166,
    102,
    808,
-   117
+   116
   ]
  },
  {
@@ -29,17 +29,17 @@
  {
   "text": "Throughout the entire study, I saw a total of 11 species",
   "bbox_2d": [
-   227,
+   226,
    225,
    895,
-   241
+   240
   ]
  },
  {
   "text": "of Embiotocids (see table 1), five of which were abundant",
   "bbox_2d": [
    166,
-   256,
+   257,
    846,
    271
   ]
@@ -47,8 +47,8 @@
  {
   "text": "enough for me to hypothesize about their distribution. These",
   "bbox_2d": [
-   167,
-   286,
+   166,
+   287,
    895,
    302
   ]
@@ -57,18 +57,18 @@
   "text": "five species (the black, striped, pile, rainbow, and reef",
   "bbox_2d": [
    166,
-   317,
+   318,
    846,
-   334
+   333
   ]
  },
  {
   "text": "surfperches) and their average densities in the entire study",
   "bbox_2d": [
-   167,
-   348,
+   166,
+   349,
    882,
-   365
+   364
   ]
  },
  {
@@ -76,16 +76,16 @@
   "bbox_2d": [
    166,
    380,
-   533,
+   534,
    395
   ]
  },
  {
   "text": "The average densities of each species in each habitat",
   "bbox_2d": [
-   227,
-   409,
-   860,
+   226,
+   410,
+   859,
    425
   ]
  },
@@ -93,7 +93,7 @@
   "text": "are shown in figure 3. The large variations display that the",
   "bbox_2d": [
    166,
-   440,
+   442,
    893,
    457
   ]
@@ -101,64 +101,64 @@
  {
   "text": "five diverse habitats contain very different distributions of",
   "bbox_2d": [
-   167,
+   166,
    472,
    895,
-   488
+   487
   ]
  },
  {
   "text": "surfperch, indicating considerable niche diversity among the",
   "bbox_2d": [
    166,
-   503,
+   504,
    881,
-   520
+   519
   ]
  },
  {
   "text": "Embiotocids of this region. The graph of percent abundance",
   "bbox_2d": [
-   167,
+   166,
    534,
    871,
-   550
+   549
   ]
  },
  {
   "text": "(figure 4) shows the habitat(s) in which each species seems",
   "bbox_2d": [
-   169,
+   168,
    565,
    869,
-   581
+   580
   ]
  },
  {
   "text": "most successful or prefers to live.",
   "bbox_2d": [
-   167,
+   166,
    597,
-   582,
+   583,
    612
   ]
  },
  {
   "text": "The results are presented separately for each of the",
   "bbox_2d": [
-   227,
+   225,
    627,
    846,
-   643
+   642
   ]
  },
  {
   "text": "major species. Tables 2 through 7 list the complete data",
   "bbox_2d": [
-   167,
-   657,
+   166,
+   658,
    847,
-   675
+   674
   ]
  },
  {
@@ -167,43 +167,43 @@
    166,
    690,
    379,
-   704
+   703
   ]
  },
  {
   "text": "Black Surfperch (Embiotoca jacksoni)",
   "bbox_2d": [
-   167,
+   166,
    750,
-   595,
+   596,
    765
   ]
  },
  {
   "text": "Although the black surfperch were the fourth most dense",
   "bbox_2d": [
-   227,
+   226,
    780,
    882,
-   796
+   795
   ]
  },
  {
   "text": "in the entire study area, they had by far the greatest",
   "bbox_2d": [
    166,
-   810,
    811,
-   827
+   811,
+   826
   ]
  },
  {
   "text": "density of any fish in any habitat when found beneath the",
   "bbox_2d": [
-   167,
+   166,
    841,
    847,
-   858
+   857
   ]
  },
  {
@@ -212,16 +212,25 @@
    166,
    872,
    834,
-   889
+   888
   ]
  },
  {
   "text": "tracks was the only habitat in which their density was",
   "bbox_2d": [
-   167,
+   168,
    904,
-   811,
-   920
+   812,
+   919
+  ]
+ },
+ {
+  "text": "5",
+  "bbox_2d": [
+   440,
+   950,
+   454,
+   962
   ]
  }
 ]

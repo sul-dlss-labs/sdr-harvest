@@ -96,6 +96,9 @@ the model's fixed task string `Spotting:`, and it replies with one line of text
 per row followed by the four corners of the line as `<|LOC_n|>` tokens on a
 0-1000 scale. The default image size for this engine is 1440px on the long
 edge, about the 1.6 megapixels PaddleOCR's own pipeline uses for spotting.
+The engine sends `repeat_penalty: 1.0`: a penalty (LM Studio's default is 1.1)
+drops repeated punctuation, letters and page numbers and slightly blurs the
+boxes, whose corner tokens repeat by design.
 
     uv run python ocr.py kr104zb7305 --engine paddle
 
@@ -109,8 +112,13 @@ line positions and indents, and the fastest (about 5 seconds a page).
 - A non-default `--model`, `--prompt` or `--image-size` gets its own output
   folder, e.g. `kr104zb7305-qwen-qwen3-vl-8b-tight-1536/`, so runs don't reuse
   each other's cached results.
-- If the output hits `max_tokens`, the raw response is saved next to the
-  output as `<page>.response.json`.
+- `--max-tokens N` sets the limit on the model's output per page (default 8192).
+- Hitting that limit usually means the model is stuck repeating itself
+  (dense tables and chart axes do this to PaddleOCR-VL). `--retry-sizes 1280,1024,896,768`
+  retries such a page at each of those image sizes in turn and keeps the first
+  result that finishes; that's the default for `--engine paddle`, and
+  `--retry-sizes 0` turns it off. If every attempt hits the limit, the raw
+  response is saved next to the output as `<page>.response.json`.
 
 ## Scoring line positions against ABBYY
 

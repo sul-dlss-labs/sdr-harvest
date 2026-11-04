@@ -11,7 +11,7 @@
  {
   "text": "protected, their respective densities seemed to decrease.",
   "bbox_2d": [
-   165,
+   166,
    117,
    842,
    131
@@ -65,8 +65,8 @@
  {
   "text": "I usually found these fish concentrated in tight groups",
   "bbox_2d": [
-   226,
-   302,
+   225,
+   301,
    881,
    316
   ]
@@ -75,8 +75,8 @@
   "text": "of about 15 under each of the algae covered railroad ties and",
   "bbox_2d": [
    166,
-   333,
-   894,
+   332,
+   895,
    347
   ]
  },
@@ -94,7 +94,7 @@
   "bbox_2d": [
    166,
    394,
-   859,
+   861,
    408
   ]
  },
@@ -113,7 +113,7 @@
    166,
    456,
    891,
-   470
+   471
   ]
  },
  {
@@ -128,7 +128,7 @@
  {
   "text": "large black chase a smaller black from beneath a railroad",
   "bbox_2d": [
-   166,
+   167,
    518,
    846,
    532
@@ -137,10 +137,10 @@
  {
   "text": "tie. I recognized four pregnant females and one juvenile. I",
   "bbox_2d": [
-   165,
+   166,
    548,
    891,
-   562
+   563
   ]
  },
  {
@@ -166,7 +166,7 @@
   "bbox_2d": [
    166,
    641,
-   858,
+   859,
    656
   ]
  },
@@ -227,10 +227,19 @@
  {
   "text": "The second most dense species in the entire study area,",
   "bbox_2d": [
-   225,
+   224,
    888,
    881,
    902
+  ]
+ },
+ {
+  "text": "6",
+  "bbox_2d": [
+   440,
+   950,
+   453,
+   961
   ]
  }
 ]

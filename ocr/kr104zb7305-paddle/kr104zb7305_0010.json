@@ -83,7 +83,7 @@
  {
   "text": "individuals. I observed two noticably pregnant rainbow",
   "bbox_2d": [
-   167,
+   166,
    350,
    823,
    364
@@ -94,16 +94,16 @@
   "bbox_2d": [
    166,
    381,
-   282,
-   394
+   283,
+   395
   ]
  },
  {
   "text": "Reef Surfperch (Micrometrus aurora)",
   "bbox_2d": [
-   167,
+   166,
    442,
-   583,
+   585,
    457
   ]
  },
@@ -137,7 +137,7 @@
  {
   "text": "number of reef surfperch in this habitat and the height of",
   "bbox_2d": [
-   167,
+   166,
    566,
    859,
    580
@@ -173,8 +173,8 @@
  {
   "text": "the shallow, sandy, nearshore section. Several times I",
   "bbox_2d": [
-   167,
-   689,
+   166,
+   690,
    821,
    703
   ]
@@ -183,9 +183,9 @@
   "text": "noticed the presence of these schools while standing on the",
   "bbox_2d": [
    166,
-   720,
+   721,
    868,
-   734
+   735
   ]
  },
  {
@@ -193,26 +193,26 @@
   "bbox_2d": [
    167,
    752,
-   592,
-   765
+   593,
+   766
   ]
  },
  {
   "text": "The other fairly abundant appearance the reef surfperch",
   "bbox_2d": [
    225,
-   782,
+   783,
    881,
-   796
+   797
   ]
  },
  {
   "text": "made was in the channel beyond Bird Rocks. Here, they",
   "bbox_2d": [
    166,
-   813,
+   814,
    810,
-   827
+   828
   ]
  },
  {
@@ -221,25 +221,25 @@
    166,
    844,
    857,
-   858
+   859
   ]
  },
  {
   "text": "this habitat as well in front of Seal Rocks they seemed to be",
   "bbox_2d": [
    167,
-   874,
+   875,
    893,
-   888
+   889
   ]
  },
  {
   "text": "more abundant at low tides. (See figure 7) Although the",
   "bbox_2d": [
    166,
-   905,
+   906,
    833,
-   919
+   920
   ]
  }
 ]

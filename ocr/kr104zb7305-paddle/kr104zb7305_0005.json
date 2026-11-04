@@ -81,11 +81,11 @@
   ]
  },
  {
-  "text": "Rock. It is a shallow area of approximately 5 feet in depth",
+  "text": "Rock. It is a shallow area of approximately 5 feet in depth.",
   "bbox_2d": [
    165,
    366,
-   881,
+   880,
    380
   ]
  },
@@ -112,7 +112,7 @@
   "bbox_2d": [
    166,
    458,
-   892,
+   893,
    473
   ]
  },
@@ -137,7 +137,7 @@
  {
   "text": "channel in one direction to the south. Observation time here",
   "bbox_2d": [
-   167,
+   166,
    551,
    894,
    565
@@ -166,7 +166,7 @@
   "bbox_2d": [
    165,
    644,
-   890,
+   891,
    658
   ]
  },
@@ -175,14 +175,14 @@
   "bbox_2d": [
    166,
    674,
-   846,
+   847,
    689
   ]
  },
  {
-  "text": "maximum depth of 15 feet, the surfgrass divides to line the",
+  "text": "maximum depth of 15 feet; the surfgrass divides to line the",
   "bbox_2d": [
-   167,
+   166,
    705,
    871,
    719
@@ -209,16 +209,16 @@
  {
   "text": "area. This is the most violent water of my study: water",
   "bbox_2d": [
-   166,
+   167,
    798,
-   846,
+   847,
    812
   ]
  },
  {
   "text": "rushes between the rocks at high speeds, the surge and swell",
   "bbox_2d": [
-   165,
+   166,
    828,
    879,
    843
@@ -227,7 +227,7 @@
  {
   "text": "are very large, and waves are often breaking at the mouth of",
   "bbox_2d": [
-   166,
+   167,
    859,
    882,
    874

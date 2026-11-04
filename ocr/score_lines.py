@@ -71,7 +71,7 @@ def main():
     ap = argparse.ArgumentParser(description="Score line OCR boxes against SDR's ABBYY ALTO.")
     ap.add_argument("druid")
     ap.add_argument("dirs", nargs="+", help="directories of line JSON files")
-    ap.add_argument("--pages", type=lambda v: {int(x) for x in v.split(",")},
+    ap.add_argument("--pages", type=lambda v: {int(x) for x in v.split(",") if x.strip()},
                     help="only these page numbers, e.g. 5,7")
     a = ap.parse_args()
     files = list(jp2_files(a.druid))

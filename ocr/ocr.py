@@ -39,12 +39,15 @@ def jp2_files(druid):
                 yield f
 
 
-def ocr(image_bytes, mime="image/jpeg", model=MODEL, prompt=PROMPT):
+def ocr(image_bytes, mime="image/jpeg", model=MODEL, prompt=PROMPT, max_tokens=8192,
+        **sampling):
+    """sampling: extra request fields such as repeat_penalty=1.1."""
     b64 = base64.b64encode(image_bytes).decode()
     payload = {
         "model": model,
         "temperature": 0,
-        "max_tokens": 8192,
+        "max_tokens": max_tokens,
+        **sampling,
         "messages": [{
             "role": "user",
             "content": [
@@ -131,9 +134,15 @@ ENGINES = {
             lines2alto.convert(lines, fn, size=size, word_boxes=not blocks_only)),
     # PaddleOCR-VL's text spotting mode: a fixed task prompt, and boxes as
     # <|LOC_n|> corner tokens. ~1.6 MP is the size its own pipeline uses.
+    # Dense tables and charts can send it into a loop at that size; retry
+    # at other sizes, nearest first. Which size works varies by page.
     "paddle": dict(
         model="paddleocr-vl-1.6-mlx", prompt="Spotting:", ext="json", suffix="-paddle",
-        image_size=1440,
+        image_size=1440, retry_sizes=(1280, 1024, 896, 768),
+        # LM Studio's default repeat penalty (1.1) drops repeated punctuation,
+        # letters and page numbers and slightly blurs the boxes, whose corner
+        # tokens repeat by design; it doesn't prevent the loops either.
+        sampling={"repeat_penalty": 1.0},
         extract=lambda r: lines2alto.parse_loc_lines(
             r["choices"][0]["message"].get("content") or ""),
         ok=bool,
@@ -145,8 +154,10 @@ ENGINES = {
 
 
 def process(druid, out_dir=None, blocks_only=False, engine="chandra", model=None,
-            image_size=None, pages=None, prompt_file=None):
+            image_size=None, pages=None, prompt_file=None, max_tokens=8192,
+            retry_sizes=None):
     eng = ENGINES[engine]
+    retry_sizes = retry_sizes if retry_sizes is not None else eng.get("retry_sizes", ())
     model = model or eng["model"]
     default_size = eng.get("image_size", IMAGE_SIZE)
     image_size = image_size or default_size
@@ -185,7 +196,8 @@ def process(druid, out_dir=None, blocks_only=False, engine="chandra", model=None
             print(f"[{i}/{len(files)}] {name}", file=sys.stderr)
             try:
                 image = fetch(IIIF.format(druid=druid, name=name, size=image_size))
-                response = ocr(image, model=model, prompt=prompt)
+                response = ocr(image, model=model, prompt=prompt, max_tokens=max_tokens,
+                               **eng.get("sampling", {}))
                 result = eng["extract"](response)
             except Exception as e:
                 print(f"  error: {e}", file=sys.stderr)
@@ -198,6 +210,24 @@ def process(druid, out_dir=None, blocks_only=False, engine="chandra", model=None
                       f"    {describe(response)}", file=sys.stderr)
                 failures.append(name)
                 continue
+            # Hitting max_tokens is usually a repetition loop; a different
+            # image size often avoids it. Try each retry size until one finishes.
+            for retry_size in retry_sizes:
+                if response["choices"][0].get("finish_reason") != "length":
+                    break
+                if retry_size == image_size:
+                    continue
+                print(f"  output hit max_tokens; retrying at {retry_size}px", file=sys.stderr)
+                try:
+                    small = fetch(IIIF.format(druid=druid, name=name, size=retry_size))
+                    retry = ocr(small, model=model, prompt=prompt, max_tokens=max_tokens,
+                                **eng.get("sampling", {}))
+                    retry_result = eng["extract"](retry)
+                    if retry["choices"][0].get("finish_reason") != "length" and eng["ok"](retry_result):
+                        print(f"  retry finished: {len(retry_result)} entries", file=sys.stderr)
+                        response, result, image = retry, retry_result, small
+                except Exception as e:
+                    print(f"  retry error: {e}", file=sys.stderr)
             if response["choices"][0].get("finish_reason") == "length":
                 raw = cachedir / f"{name}.response.json"
                 raw.write_text(json.dumps(response, indent=2), encoding="utf-8")
@@ -234,11 +264,18 @@ if __name__ == "__main__":
     ap.add_argument("--image-size", type=int,
                     help=f"long edge in pixels of the image sent to the model "
                          f"(default: {IMAGE_SIZE}, or 1440 for paddle)")
-    ap.add_argument("--pages", type=lambda v: {int(x) for x in v.split(",")},
+    ap.add_argument("--pages", type=lambda v: {int(x) for x in v.split(",") if x.strip()},
                     help="only these page numbers, e.g. 5,7")
+    ap.add_argument("--max-tokens", type=int, default=8192,
+                    help="limit on the model's output per page (default: 8192)")
+    ap.add_argument("--retry-sizes", type=lambda v: tuple(int(x) for x in v.split(",") if int(x)),
+                    help="if a page hits --max-tokens, retry it at these image sizes in order, "
+                         "e.g. 1024,768 (default: 1280,1024,896,768 for paddle, none for other engines; "
+                         "0 to disable)")
     ap.add_argument("--out", help="directory for the XML files (default: DRUID, "
                                   "DRUID-qwen for qwen, plus -MODEL and -SIZE for a non-default --model or --image-size)")
     a = ap.parse_args()
     sys.exit(0 if process(a.druid, out_dir=a.out, blocks_only=a.blocks_only,
                           engine=a.engine, model=a.model, image_size=a.image_size, pages=a.pages,
-                          prompt_file=a.prompt) else 1)
+                          prompt_file=a.prompt, max_tokens=a.max_tokens,
+                          retry_sizes=a.retry_sizes) else 1)

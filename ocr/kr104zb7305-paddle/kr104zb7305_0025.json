@@ -21,7 +21,7 @@
   "text": "Cabrillo which constituted the study area. Habitat",
   "bbox_2d": [
    240,
-   161,
+   160,
    844,
    175
   ]
@@ -29,7 +29,7 @@
  {
   "text": "boundaries are shown.",
   "bbox_2d": [
-   239,
+   240,
    178,
    484,
    190
@@ -39,16 +39,16 @@
   "text": "Figure 2 - Graph of the average density of the five primary",
   "bbox_2d": [
    168,
-   207,
+   208,
    868,
-   222
+   221
   ]
  },
  {
   "text": "Embiotocid species found in the entire study area.",
   "bbox_2d": [
-   239,
-   223,
+   240,
+   224,
    829,
    236
   ]
@@ -56,10 +56,10 @@
  {
   "text": "Density measured in fish per 10 square meters.",
   "bbox_2d": [
+   242,
    240,
-   238,
-   785,
-   252
+   783,
+   251
   ]
  },
  {
@@ -74,9 +74,9 @@
  {
   "text": "surfperch in each respective habitat. Density measured",
   "bbox_2d": [
-   240,
-   285,
-   893,
+   242,
+   284,
+   892,
    299
   ]
  },
@@ -84,7 +84,7 @@
   "text": "in fish per 10 square meters.",
   "bbox_2d": [
    242,
-   301,
+   302,
    580,
    314
   ]
@@ -94,35 +94,35 @@
   "bbox_2d": [
    168,
    331,
-   845,
-   345
+   844,
+   346
   ]
  },
  {
   "text": "fish observed in each habitat. Neither the size of the",
   "bbox_2d": [
-   239,
+   240,
    346,
-   893,
-   360
+   892,
+   361
   ]
  },
  {
   "text": "habitats nor the differing total populations of the",
   "bbox_2d": [
    240,
-   361,
-   845,
-   375
+   362,
+   844,
+   376
   ]
  },
  {
   "text": "species is taken into account.",
   "bbox_2d": [
-   239,
+   240,
    378,
    591,
-   391
+   392
   ]
  },
  {
@@ -130,35 +130,35 @@
   "bbox_2d": [
    168,
    407,
-   881,
-   422
+   879,
+   423
   ]
  },
  {
   "text": "observed under the railroad tracks and the height of",
   "bbox_2d": [
-   239,
+   240,
    423,
-   857,
-   437
+   856,
+   438
   ]
  },
  {
   "text": "the tide. The line of regression was calculated and",
   "bbox_2d": [
    242,
-   438,
-   858,
-   452
+   439,
+   856,
+   453
   ]
  },
  {
   "text": "drawn. Regression statistics presented in Table 8.",
   "bbox_2d": [
-   239,
-   453,
-   842,
-   468
+   240,
+   454,
+   841,
+   469
   ]
  },
  {
@@ -167,52 +167,52 @@
    168,
    484,
    868,
-   499
+   500
   ]
  },
  {
   "text": "observed in the area protected by Seal Rocks and the",
   "bbox_2d": [
-   239,
+   240,
    500,
-   857,
-   514
+   856,
+   515
   ]
  },
  {
   "text": "height of the tide. The line of regression was",
   "bbox_2d": [
    240,
-   515,
-   800,
-   530
+   516,
+   799,
+   531
   ]
  },
  {
   "text": "calculated and drawn. Regression statistics presented",
   "bbox_2d": [
-   239,
+   240,
    531,
    879,
-   545
+   546
   ]
  },
  {
   "text": "in Table 8.",
   "bbox_2d": [
    242,
-   548,
+   549,
    367,
-   560
+   561
   ]
  },
  {
   "text": "Figure 7 - Statistically unsignificant correlation between",
   "bbox_2d": [
    168,
-   576,
-   857,
-   592
+   577,
+   856,
+   593
   ]
  },
  {
@@ -221,79 +221,79 @@
    242,
    593,
    856,
-   607
+   608
   ]
  },
  {
   "text": "beyond Bird Rocks and the height of the tide.",
   "bbox_2d": [
-   239,
-   608,
+   240,
+   609,
    771,
-   623
+   624
   ]
  },
  {
   "text": "Figure 8 - The density change of the surfperch on Hopkins",
   "bbox_2d": [
    168,
-   639,
-   845,
-   654
+   640,
+   844,
+   655
   ]
  },
  {
   "text": "Marine Life Reserve from 1979 to 1989. The 1979",
   "bbox_2d": [
-   239,
-   654,
-   810,
-   668
+   240,
+   655,
+   809,
+   670
   ]
  },
  {
   "text": "densities are from Nichols (1979).",
   "bbox_2d": [
-   240,
-   670,
+   242,
+   671,
    640,
-   684
+   685
   ]
  },
  {
   "text": "Figure 9 - The density change of the juvenile surfperch of",
   "bbox_2d": [
    168,
-   700,
-   857,
-   716
+   701,
+   856,
+   717
   ]
  },
  {
   "text": "three species of surfperch on Hopkins Marine Life",
   "bbox_2d": [
    242,
-   715,
+   717,
    822,
-   730
+   732
   ]
  },
  {
   "text": "Refuge from spring 1979 to spring 1989. The 1979",
   "bbox_2d": [
-   239,
-   730,
+   240,
+   732,
    822,
-   746
+   747
   ]
  },
  {
   "text": "densities are from Nichols (1979).",
   "bbox_2d": [
-   240,
-   747,
+   242,
+   748,
    640,
-   761
+   763
   ]
  }
 ]

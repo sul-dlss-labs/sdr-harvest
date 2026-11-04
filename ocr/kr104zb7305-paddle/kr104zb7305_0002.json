@@ -12,7 +12,7 @@
   "text": "To examine what factors influence surfperch distribution",
   "bbox_2d": [
    225,
-   134,
+   135,
    893,
    148
   ]
@@ -20,8 +20,8 @@
  {
   "text": "and behavior, I made observations of a protected nearshore",
   "bbox_2d": [
-   168,
-   165,
+   166,
+   166,
    859,
    180
   ]
@@ -29,8 +29,8 @@
  {
   "text": "area off Point Cabrillo, California at different times of the",
   "bbox_2d": [
-   168,
-   196,
+   166,
+   197,
    893,
    211
   ]
@@ -38,8 +38,8 @@
  {
   "text": "day and tidal cycle. Within the study area, there was",
   "bbox_2d": [
-   168,
-   227,
+   166,
+   228,
    811,
    242
   ]
@@ -47,8 +47,8 @@
  {
   "text": "substantial niche diversity in the members of the family",
   "bbox_2d": [
-   167,
-   257,
+   166,
+   259,
    832,
    272
   ]
@@ -56,8 +56,8 @@
  {
   "text": "Embiotocidae among different habitats of similar depths. The",
   "bbox_2d": [
-   168,
-   288,
+   166,
+   289,
    893,
    303
   ]
@@ -65,8 +65,8 @@
  {
   "text": "black surfperch were found in the most protected area of the",
   "bbox_2d": [
-   167,
-   320,
+   166,
+   321,
    881,
    335
   ]
@@ -74,17 +74,17 @@
  {
   "text": "study and in highest densities at low tide. The striped and",
   "bbox_2d": [
-   168,
-   351,
-   882,
+   167,
+   352,
+   881,
    366
   ]
  },
  {
   "text": "pile surfperch were equal in abundance in all habitats. The",
   "bbox_2d": [
-   167,
-   381,
+   166,
+   383,
    881,
    397
   ]
@@ -92,26 +92,26 @@
  {
   "text": "rainbow surfperch were seen in small schools on sandy",
   "bbox_2d": [
-   168,
-   413,
+   167,
+   414,
    798,
-   427
+   428
   ]
  },
  {
   "text": "bottoms. The reef surfperch were the most abundant species",
   "bbox_2d": [
-   167,
-   444,
+   166,
+   445,
    868,
-   458
+   459
   ]
  },
  {
   "text": "of Embiotocid: they inhabited a shallow nearshore region and",
   "bbox_2d": [
-   168,
-   475,
+   166,
+   476,
    893,
    490
   ]
@@ -119,8 +119,8 @@
  {
   "text": "concentrated in large schools at the entrances to channels",
   "bbox_2d": [
-   167,
-   506,
+   166,
+   507,
    857,
    521
   ]
@@ -128,8 +128,8 @@
  {
   "text": "during low tides.",
   "bbox_2d": [
-   168,
-   538,
+   167,
+   539,
    366,
    552
   ]
@@ -140,31 +140,31 @@
    225,
    568,
    832,
-   583
+   582
   ]
  },
  {
   "text": "viewing dynamic fish distributions and an important factor to",
   "bbox_2d": [
-   168,
+   167,
    599,
    893,
-   615
+   614
   ]
  },
  {
   "text": "be considered in choosing methods for conducting population",
   "bbox_2d": [
-   167,
+   166,
    630,
    870,
-   646
+   645
   ]
  },
  {
   "text": "studies.",
   "bbox_2d": [
-   168,
+   167,
    663,
    260,
    675
@@ -182,8 +182,8 @@
  {
   "text": "Embiotocidae (surfperch) is a viviparous fish family",
   "bbox_2d": [
-   226,
-   781,
+   225,
+   782,
    845,
    796
   ]
@@ -191,8 +191,8 @@
  {
   "text": "found only in the North Pacific and fairly abundantly in",
   "bbox_2d": [
-   168,
-   811,
+   167,
+   813,
    834,
    827
   ]
@@ -200,17 +200,17 @@
  {
   "text": "Monterey Bay. A diverse population occurs in the protected",
   "bbox_2d": [
-   168,
-   842,
+   167,
+   844,
    859,
-   858
+   859
   ]
  },
  {
   "text": "nearshore area of Point Cabrillo. As with other viviparous",
   "bbox_2d": [
-   167,
-   874,
+   166,
+   875,
    868,
    889
   ]
@@ -218,9 +218,9 @@
  {
   "text": "animals, the young are nurtured internally by their mother.",
   "bbox_2d": [
-   168,
-   904,
-   866,
+   167,
+   906,
+   868,
    920
   ]
  }
