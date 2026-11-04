@@ -7,10 +7,12 @@ requires-python = ">=3.13"
 dependencies = [
     "langchain-text-splitters>=1.1.1",
     "pandas>=3.0.2",
+    "pillow>=13.0.0",
     "pyarrow>=23.0.1",
     "pymupdf4llm>=1.28.2",
     "requests>=2.33.1",
     "tqdm>=4.67.3",
+    "wordfreq>=3.1.1",
 ]
 
 [project.scripts]

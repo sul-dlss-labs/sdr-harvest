@@ -436,6 +436,74 @@ relevant object where appropriate. Keep the files fixed while comparing two
 pipeline versions; the evaluator rejects a baseline made with different
 judgments or metrics.
 
+## Grade OCR quality
+
+`ocr/grade_alto.py` estimates how good the ALTO OCR attached to an object is,
+without a corrected transcription to compare against. It reads the files with
+`"use": "transcription"` from an object's COCINA and scores each page from the
+text alone. Use the scores to rank objects and find the pages worth re-OCRing;
+they are not a measured character error rate.
+
+Grade one or more objects by DRUID, or a directory of ALTO files such as the
+output of another OCR engine:
+
+```shell
+uv run python ocr/grade_alto.py by836jp6882 kr104zb7305 --out pages.csv
+uv run python ocr/grade_alto.py path/to/alto-directory
+```
+
+Grade every DRUID in the first column of a CSV, with a summary row per object:
+
+```shell
+uv run python ocr/grade_alto.py --from ocr/student_papers.csv --ink \
+  --out evaluations/ocr-grades/student_papers-pages.csv \
+  --summary evaluations/ocr-grades/student_papers-summary.csv \
+  2> evaluations/ocr-grades/student_papers.log
+```
+
+A progress bar is shown on a terminal, and a line per object is printed to
+stderr. An object that fails, for example one that needs a login, is recorded
+in the summary's `error` column and the run continues. Stanford-only files need
+the same Stacks token the harvester uses, in `STACKS_TOKEN`.
+
+| Option | Effect |
+| --- | --- |
+| `--from CSV` | Read DRUIDs from the first column of a CSV (a header row is skipped). |
+| `--out CSV` | Write one row per page (default: stdout). |
+| `--summary CSV` | Write one row per object: page count, median, worst-10% and minimum score, flagged pages, language and error. |
+| `--ink` | Also download each page image (1000px, from IIIF) to measure how much of the page is ink. This makes a run noticeably slower: about 75 minutes for 800 objects. |
+| `--jobs N` | Grade N objects at once (default 3); each fetches 8 pages at once. |
+
+The per-page columns are:
+
+- `score`: `dict_rate × (1 − garbage_rate)`, from 0 to 1. **Higher is better**;
+  clean typescript scores 0.98 or more, and charts, tables and badly faded
+  pages fall below 0.8. Check `words` alongside it, because a page where the
+  OCR found only a few clean words can still score 1.0.
+- `dict_rate`: share of words found in the `wordfreq` word list for the
+  object's language (from COCINA, or ABBYY's `LANG` tags). Words with digits
+  or fewer than two letters are skipped, words hyphenated across lines are
+  joined, and capitalised words that are not in the list are left out as
+  probable names. Higher is better.
+- `garbage_rate`: share of tokens that look like OCR noise, such as `fo11owed`,
+  `19S3`, `perchThey` or runs of consonants. Measurements like `30cm`,
+  statistics like `p=.031`, DOIs and URLs are not counted. Lower is better.
+- `lang_mismatch`: share of words tagged with a language other than the
+  object's. Lower is better.
+- `coverage`: area of the text lines as a share of the page.
+- `mean_wc`: mean ABBYY word confidence, when the ALTO has `WC` attributes.
+  Many SDR exports don't, so don't compare it across objects.
+- `ink`: with `--ink`, share of dark pixels on the page.
+- `flags`: `empty`, `few_words`, `low_dict` (`dict_rate` below 0.85),
+  `high_garbage` (`garbage_rate` above 0.05), `lang_mismatch` (above 0.2) and
+  `ink_without_text` (ink but fewer than 10 words). `ink_without_text` mostly
+  marks figure and chart pages, which are expected to have little text, so it
+  is not by itself a sign of missed OCR. The thresholds are first guesses, set
+  at the top of the script.
+
+The dictionary check can't catch a misread that spells another real word, and
+the word list includes some common OCR errors from web text, such as `tbe`.
+
 ## State directory
 
 All managed state is stored in `.sdr-harvest/` (see
