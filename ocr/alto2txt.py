@@ -3,8 +3,9 @@
 Usage: python alto2txt.py kr104zb7305-paddle/kr104zb7305_*.xml
 
 For each FILE.xml writes FILE.txt next to it: one line of text per ALTO
-TextLine (its String CONTENTs joined by spaces), with a blank line between
-TextBlocks. No coordinates or markup.
+TextLine, with a blank line between TextBlocks. No coordinates or markup.
+Strings are joined with a space where the line has an SP between them (or
+always, if the line has no SPs at all); a HYP becomes "-".
 """
 import sys
 from pathlib import Path
@@ -15,6 +16,22 @@ def local(tag):
     return tag.rsplit("}", 1)[-1]
 
 
+def line_text(line):
+    kids = [(local(k.tag), k.get("CONTENT", "")) for k in line]
+    spaced = not any(t == "SP" for t, _ in kids)
+    out = []
+    for t, content in kids:
+        if t == "String" and content:
+            if out and out[-1] != " " and spaced:
+                out.append(" ")
+            out.append(content)
+        elif t == "SP" and out:
+            out.append(" ")
+        elif t == "HYP":
+            out.append(content or "-")
+    return "".join(out).strip()
+
+
 def alto_text(xml):
     blocks = []
     for block in ET.fromstring(xml).iter():
@@ -23,9 +40,9 @@ def alto_text(xml):
         lines = []
         for line in block:
             if local(line.tag) == "TextLine":
-                words = [s.get("CONTENT", "") for s in line if local(s.tag) == "String"]
-                if any(words):
-                    lines.append(" ".join(w for w in words if w))
+                text = line_text(line)
+                if text:
+                    lines.append(text)
         if lines:
             blocks.append("\n".join(lines))
     return "\n\n".join(blocks) + "\n" if blocks else ""
