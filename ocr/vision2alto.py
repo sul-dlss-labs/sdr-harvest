@@ -26,6 +26,7 @@ ET.register_namespace("", NS)
 q = lambda t: f"{{{NS}}}{t}"
 
 LINE_END = {"LINE_BREAK", "EOL_SURE_SPACE", "HYPHEN"}
+SPACES = {"SPACE", "SURE_SPACE"}
 BLOCK_TYPES = {"TABLE": "Table", "PICTURE": "Illustration", "RULER": "GraphicalElement",
                "BARCODE": "Illustration"}
 
@@ -120,7 +121,9 @@ def convert_page(page, file_name="", scale=1.0):
                     brk = word_break(w)
                     if brk == "HYPHEN":
                         ET.SubElement(tl, q("HYP"), CONTENT="-")
-                    elif j < len(line):
+                    elif j < len(line) and brk in SPACES:
+                        # Vision splits off punctuation as its own word with
+                        # no break before it, so only real gaps get an SP.
                         ET.SubElement(tl, q("SP"))
     ET.indent(alto)
     return ET.tostring(alto, encoding="unicode", xml_declaration=True)

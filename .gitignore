@@ -5,3 +5,5 @@ solr_data/
 __pycache__/
 *.py[cod]
 .DS_Store
+# Google Vision export (raw responses are ~20 GB)
+ocr/export/
