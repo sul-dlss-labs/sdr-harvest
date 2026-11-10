@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import re
+from collections.abc import Iterable
 from pathlib import Path
 
 from .core import StageError, fingerprint
@@ -14,6 +15,15 @@ INDEXABLE_VIEWS = {"world", "stanford"}
 # 1536px on the long edge keeps typed captions legible while staying small.
 IIIF_LONG_EDGE = 1536
 IIIF_IMAGE_MIME_TYPE = "image/jp2"
+CAPTION_MIME_TYPE = "text/vtt"
+MEDIA_MIME_PREFIXES = ("audio/", "video/")
+# The files sul-embed plays for each resource type (its primary_mimetypes
+# setting), so caption chunks name the file a viewer selects by filename.
+PLAYABLE_MIME_TYPES = {
+    "audio": {"audio/aac", "audio/mpeg", "audio/mp4"},
+    "video": {"video/mp4", "video/quicktime"},
+}
+ENGLISH_LANGUAGE_TAGS = {"en", "eng"}
 
 
 def object_type(data: dict) -> str:
@@ -80,12 +90,14 @@ def merge_manifests(
     }
 
 
-def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
+def _cocina_files(data: dict) -> tuple[list[dict], set[str], dict[str, str]]:
+    """Collect indexable source files, page resources, and each resource's media."""
     is_image_object = object_type(data) == "image"
     # Each image resource of an image object is numbered like a page.
     paged_resource_types = {"page", "image"} if is_image_object else {"page"}
     found: list[dict] = []
     page_resources: set[str] = set()
+    media_files: dict[str, list[tuple[str, str, str | None]]] = {}
     resource_number = 0
     page_number = 0
 
@@ -111,15 +123,24 @@ def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
                 else:
                     resource_page = None
             mime_type = str(node.get("hasMimeType", "")).lower()
+            if (
+                mime_type.startswith(MEDIA_MIME_PREFIXES)
+                and node.get("filename")
+                and resource_key is not None
+            ):
+                media_files.setdefault(resource_key, []).append(
+                    (node["filename"], mime_type, resource_type)
+                )
             is_pdf = mime_type == "application/pdf"
             is_transcription_xml = mime_type in {
                 "application/xml",
                 "text/xml",
             } and str(node.get("use", "")).lower() == "transcription"
             is_iiif_image = is_image_object and mime_type == IIIF_IMAGE_MIME_TYPE
+            is_caption = mime_type == CAPTION_MIME_TYPE
             view = str((node.get("access") or {}).get("view", "")).lower()
             if (
-                (is_pdf or is_transcription_xml or is_iiif_image)
+                (is_pdf or is_transcription_xml or is_iiif_image or is_caption)
                 and node.get("filename")
                 and view in INDEXABLE_VIEWS
             ):
@@ -147,6 +168,7 @@ def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
                         "_mime_type": mime_type,
                         "_use": str(node.get("use", "")).lower(),
                         "_presentation": node.get("presentation") or {},
+                        "_language": str(node.get("languageTag") or "").lower(),
                     }
                 )
             for value in node.values():
@@ -156,11 +178,49 @@ def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
                 visit(value, resource_type, resource_key, resource_page)
 
     visit(data.get("structural", {}))
-    return found, page_resources
+    media_by_resource = {
+        resource: next(
+            (
+                filename
+                for filename, mime_type, resource_type in files
+                if mime_type in PLAYABLE_MIME_TYPES.get(resource_type or "", ())
+            ),
+            files[0][0],
+        )
+        for resource, files in media_files.items()
+    }
+    return found, page_resources, media_by_resource
 
 
 def _public_file(item: dict) -> dict:
     return {key: value for key, value in item.items() if not key.startswith("_")}
+
+
+def _sorted_public_files(items: Iterable[dict]) -> list[dict]:
+    return sorted(
+        (_public_file(item) for item in items),
+        key=lambda item: (item["filename"], item["file_id"]),
+    )
+
+
+def _caption_rank(item: dict) -> tuple[bool, str]:
+    """Order a resource's caption tracks: English first, then by filename."""
+    language = item["_language"].split("-", 1)[0]
+    return (language not in ENGLISH_LANGUAGE_TAGS, item["filename"])
+
+
+def _captions_by_media_resource(
+    found: list[dict], media_by_resource: dict[str, str]
+) -> dict[str, dict]:
+    """Choose one indexable caption track for each resource with media."""
+    tracks: dict[str, list[dict]] = {}
+    for item in found:
+        resource = item["_resource_key"]
+        if item["_mime_type"] == CAPTION_MIME_TYPE and resource in media_by_resource:
+            tracks.setdefault(resource, []).append(item)
+    return {
+        resource: min(items, key=_caption_rank) for resource, items in tracks.items()
+    }
 
 
 def cocina_pdf_files(data: dict) -> list[dict]:
@@ -171,10 +231,7 @@ def cocina_pdf_files(data: dict) -> list[dict]:
     ]
     if any(item["_resource_type"] == "object" for item in found):
         found = [item for item in found if item["_resource_type"] != "page"]
-    return sorted(
-        (_public_file(item) for item in found),
-        key=lambda item: (item["filename"], item["file_id"]),
-    )
+    return _sorted_public_files(found)
 
 
 def iiif_size(presentation: dict) -> str:
@@ -204,10 +261,18 @@ def cocina_image_files(data: dict) -> list[dict]:
 
 
 def cocina_source_files(data: dict) -> list[dict]:
-    """Select images for image objects, complete page ALTO for books, else PDFs."""
+    """Select the sources to index for an object.
+
+    Image objects use their JP2 images. Books with complete page-level ALTO use
+    the ALTO. Objects whose audio or video files have indexable WebVTT caption
+    tracks use their transcript PDFs (PDFs with use "transcription") when they
+    have any, and otherwise the captions: one track per media file, English
+    preferred. Their other PDFs, such as release forms, are not indexed. All
+    other objects use their PDFs.
+    """
     if images := cocina_image_files(data):
         return images
-    found, page_resources = _cocina_files(data)
+    found, page_resources, media_by_resource = _cocina_files(data)
     is_book = object_type(data) == "book"
     alto_by_page: dict[str | None, list[dict]] = {}
     for item in found:
@@ -222,21 +287,38 @@ def cocina_source_files(data: dict) -> list[dict]:
     )
     if is_book and has_complete_alto:
         alto = [alto_by_page[resource][0] for resource in page_resources]
-        return sorted(
-            (_public_file(item) for item in alto),
-            key=lambda item: (item["filename"], item["file_id"]),
-        )
+        return _sorted_public_files(alto)
 
+    captions = _captions_by_media_resource(found, media_by_resource)
+    if captions:
+        transcripts = [
+            item
+            for item in found
+            if item["_mime_type"] == "application/pdf"
+            and item["_use"] == "transcription"
+        ]
+        return _sorted_public_files(transcripts or captions.values())
     return cocina_pdf_files(data)
 
 
 def cocina_page_numbers(data: dict) -> dict[str, str]:
     """Map files in page resources to their 1-based structural page number."""
-    found, _ = _cocina_files(data)
+    found, _, _ = _cocina_files(data)
     return {
         item["filename"]: str(item["_resource_page"])
         for item in found
         if item["_resource_page"] is not None
+    }
+
+
+def cocina_caption_media_files(data: dict) -> dict[str, str]:
+    """Map each indexable caption file to the media file in its resource."""
+    found, _, media_by_resource = _cocina_files(data)
+    return {
+        item["filename"]: media_by_resource[item["_resource_key"]]
+        for item in found
+        if item["_mime_type"] == CAPTION_MIME_TYPE
+        and item["_resource_key"] in media_by_resource
     }
 
 

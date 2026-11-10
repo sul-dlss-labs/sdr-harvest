@@ -260,7 +260,20 @@ and its chunks name the ALTO file they came from in `filename_ss`.
 If the ALTO inventory is incomplete, the build falls back to the selected PDF.
 Cocina image objects are described by a vision model from IIIF derivatives of
 their JP2 images, as described under **Extract**.
-Other object types continue using PDF extraction.
+
+For audio and video objects with VTT caption files, the build indexes the
+object's PDF transcripts (PDFs whose `use` is `transcription`) when it has any.
+Without a transcript, it indexes the captions instead, using one track per
+media file and preferring English. Other PDFs in these objects, such as release
+forms, are not indexed.
+
+Caption text keeps one cue per line, starts a new paragraph at each change of speaker,
+and drops cues that only describe sound, such as `(silence)`. Each caption
+chunk records:
+
+- `filename_ss`: the media file the captions go with
+- `caption_file_ss`: the VTT file the text came from
+- `start_seconds_i` and `end_seconds_i`: endpoints of the chunk cues, rounded up to whole seconds
 
 Only files whose Cocina `access.view` is `world` or `stanford` are harvested.
 Downloading `stanford` files requires a Stacks service token (generated with
@@ -268,8 +281,8 @@ Downloading `stanford` files requires a Stacks service token (generated with
 to Stacks as `Authorization: Bearer <token>`. Without it, only `world` files
 download.
 Each child chunk records `public_bsi`: `true` for the object-metadata chunk and
-for chunks from `world` files, `false` otherwise. Filter anonymous searches with
-`fq=public_bsi:true`.
+for chunks from `world` files (for captions, the VTT file), `false` otherwise.
+Filter anonymous searches with `fq=public_bsi:true`.
 
 Press Ctrl-C once to cancel queued work and exit. Running the command again
 resumes from completed stages. Use `--no-progress` for redirected logs or a
@@ -374,6 +387,7 @@ only with a tunnel you created and trust; normal publication keeps certificate
 verification enabled.
 
 We often use:
+
 ```shell
 ssh -N -L 8983:<remote_host>:443 semantic-search-demo.stanford.edu
 ```
@@ -404,7 +418,15 @@ full field reference). Each case has a stable test ID, a query, and a
 
 ```json
 [
-  {"test_id":"water-policy-1","subject_id":"water-policy","query":"How did water policy affect California agriculture?","judgments":[{"document_id":"cc333dd4444","score":3,"explanation":"..."},{"document_id":"ee555ff6666","score":1,"explanation":"..."}]}
+  {
+    "test_id": "water-policy-1",
+    "subject_id": "water-policy",
+    "query": "How did water policy affect California agriculture?",
+    "judgments": [
+      { "document_id": "cc333dd4444", "score": 3, "explanation": "..." },
+      { "document_id": "ee555ff6666", "score": 1, "explanation": "..." }
+    ]
+  }
 ]
 ```
 
@@ -422,6 +444,7 @@ LITELLM_API_KEY=<key> uv run sdr-harvest evaluate \
   --judgments evaluations/judgments \
   --output evaluations/baseline.json
 ```
+
 Optionally add `--test-type <test_type>` to further restrict the run to test cases of that
 type (e.g., `--test-type known_item` or any value from the
 [`test_type` vocabulary](./evaluations/test-cases-schema.md#test_type-vocabulary)).

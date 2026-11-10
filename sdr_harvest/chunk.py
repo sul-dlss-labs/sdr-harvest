@@ -37,6 +37,19 @@ def chunk_pages(
     return pages, [max(page_range["start"] - start, 0) for page_range in spans]
 
 
+def cue_times(
+    cues: list[list[float]], start: int, end: int
+) -> tuple[float | None, float | None]:
+    """Return the media time span of the cues a chunk's characters overlap.
+
+    Each cue is ``[char_start, char_end, start_seconds, end_seconds]``.
+    """
+    covered = [cue for cue in cues if cue[0] < end and cue[1] > start]
+    if not covered:
+        return None, None
+    return covered[0][2], covered[-1][3]
+
+
 class Chunker:
     """Split extracted text and searchable metadata into Parquet rows."""
 
@@ -65,6 +78,8 @@ class Chunker:
                 "page_start_offsets": None,
                 "chunk_index": 0,
                 "text": "\n".join(metadata_text),
+                "start_seconds": None,
+                "end_seconds": None,
             }
         )
         markdown_dir = version_dir / "markdown"
@@ -80,8 +95,10 @@ class Chunker:
             chunks = splitter.create_documents([content])
             for index, chunk in enumerate(chunks):
                 start = chunk.metadata["start_index"]
-                pages, offsets = chunk_pages(
-                    attributes, start, start + len(chunk.page_content)
+                end = start + len(chunk.page_content)
+                pages, offsets = chunk_pages(attributes, start, end)
+                start_seconds, end_seconds = cue_times(
+                    attributes.get("cues", []), start, end
                 )
                 rows.append(
                     {
@@ -94,6 +111,8 @@ class Chunker:
                         "page_start_offsets": offsets,
                         "chunk_index": index,
                         "text": chunk.page_content,
+                        "start_seconds": start_seconds,
+                        "end_seconds": end_seconds,
                     }
                 )
         output = version_dir / "chunks.parquet"
@@ -106,6 +125,8 @@ class Chunker:
                 ("page_start_offsets", pa.list_(pa.int32())),
                 ("chunk_index", pa.int32()),
                 ("text", pa.string()),
+                ("start_seconds", pa.float64()),
+                ("end_seconds", pa.float64()),
             ]
         )
         pq.write_table(

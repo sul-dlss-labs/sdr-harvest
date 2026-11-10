@@ -20,10 +20,13 @@ from .stages import (
     IMAGE_EXTRACT_SIGNATURE,
     PDF_EXTRACT_SIGNATURE,
     SIGNATURES,
+    VTT_EXTRACT_SIGNATURE,
 )
 
-
-SOURCE_INVENTORY_SIGNATURE = "image-iiif-v1-prefer-complete-book-alto-v2-indexable-access"
+SOURCE_INVENTORY_SIGNATURE = (
+    "image-iiif-v1-prefer-complete-book-alto-v2-then-transcript-pdf-or-vtt-v1"
+    "-indexable-access"
+)
 
 
 class StageError(RuntimeError):
