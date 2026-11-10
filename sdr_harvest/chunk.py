@@ -13,6 +13,19 @@ CHUNK_SIZE = 1_500
 CHUNK_OVERLAP = 200
 
 
+def cue_times(
+    cues: list[list[float]], start: int, end: int
+) -> tuple[float | None, float | None]:
+    """Return the media time span of the cues a chunk's characters overlap.
+
+    Each cue is ``[char_start, char_end, start_seconds, end_seconds]``.
+    """
+    covered = [cue for cue in cues if cue[0] < end and cue[1] > start]
+    if not covered:
+        return None, None
+    return covered[0][2], covered[-1][3]
+
+
 class Chunker:
     """Split extracted text and searchable metadata into Parquet rows."""
 
@@ -40,6 +53,8 @@ class Chunker:
                 "page": None,
                 "chunk_index": 0,
                 "text": "\n".join(metadata_text),
+                "start_seconds": None,
+                "end_seconds": None,
             }
         )
         markdown_dir = version_dir / "markdown"
@@ -60,6 +75,11 @@ class Chunker:
                     if page_range["start"] <= start < page_range["end"]:
                         page = page_range["page"]
                         break
+                start_seconds, end_seconds = cue_times(
+                    attributes.get("cues", []),
+                    start,
+                    start + len(chunk.page_content),
+                )
                 rows.append(
                     {
                         "object_id": druid,
@@ -70,6 +90,8 @@ class Chunker:
                         "page": str(page) if page is not None else None,
                         "chunk_index": index,
                         "text": chunk.page_content,
+                        "start_seconds": start_seconds,
+                        "end_seconds": end_seconds,
                     }
                 )
         output = version_dir / "chunks.parquet"
@@ -81,6 +103,8 @@ class Chunker:
                 ("page", pa.string()),
                 ("chunk_index", pa.int32()),
                 ("text", pa.string()),
+                ("start_seconds", pa.float64()),
+                ("end_seconds", pa.float64()),
             ]
         )
         pq.write_table(

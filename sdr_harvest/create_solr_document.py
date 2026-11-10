@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 import pyarrow.parquet as pq
 
 from .core import StageError
-from .manifests import cocina_public_files
+from .manifests import cocina_caption_media_files, cocina_public_files
 
 
 class SolrDocumentBuilder:
@@ -17,9 +18,9 @@ class SolrDocumentBuilder:
         metadata["id"] = druid
         metadata["doc_type_ssi"] = "parent"
         metadata["pipeline_fingerprint_ss"] = source_fp
-        public_files = cocina_public_files(
-            json.loads((version_dir / "cocina.json").read_text())
-        )
+        cocina = json.loads((version_dir / "cocina.json").read_text())
+        public_files = cocina_public_files(cocina)
+        caption_media = cocina_caption_media_files(cocina)
         table = pq.read_table(version_dir / "embeddings.parquet").to_pylist()
         children = []
         for row in table:
@@ -38,13 +39,19 @@ class SolrDocumentBuilder:
                 "chunk_text_tesi": row["text"],
                 "vector": row["embedding"],
                 "chunk_index_i": row["chunk_index"],
-                "filename_ss": filename,
+                # For VTTs, use the filename of the media file they
+                # go with. Otherwise use the file's own filename
+                "filename_ss": caption_media.get(filename, filename),
                 "doc_type_ssi": "child",
                 # Object metadata is always public; file text follows access.view.
                 "public_bsi": filename == "_metadata_" or filename in public_files,
             }
             if row.get("page") is not None:
                 child["page_ss"] = str(row["page"])
+            if row.get("start_seconds") is not None:
+                child["caption_file_ss"] = filename
+                child["start_seconds_i"] = math.floor(row["start_seconds"])
+                child["end_seconds_i"] = math.ceil(row["end_seconds"])
             children.append(child)
         ids = [child["id"] for child in children]
         if len(ids) != len(set(ids)):

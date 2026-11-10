@@ -14,6 +14,7 @@ from .core import (
 )
 from .extract_alto import AltoXmlExtractionStrategy
 from .extract_pdf import PdfExtractionStrategy
+from .extract_vtt import VttExtractionStrategy
 from .manifests import cocina_page_numbers
 
 
@@ -47,6 +48,7 @@ class TextExtractor:
     ) -> None:
         self.strategies = strategies or [
             AltoXmlExtractionStrategy(),
+            VttExtractionStrategy(),
             PdfExtractionStrategy(pdf_executor),
         ]
 

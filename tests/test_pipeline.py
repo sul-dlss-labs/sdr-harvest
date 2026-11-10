@@ -34,6 +34,7 @@ from sdr_harvest.core import (
     PDF_EXTRACT_SIGNATURE,
     SIGNATURES,
     SOURCE_INVENTORY_SIGNATURE,
+    VTT_EXTRACT_SIGNATURE,
     Settings,
     StageError,
     TransientStageError,
@@ -60,6 +61,7 @@ from sdr_harvest.extract_pdf import PdfExtractionStrategy, extract_pdf_to_markdo
 from sdr_harvest.extract_text import REUSE_MARKER, TextExtractor
 from sdr_harvest.dark import read_dark_list
 from sdr_harvest.manifests import (
+    cocina_caption_media_files,
     cocina_pdf_files,
     cocina_page_numbers,
     cocina_source_files,
@@ -553,6 +555,173 @@ class FingerprintTest(unittest.TestCase):
             },
         }
 
+    @staticmethod
+    def media_resource(
+        number: int, captions: list[tuple[str, str, str]], kind: str = "video"
+    ) -> dict:
+        """A media resource with captions given as (filename, language, view)."""
+        files = [
+            {
+                "externalIdentifier": f"file:{kind}-{number}",
+                "filename": f"{kind}-{number}.mp4",
+                "hasMimeType": f"{kind}/mp4",
+                "access": {"view": "world"},
+            }
+        ]
+        files += [
+            {
+                "externalIdentifier": f"file:{filename}",
+                "filename": filename,
+                "hasMimeType": "text/vtt",
+                "use": "caption",
+                "languageTag": language,
+                "access": {"view": view},
+            }
+            for filename, language, view in captions
+        ]
+        return {
+            "externalIdentifier": f"resource:{kind}-{number}",
+            "type": f"https://cocina.sul.stanford.edu/models/resources/{kind}",
+            "structural": {"contains": files},
+        }
+
+    def test_media_prefers_complete_captions_over_pdf_transcript(self):
+        data = cocina()
+        data["type"] = "https://cocina.sul.stanford.edu/models/media"
+        data["structural"]["contains"] = [
+            self.media_resource(1, [("video-1.vtt", "en", "world")]),
+            self.media_resource(2, [("video-2.vtt", "en", "stanford")]),
+            self.full_pdf_resource(),
+        ]
+
+        self.assertEqual(
+            ["video-1.vtt", "video-2.vtt"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+        self.assertEqual(
+            {"video-1.vtt": "video-1.mp4", "video-2.vtt": "video-2.mp4"},
+            cocina_caption_media_files(data),
+        )
+
+    def test_captions_name_the_media_file_the_viewer_plays(self):
+        data = cocina()
+        resource = self.media_resource(1, [("audio.vtt", "en", "world")])
+        resource["type"] = "https://cocina.sul.stanford.edu/models/resources/audio"
+        resource["structural"]["contains"][0:1] = [
+            {
+                "filename": "master.wav",
+                "hasMimeType": "audio/x-wav",
+                "access": {"view": "world"},
+            },
+            {
+                "filename": "derivative.m4a",
+                "hasMimeType": "audio/mp4",
+                "access": {"view": "world"},
+            },
+        ]
+        data["structural"]["contains"] = [resource]
+
+        self.assertEqual(
+            {"audio.vtt": "derivative.m4a"}, cocina_caption_media_files(data)
+        )
+
+    def test_captioned_videos_are_complete_despite_uncaptioned_audio_copies(self):
+        data = cocina()
+        data["structural"]["contains"] = [
+            self.media_resource(1, [("video-1.vtt", "en", "world")]),
+            self.media_resource(2, [("video-2.vtt", "en", "world")]),
+            self.media_resource(1, [], kind="audio"),
+            self.media_resource(2, [], kind="audio"),
+            self.full_pdf_resource(),
+        ]
+
+        self.assertEqual(
+            ["video-1.vtt", "video-2.vtt"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
+    def test_falls_back_to_pdf_when_uncaptioned_audio_outnumbers_videos(self):
+        data = cocina()
+        data["structural"]["contains"] = [
+            self.media_resource(1, [("video-1.vtt", "en", "world")]),
+            self.media_resource(1, [], kind="audio"),
+            self.media_resource(2, [], kind="audio"),
+            self.full_pdf_resource(),
+        ]
+        captioned_audio = cocina()
+        captioned_audio["structural"]["contains"] = [
+            self.media_resource(1, [("audio-1.vtt", "en", "world")], kind="audio"),
+            self.media_resource(2, [], kind="audio"),
+            self.full_pdf_resource(),
+        ]
+
+        for data in (data, captioned_audio):
+            self.assertEqual(
+                ["full.pdf"],
+                [file["filename"] for file in cocina_source_files(data)],
+            )
+
+    def test_media_falls_back_to_pdf_when_a_video_lacks_captions(self):
+        data = cocina()
+        data["structural"]["contains"] = [
+            self.media_resource(1, [("video-1.vtt", "en", "world")]),
+            self.media_resource(2, [("video-2.vtt", "en", "dark")]),
+            self.full_pdf_resource(),
+        ]
+
+        self.assertEqual(
+            ["full.pdf"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
+    def test_media_uses_partial_captions_when_no_pdf_exists(self):
+        data = cocina()
+        data["structural"]["contains"] = [
+            self.media_resource(1, [("video-1.vtt", "en", "world")]),
+            self.media_resource(2, []),
+        ]
+
+        self.assertEqual(
+            ["video-1.vtt"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
+    def test_media_selects_one_caption_track_per_file_preferring_english(self):
+        data = cocina()
+        data["structural"]["contains"] = [
+            self.media_resource(
+                1,
+                [
+                    ("video-1-de.vtt", "de", "world"),
+                    ("video-1-en.vtt", "en-US", "world"),
+                ],
+            ),
+            self.media_resource(
+                2, [("video-2-b.vtt", "", "world"), ("video-2-a.vtt", "", "world")]
+            ),
+        ]
+
+        self.assertEqual(
+            ["video-1-en.vtt", "video-2-a.vtt"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
+    def test_ignores_captions_outside_media_resources(self):
+        data = cocina()
+        data["structural"]["contains"][0]["structural"]["contains"].append(
+            {
+                "externalIdentifier": "file:loose",
+                "filename": "loose.vtt",
+                "hasMimeType": "text/vtt",
+                "access": {"view": "world"},
+            }
+        )
+
+        self.assertEqual(
+            ["example.pdf"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
     def test_metadata_and_file_changes_alter_source_fingerprint(self):
         first = cocina()
         changed_metadata = cocina()
@@ -563,6 +732,64 @@ class FingerprintTest(unittest.TestCase):
 
 
 class TextExtractorTest(unittest.TestCase):
+    def test_media_extracts_caption_cues_with_speaker_breaks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            version_dir.joinpath("cocina.json").write_text(
+                json.dumps({"type": "https://cocina.sul.stanford.edu/models/media"})
+            )
+            source = version_dir / "pdfs"
+            source.mkdir()
+            source.joinpath("talk.vtt").write_text(
+                "\ufeffWEBVTT\nKind: captions\nLanguage: en\n\n"
+                "NOTE produced by a captioning vendor\n\n"
+                "1\n00:00:00.500 --> 00:00:04.000\n(gentle music)\n\n"
+                "2\n00:00:05.250 --> 00:00:07.000 align:middle line:90%\n"
+                "<v ->Welcome to the</v>\n<i>program</i> &amp; panel.\n\n"
+                "3\n00:00:07.000 --> 00:00:09.000\nWe begin now.\n\n"
+                "4\n00:00:09.000 --> 00:00:10.000\nWe begin now.\n\n"
+                "5\n01:00:10.000 --> 01:00:12.500\n<v Henry>Thank you.\n"
+            )
+
+            self.assertEqual(
+                VTT_EXTRACT_SIGNATURE, TextExtractor().signature(version_dir)
+            )
+            output = TextExtractor().run(version_dir)
+
+            text = output.joinpath("talk.md").read_text()
+            self.assertEqual(
+                "Welcome to the program & panel.\nWe begin now.\n\nHenry: Thank you.",
+                text,
+            )
+            cues = json.loads(output.joinpath("pages.json").read_text())["talk.md"][
+                "cues"
+            ]
+            self.assertEqual(
+                [[5.25, 7.0], [7.0, 10.0], [3610.0, 3612.5]],
+                [cue[2:] for cue in cues],
+            )
+            self.assertEqual(
+                [
+                    "Welcome to the program & panel.",
+                    "We begin now.",
+                    "Henry: Thank you.",
+                ],
+                [text[start:end] for start, end, *_ in cues],
+            )
+
+    def test_rejects_caption_files_that_are_not_webvtt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            version_dir.joinpath("cocina.json").write_text("{}")
+            source = version_dir / "pdfs"
+            source.mkdir()
+            source.joinpath("talk.vtt").write_text(
+                "1\n00:00:01,000 --> 00:00:02,000\nHi\n"
+            )
+
+            with self.assertRaisesRegex(StageError, "not WebVTT"):
+                TextExtractor().run(version_dir)
+
     def test_uses_strategy_specific_signatures(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -1019,6 +1246,43 @@ class ChunkerTest(unittest.TestCase):
             self.assertEqual("42", row["page"])
             self.assertEqual("page.xml", row["source_file"])
 
+    def test_records_the_cue_time_span_of_each_caption_chunk(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            version_dir.joinpath("metadata.json").write_text("{}")
+            markdown = version_dir / "markdown"
+            markdown.mkdir()
+            lines = [
+                f"Cue number {index:03d} says something worth indexing."
+                for index in range(120)
+            ]
+            text = "\n".join(lines)
+            cues, offset = [], 0
+            for index, line in enumerate(lines):
+                cues.append(
+                    [offset, offset + len(line), index * 2.0, index * 2.0 + 1.5]
+                )
+                offset += len(line) + 1
+            markdown.joinpath("talk.md").write_text(text)
+            markdown.joinpath("pages.json").write_text(
+                json.dumps({"talk.md": {"cues": cues, "source_file": "talk.vtt"}})
+            )
+
+            rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+            metadata = next(row for row in rows if row["file"] == "_metadata_")
+            chunks = [row for row in rows if row["file"] == "talk.md"]
+
+            self.assertIsNone(metadata["start_seconds"])
+            self.assertGreater(len(chunks), 1)
+            self.assertEqual(0.0, chunks[0]["start_seconds"])
+            self.assertEqual(239.5, chunks[-1]["end_seconds"])
+            for chunk in chunks:
+                first = int(chunk["text"].split("\n")[0].split()[2])
+                last = int(chunk["text"].split("\n")[-1].split()[2])
+                self.assertEqual(first * 2.0, chunk["start_seconds"])
+                self.assertEqual(last * 2.0 + 1.5, chunk["end_seconds"])
+                self.assertIsNone(chunk["page"])
+
     def test_leaves_page_unknown_without_page_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
             version_dir = Path(directory)
@@ -1100,6 +1364,75 @@ class SolrDocumentBuilderTest(unittest.TestCase):
             self.assertNotIn("page_ss", children[0])
             self.assertEqual(["1", "2"], [child["page_ss"] for child in children[1:]])
             self.assertEqual(3, len({child["id"] for child in children}))
+
+    def test_files_caption_chunks_under_their_media_file_with_times(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            version_dir.joinpath("metadata.json").write_text("{}")
+            data = cocina()
+            data["structural"]["contains"] = [
+                {
+                    "type": "https://cocina.sul.stanford.edu/models/resources/video",
+                    "structural": {
+                        "contains": [
+                            {
+                                "filename": "talk.mp4",
+                                "hasMimeType": "video/mp4",
+                                "access": {"view": "stanford"},
+                            },
+                            {
+                                "filename": "talk.vtt",
+                                "hasMimeType": "text/vtt",
+                                "access": {"view": "world"},
+                            },
+                        ]
+                    },
+                }
+            ]
+            version_dir.joinpath("cocina.json").write_text(json.dumps(data))
+            pq.write_table(
+                pa.Table.from_pylist(
+                    [
+                        {
+                            "file": "_metadata_",
+                            "source_file": "_metadata_",
+                            "page": None,
+                            "chunk_index": 0,
+                            "text": "Metadata",
+                            "start_seconds": None,
+                            "end_seconds": None,
+                            "embedding": [0.1],
+                        },
+                        {
+                            "file": "talk.md",
+                            "source_file": "talk.vtt",
+                            "page": None,
+                            "chunk_index": 0,
+                            "text": "Welcome",
+                            "start_seconds": 5.25,
+                            "end_seconds": 98.2,
+                            "embedding": [0.2],
+                        },
+                    ]
+                ),
+                version_dir / "embeddings.parquet",
+            )
+
+            output = SolrDocumentBuilder().run(DRUID, "source", version_dir)
+            metadata_child, caption_child = json.loads(output.read_text())[
+                "_childDocuments_"
+            ]
+
+            self.assertNotIn("start_seconds_i", metadata_child)
+            self.assertNotIn("caption_file_ss", metadata_child)
+            self.assertEqual(f"{DRUID}_talk_vtt_c0", caption_child["id"])
+            self.assertEqual("talk.mp4", caption_child["filename_ss"])
+            self.assertEqual("talk.vtt", caption_child["caption_file_ss"])
+            self.assertEqual(5, caption_child["start_seconds_i"])
+            self.assertEqual(99, caption_child["end_seconds_i"])
+            self.assertNotIn("page_ss", caption_child)
+            # Access follows the caption file whose text is indexed.
+            self.assertTrue(caption_child["public_bsi"])
 
     def test_sets_public_bsi_from_file_access_view(self):
         with tempfile.TemporaryDirectory() as directory:
