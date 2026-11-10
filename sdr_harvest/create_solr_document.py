@@ -43,8 +43,15 @@ class SolrDocumentBuilder:
                 # Object metadata is always public; file text follows access.view.
                 "public_bsi": filename == "_metadata_" or filename in public_files,
             }
-            if row.get("page") is not None:
-                child["page_ss"] = str(row["page"])
+            if row.get("pages"):
+                pages = [str(page) for page in row["pages"]]
+                # The page the chunk starts on.
+                child["page_ss"] = pages[0]
+                if row.get("page_start_offsets"):
+                    # Parallel lists: every page the chunk spans, and where each
+                    # starts in chunk_text_tesi.
+                    child["pages_ism"] = [int(page) for page in pages]
+                    child["page_start_offsets_ism"] = list(row["page_start_offsets"])
             children.append(child)
         ids = [child["id"] for child in children]
         if len(ids) != len(set(ids)):

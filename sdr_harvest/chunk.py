@@ -13,6 +13,30 @@ CHUNK_SIZE = 1_500
 CHUNK_OVERLAP = 200
 
 
+def chunk_pages(
+    attributes: dict, start: int, end: int
+) -> tuple[list[str] | None, list[int] | None]:
+    """Return the pages a chunk spans and where each starts in the chunk text.
+
+    The first page is the one the chunk starts on. Offsets are only returned
+    when the chunk spans more than one page.
+    """
+    spans = [
+        page_range
+        for page_range in attributes.get("pages", [])
+        if page_range["start"] < page_range["end"]
+        and page_range["start"] < end
+        and start < page_range["end"]
+    ]
+    if not spans:
+        page = attributes.get("page")
+        return ([str(page)] if page is not None else None), None
+    pages = [str(page_range["page"]) for page_range in spans]
+    if len(pages) == 1:
+        return pages, None
+    return pages, [max(page_range["start"] - start, 0) for page_range in spans]
+
+
 class Chunker:
     """Split extracted text and searchable metadata into Parquet rows."""
 
@@ -37,7 +61,8 @@ class Chunker:
                 "object_id": druid,
                 "file": "_metadata_",
                 "source_file": "_metadata_",
-                "page": None,
+                "pages": None,
+                "page_start_offsets": None,
                 "chunk_index": 0,
                 "text": "\n".join(metadata_text),
             }
@@ -55,11 +80,9 @@ class Chunker:
             chunks = splitter.create_documents([content])
             for index, chunk in enumerate(chunks):
                 start = chunk.metadata["start_index"]
-                page = attributes.get("page")
-                for page_range in attributes.get("pages", []):
-                    if page_range["start"] <= start < page_range["end"]:
-                        page = page_range["page"]
-                        break
+                pages, offsets = chunk_pages(
+                    attributes, start, start + len(chunk.page_content)
+                )
                 rows.append(
                     {
                         "object_id": druid,
@@ -67,7 +90,8 @@ class Chunker:
                         "source_file": attributes.get(
                             "source_file", markdown.with_suffix(".pdf").name
                         ),
-                        "page": str(page) if page is not None else None,
+                        "pages": pages,
+                        "page_start_offsets": offsets,
                         "chunk_index": index,
                         "text": chunk.page_content,
                     }
@@ -78,7 +102,8 @@ class Chunker:
                 ("object_id", pa.string()),
                 ("file", pa.string()),
                 ("source_file", pa.string()),
-                ("page", pa.string()),
+                ("pages", pa.list_(pa.string())),
+                ("page_start_offsets", pa.list_(pa.int32())),
                 ("chunk_index", pa.int32()),
                 ("text", pa.string()),
             ]

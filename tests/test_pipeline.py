@@ -385,7 +385,7 @@ class DarkTest(unittest.TestCase):
 class FingerprintTest(unittest.TestCase):
     def test_chunk_signature_records_current_splitter_parameters(self):
         self.assertEqual(
-            f"recursive-{CHUNK_SIZE}-{CHUNK_OVERLAP}-v2",
+            f"recursive-{CHUNK_SIZE}-{CHUNK_OVERLAP}-v3",
             SIGNATURES["chunk"],
         )
 
@@ -695,10 +695,10 @@ class TextExtractorTest(unittest.TestCase):
             ):
                 TextExtractor().run(version_dir)
             rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
-            text_rows = [row for row in rows if row["page"] is not None]
+            text_rows = [row for row in rows if row["pages"] is not None]
 
             self.assertTrue(all(row["file"] == "document.md" for row in text_rows))
-            self.assertEqual({"1", "2"}, {row["page"] for row in text_rows})
+            self.assertEqual({"1", "2"}, {row["pages"][0] for row in text_rows})
             self.assertTrue(
                 all(row["source_file"] == "document.pdf" for row in text_rows)
             )
@@ -1016,8 +1016,46 @@ class ChunkerTest(unittest.TestCase):
             rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
             row = next(row for row in rows if row["file"] == "page.md")
 
-            self.assertEqual("42", row["page"])
+            self.assertEqual(["42"], row["pages"])
+            self.assertIsNone(row["page_start_offsets"])
             self.assertEqual("page.xml", row["source_file"])
+
+    def test_records_where_each_page_starts_in_a_chunk_spanning_pages(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            version_dir.joinpath("metadata.json").write_text("{}")
+            markdown = version_dir / "markdown"
+            markdown.mkdir()
+            first = "alpha " * 100 + "91 "
+            second = "\n" + "beta " * 100
+            markdown.joinpath("document.md").write_text(first + second)
+            markdown.joinpath("pages.json").write_text(
+                json.dumps(
+                    {
+                        "document.md": {
+                            "pages": [
+                                {"page": "91", "start": 0, "end": len(first)},
+                                {"page": "", "start": len(first), "end": len(first)},
+                                {
+                                    "page": "92",
+                                    "start": len(first),
+                                    "end": len(first) + len(second),
+                                },
+                            ],
+                            "source_file": "document.pdf",
+                        }
+                    }
+                )
+            )
+
+            rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+            row = next(row for row in rows if row["file"] == "document.md")
+
+            self.assertEqual(["91", "92"], row["pages"])
+            self.assertEqual([0, len(first)], row["page_start_offsets"])
+            self.assertTrue(
+                row["text"][row["page_start_offsets"][1] :].startswith("\nbeta")
+            )
 
     def test_leaves_page_unknown_without_page_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -1030,7 +1068,7 @@ class ChunkerTest(unittest.TestCase):
             rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
             row = next(row for row in rows if row["file"] == "page-10.md")
 
-            self.assertIsNone(row["page"])
+            self.assertIsNone(row["pages"])
 
     def test_leaves_page_unknown_when_chunk_start_matches_no_page_range(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -1053,7 +1091,7 @@ class ChunkerTest(unittest.TestCase):
             rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
             row = next(row for row in rows if row["file"] == "document.md")
 
-            self.assertIsNone(row["page"])
+            self.assertIsNone(row["pages"])
 
 
 class SolrDocumentBuilderTest(unittest.TestCase):
@@ -1068,7 +1106,8 @@ class SolrDocumentBuilderTest(unittest.TestCase):
                         {
                             "file": "_metadata_",
                             "source_file": "_metadata_",
-                            "page": None,
+                            "pages": None,
+                            "page_start_offsets": None,
                             "chunk_index": 0,
                             "text": "Metadata",
                             "embedding": [0.1],
@@ -1076,7 +1115,8 @@ class SolrDocumentBuilderTest(unittest.TestCase):
                         {
                             "file": "document.md",
                             "source_file": "document.pdf",
-                            "page": "1",
+                            "pages": ["1"],
+                            "page_start_offsets": None,
                             "chunk_index": 0,
                             "text": "First page",
                             "embedding": [0.2],
@@ -1084,9 +1124,10 @@ class SolrDocumentBuilderTest(unittest.TestCase):
                         {
                             "file": "document.md",
                             "source_file": "document.pdf",
-                            "page": "2",
+                            "pages": ["91", "92"],
+                            "page_start_offsets": [0, 4],
                             "chunk_index": 1,
-                            "text": "Second page",
+                            "text": "91 \nSecond page",
                             "embedding": [0.3],
                         },
                     ]
@@ -1098,7 +1139,11 @@ class SolrDocumentBuilderTest(unittest.TestCase):
             children = json.loads(output.read_text())["_childDocuments_"]
 
             self.assertNotIn("page_ss", children[0])
-            self.assertEqual(["1", "2"], [child["page_ss"] for child in children[1:]])
+            self.assertEqual(["1", "91"], [child["page_ss"] for child in children[1:]])
+            self.assertNotIn("pages_ism", children[1])
+            self.assertNotIn("page_start_offsets_ism", children[1])
+            self.assertEqual([91, 92], children[2]["pages_ism"])
+            self.assertEqual([0, 4], children[2]["page_start_offsets_ism"])
             self.assertEqual(3, len({child["id"] for child in children}))
 
     def test_sets_public_bsi_from_file_access_view(self):
@@ -1117,7 +1162,7 @@ class SolrDocumentBuilderTest(unittest.TestCase):
                         {
                             "file": name,
                             "source_file": source,
-                            "page": None,
+                            "pages": None,
                             "chunk_index": 0,
                             "text": "Text",
                             "embedding": [0.1],
