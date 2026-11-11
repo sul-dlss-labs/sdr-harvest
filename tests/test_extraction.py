@@ -20,7 +20,13 @@ from sdr_harvest.create_solr_document import SolrDocumentBuilder
 from sdr_harvest.download import FileDownloader
 from sdr_harvest.extract_pdf import PdfExtractionStrategy, extract_pdf_to_markdown
 from sdr_harvest.extract_text import TextExtractor
-from tests.support import DRUID, StreamingResponse, cocina
+from tests.support import (
+    DRUID,
+    StreamingResponse,
+    cocina,
+    paged_cocina,
+    write_page_files,
+)
 
 
 class TextExtractorTest(unittest.TestCase):
@@ -480,6 +486,71 @@ class ChunkerTest(unittest.TestCase):
             self.assertEqual([0, len(first)], row["page_start_offsets"])
             self.assertTrue(
                 row["text"][row["page_start_offsets"][1] :].startswith("\nbeta")
+            )
+
+    def test_overlaps_chunks_across_consecutive_page_files(self):
+        first = "".join(f"alpha line {index}\n" for index in range(150))
+        first += "An additional $22"
+        second = "million includes other services\n"
+        second += "".join(f"beta line {index}\n" for index in range(150))
+        for suffix in ("xml", "pdf"):
+            with self.subTest(suffix=suffix), tempfile.TemporaryDirectory() as directory:
+                version_dir = Path(directory)
+                names = [f"page-1.{suffix}", f"page-2.{suffix}"]
+                write_page_files(
+                    version_dir,
+                    paged_cocina(*((name, "world") for name in names)),
+                    {names[0]: ("1", first), names[1]: ("2", second)},
+                )
+
+                rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+                text_rows = [row for row in rows if row["file"] != "_metadata_"]
+                seam = next(row for row in text_rows if "$22\nmillion" in row["text"])
+
+                self.assertEqual("page-1.md", seam["file"])
+                self.assertEqual(names[0], seam["source_file"])
+                self.assertEqual(["1", "2"], seam["pages"])
+                self.assertTrue(
+                    seam["text"][seam["page_start_offsets"][1] :].startswith(
+                        "million"
+                    )
+                )
+                # Chunks are numbered within the file they start in, so child
+                # document IDs stay unique.
+                for name in ("page-1.md", "page-2.md"):
+                    self.assertEqual(
+                        list(range(sum(row["file"] == name for row in text_rows))),
+                        [row["chunk_index"] for row in text_rows if row["file"] == name],
+                    )
+
+    def test_ends_a_page_sequence_where_access_changes_or_a_page_is_skipped(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            # Page 3 has no indexable file, so nothing was extracted for it.
+            write_page_files(
+                version_dir,
+                paged_cocina(
+                    ("page-1.xml", "world"),
+                    ("page-2.xml", "stanford"),
+                    ("page-3.xml", "dark"),
+                    ("page-4.xml", "stanford"),
+                ),
+                {
+                    "page-1.xml": ("1", "public " * 50),
+                    "page-2.xml": ("2", "restricted " * 50),
+                    "page-4.xml": ("4", "later " * 50),
+                },
+            )
+
+            rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+            text_rows = [row for row in rows if row["file"] != "_metadata_"]
+
+            self.assertEqual(
+                [("page-1.md", ["1"]), ("page-2.md", ["2"]), ("page-4.md", ["4"])],
+                [(row["file"], row["pages"]) for row in text_rows],
+            )
+            self.assertTrue(
+                all(len(set(row["text"].split())) == 1 for row in text_rows)
             )
 
     def test_leaves_page_unknown_without_page_metadata(self):
