@@ -103,6 +103,56 @@ def cocina(version=1, digest="abc"):
     }
 
 
+def paged_cocina(*files):
+    """Return COCINA with one page resource per (filename, view) pair."""
+    return {
+        "type": "https://cocina.sul.stanford.edu/models/book",
+        "structural": {
+            "contains": [
+                {
+                    "type": "https://cocina.sul.stanford.edu/models/resources/page",
+                    "structural": {
+                        "contains": [
+                            {
+                                "filename": filename,
+                                "hasMimeType": (
+                                    "application/pdf"
+                                    if filename.endswith(".pdf")
+                                    else "application/xml"
+                                ),
+                                "use": "transcription",
+                                "access": {"view": view},
+                            }
+                        ]
+                    },
+                }
+                for filename, view in files
+            ]
+        },
+    }
+
+
+def write_page_files(version_dir, cocina_data, pages):
+    """Write extracted page Markdown as the ALTO or PDF strategy would."""
+    version_dir.joinpath("metadata.json").write_text("{}")
+    version_dir.joinpath("cocina.json").write_text(json.dumps(cocina_data))
+    markdown = version_dir / "markdown"
+    markdown.mkdir()
+    manifest = {}
+    for source_file, (page, text) in pages.items():
+        name = Path(source_file).with_suffix(".md").name
+        markdown.joinpath(name).write_text(text)
+        manifest[name] = (
+            {
+                "pages": [{"page": page, "start": 0, "end": len(text)}],
+                "source_file": source_file,
+            }
+            if source_file.endswith(".pdf")
+            else {"page": page, "source_file": source_file}
+        )
+    markdown.joinpath("pages.json").write_text(json.dumps(manifest))
+
+
 class ManifestTest(unittest.TestCase):
     def test_reads_headered_csv_and_normalizes_druid_prefix(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -385,7 +435,7 @@ class DarkTest(unittest.TestCase):
 class FingerprintTest(unittest.TestCase):
     def test_chunk_signature_records_current_splitter_parameters(self):
         self.assertEqual(
-            f"recursive-{CHUNK_SIZE}-{CHUNK_OVERLAP}-v3",
+            f"recursive-{CHUNK_SIZE}-{CHUNK_OVERLAP}-v4",
             SIGNATURES["chunk"],
         )
 
@@ -1055,6 +1105,71 @@ class ChunkerTest(unittest.TestCase):
             self.assertEqual([0, len(first)], row["page_start_offsets"])
             self.assertTrue(
                 row["text"][row["page_start_offsets"][1] :].startswith("\nbeta")
+            )
+
+    def test_overlaps_chunks_across_consecutive_page_files(self):
+        first = "".join(f"alpha line {index}\n" for index in range(150))
+        first += "An additional $22"
+        second = "million includes other services\n"
+        second += "".join(f"beta line {index}\n" for index in range(150))
+        for suffix in ("xml", "pdf"):
+            with self.subTest(suffix=suffix), tempfile.TemporaryDirectory() as directory:
+                version_dir = Path(directory)
+                names = [f"page-1.{suffix}", f"page-2.{suffix}"]
+                write_page_files(
+                    version_dir,
+                    paged_cocina(*((name, "world") for name in names)),
+                    {names[0]: ("1", first), names[1]: ("2", second)},
+                )
+
+                rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+                text_rows = [row for row in rows if row["file"] != "_metadata_"]
+                seam = next(row for row in text_rows if "$22\nmillion" in row["text"])
+
+                self.assertEqual("page-1.md", seam["file"])
+                self.assertEqual(names[0], seam["source_file"])
+                self.assertEqual(["1", "2"], seam["pages"])
+                self.assertTrue(
+                    seam["text"][seam["page_start_offsets"][1] :].startswith(
+                        "million"
+                    )
+                )
+                # Chunks are numbered within the file they start in, so child
+                # document IDs stay unique.
+                for name in ("page-1.md", "page-2.md"):
+                    self.assertEqual(
+                        list(range(sum(row["file"] == name for row in text_rows))),
+                        [row["chunk_index"] for row in text_rows if row["file"] == name],
+                    )
+
+    def test_ends_a_page_sequence_where_access_changes_or_a_page_is_skipped(self):
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            # Page 3 has no indexable file, so nothing was extracted for it.
+            write_page_files(
+                version_dir,
+                paged_cocina(
+                    ("page-1.xml", "world"),
+                    ("page-2.xml", "stanford"),
+                    ("page-3.xml", "dark"),
+                    ("page-4.xml", "stanford"),
+                ),
+                {
+                    "page-1.xml": ("1", "public " * 50),
+                    "page-2.xml": ("2", "restricted " * 50),
+                    "page-4.xml": ("4", "later " * 50),
+                },
+            )
+
+            rows = pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+            text_rows = [row for row in rows if row["file"] != "_metadata_"]
+
+            self.assertEqual(
+                [("page-1.md", ["1"]), ("page-2.md", ["2"]), ("page-4.md", ["4"])],
+                [(row["file"], row["pages"]) for row in text_rows],
+            )
+            self.assertTrue(
+                all(len(set(row["text"].split())) == 1 for row in text_rows)
             )
 
     def test_leaves_page_unknown_without_page_metadata(self):

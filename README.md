@@ -131,7 +131,16 @@ chunk index for each row. A chunk that crosses a page break lists every page it
 spans, starting with the page it starts on, plus the character offset in the
 chunk text where each of those pages starts.
 
-- Cache key: the extract output fingerprint plus the `chunk` signature.
+Files that each hold one page of the COCINA page sequence (ALTO pages and
+one-page PDFs) are joined with a line break and split as one text, so chunks
+overlap across page breaks as they do inside a multi-page PDF. A joined run
+ends where a page has no indexed file and where `access.view` changes, so no
+chunk mixes public and restricted text. Each chunk is credited to the file it
+starts in and numbered among that file's chunks.
+
+- Cache key: the extract output fingerprint plus the `chunk` signature. The
+  stage also reads `cocina.json`; any COCINA change makes a new version
+  directory, so the stage runs again.
 - Output fingerprint: the SHA-256 of `chunks.parquet`.
 
 ### Enrich
