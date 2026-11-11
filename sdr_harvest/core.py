@@ -21,9 +21,9 @@ SIGNATURES = {
     "metadata": "traject-sdr-config-v1",
     # Used as the conservative default when the extraction strategy is unknown.
     "extract": PDF_EXTRACT_SIGNATURE,
-    "chunk": "recursive-1500-200-v2",
+    "chunk": "recursive-1500-200-v3",
     "embed": "gemini-embedding-2-768-retrieval-document-v2",
-    "document": "nested-solr-document-v2-public-bsi",
+    "document": "nested-solr-document-v3-page-offsets",
 }
 SOURCE_INVENTORY_SIGNATURE = "prefer-complete-book-alto-v2-indexable-access"
 

@@ -48,8 +48,10 @@
   <!-- Stored strings: *_ss (single value) -->
   <dynamicField name="*_ss" type="string" indexed="true" stored="true" multiValued="false" />
 
-  <!-- Stored strings: *_ssm (multi-valued) -->
-  <dynamicField name="*_ssm" type="strings" indexed="true" stored="true" multiValued="true" />
+  <!-- Stored strings: *_ssm (multi-valued). docValues is off so values come back
+       in the order they were indexed: multivalued docValues are a sorted set,
+       which sorts (strings, so "100" precedes "99") and deduplicates values. -->
+  <dynamicField name="*_ssm" type="strings" indexed="true" stored="true" multiValued="true" docValues="false" />
 
   <!-- Stored strings: *_ssi (single value, indexed) -->
   <dynamicField name="*_ssi" type="string" indexed="true" stored="true" multiValued="false" />
@@ -68,6 +70,8 @@
   <!-- Integer fields for things like chunk_index -->
   <dynamicField name="*_i" type="pint" indexed="true" stored="true" />
   <dynamicField name="*_isim" type="pint" indexed="true" stored="true" multiValued="true" />
+  <!-- Stored integers: *_ism (multi-valued, not indexed, order preserved as for *_ssm) -->
+  <dynamicField name="*_ism" type="pint" indexed="false" stored="true" multiValued="true" docValues="false" />
 
   <!-- Unique Key -->
   <uniqueKey>id</uniqueKey>

@@ -126,8 +126,10 @@ page ranges.
 
 **Chunk (`chunk`).** Splits each Markdown file into overlapping chunks (1,500
 characters with 200 characters of overlap), adds one chunk rendered from
-`metadata.json`, and writes `chunks.parquet` with the source file, page, and
-chunk index for each row.
+`metadata.json`, and writes `chunks.parquet` with the source file, pages, and
+chunk index for each row. A chunk that crosses a page break lists every page it
+spans, starting with the page it starts on, plus the character offset in the
+chunk text where each of those pages starts.
 
 - Cache key: the extract output fingerprint plus the `chunk` signature.
 - Output fingerprint: the SHA-256 of `chunks.parquet`.
@@ -154,7 +156,9 @@ requests Gemini vectors through LiteLLM, and writes `embeddings.parquet`.
 **Document (`document`).** Combines `metadata.json` and `embeddings.parquet`
 into `solr.json`: one parent document carrying the metadata and the source
 fingerprint (`pipeline_fingerprint_ss`), with one child document per chunk
-carrying its text, vector, filename, and page. After this stage, the object's
+carrying its text, vector, filename, and the page it starts on (`page_ss`). A
+chunk that spans more than one page also lists every page (`pages_ism`) and
+where each starts in `chunk_text_tesi` (`page_start_offsets_ism`). After this stage, the object's
 `objects.current_artifact_dir` points at the version directory.
 
 - Cache key: the embed output fingerprint plus the `document` signature.
