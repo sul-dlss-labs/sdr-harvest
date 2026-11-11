@@ -14,6 +14,7 @@ import requests
 
 ALTO_EXTRACT_SIGNATURE = "alto-xml-source-file-v2"
 PDF_EXTRACT_SIGNATURE = "pymupdf4llm-1.28.2-no-ocr-v2"
+VTT_EXTRACT_SIGNATURE = "webvtt-cues-v1"
 
 SIGNATURES = {
     "cocina": "cocina-v2-conditional-get",
@@ -25,7 +26,9 @@ SIGNATURES = {
     "embed": "gemini-embedding-2-768-retrieval-document-v2",
     "document": "nested-solr-document-v2-public-bsi",
 }
-SOURCE_INVENTORY_SIGNATURE = "prefer-complete-book-alto-v2-indexable-access"
+SOURCE_INVENTORY_SIGNATURE = (
+    "prefer-complete-book-alto-v2-then-media-vtt-v1-indexable-access"
+)
 
 
 class StageError(RuntimeError):

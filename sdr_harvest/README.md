@@ -11,7 +11,8 @@ The Python implementation is separated by responsibility:
 | `extract_text.py` | `TextExtractor` | Selects extraction from object and source characteristics. |
 | `extract_alto.py` | `AltoXmlExtractionStrategy` | Converts complete page-level ALTO OCR into Markdown. |
 | `extract_pdf.py` | `PdfExtractionStrategy` | Converts embedded PDF text into Markdown. |
-| `chunk.py` | `Chunker` | Splits extracted text and searchable metadata into chunk rows. |
+| `extract_vtt.py` | `VttExtractionStrategy` | Converts WebVTT caption cues into Markdown with each cue's character span and media timing. |
+| `chunk.py` | `Chunker` | Splits extracted text and searchable metadata into chunk rows, with pages or caption times. |
 | `embed.py` | `Embedder` | Formats chunks for asymmetric retrieval and adds Gemini vectors. |
 | `create_solr_document.py` | `SolrDocumentBuilder` | Creates a nested parent/child Solr JSON document from embedded chunks. |
 | `publisher.py` | `CorpusPublisher`, `SolrPublisher` | Batches ready documents, tracks target-specific state, and sends accepted updates to Solr. |

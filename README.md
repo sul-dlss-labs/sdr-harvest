@@ -235,7 +235,24 @@ For Cocina books with one transcription XML file for every PDF page, the build
 downloads and extracts the page-level ALTO OCR instead of the image-heavy PDFs,
 and its chunks name the ALTO file they came from in `filename_ss`.
 If the ALTO inventory is incomplete, the build falls back to the selected PDF.
-Other object types continue using PDF extraction.
+
+For audio and video objects where each media file has a corresponding VTT file,
+the build indexes the captions instead of any PDF transcript, because cue
+timings can link into the media. One track is used per media file, preferring
+English.
+
+If captioned videos have an additional uncaptioned audio file, they will still
+index from the video's VTT (recorded interviews often do this). However, if
+there are more uncaptioned audio files than video files, the item will prefer
+a PDF transcript (if present) to avoid potentially incomplete captions.
+
+Caption text keeps one cue per line, starts a new paragraph at each change of speaker,
+and drops cues that only describe sound, such as `(silence)`. Each caption
+chunk records:
+
+- `filename_ss`: the media file the captions go with
+- `caption_file_ss`: the VTT file the text came from
+- `start_seconds_i` and `end_seconds_i`: endpoints of the chunk cues, rounded up to whole seconds
 
 Only files whose Cocina `access.view` is `world` or `stanford` are harvested.
 Downloading `stanford` files requires a Stacks service token (generated with
@@ -243,8 +260,8 @@ Downloading `stanford` files requires a Stacks service token (generated with
 to Stacks as `Authorization: Bearer <token>`. Without it, only `world` files
 download.
 Each child chunk records `public_bsi`: `true` for the object-metadata chunk and
-for chunks from `world` files, `false` otherwise. Filter anonymous searches with
-`fq=public_bsi:true`.
+for chunks from `world` files (for captions, the VTT file), `false` otherwise.
+Filter anonymous searches with `fq=public_bsi:true`.
 
 Press Ctrl-C once to cancel queued work and exit. Running the command again
 resumes from completed stages. Use `--no-progress` for redirected logs or a
@@ -349,6 +366,7 @@ only with a tunnel you created and trust; normal publication keeps certificate
 verification enabled.
 
 We often use:
+
 ```shell
 ssh -N -L 8983:<remote_host>:443 semantic-search-demo.stanford.edu
 ```
@@ -379,7 +397,15 @@ full field reference). Each case has a stable test ID, a query, and a
 
 ```json
 [
-  {"test_id":"water-policy-1","subject_id":"water-policy","query":"How did water policy affect California agriculture?","judgments":[{"document_id":"cc333dd4444","score":3,"explanation":"..."},{"document_id":"ee555ff6666","score":1,"explanation":"..."}]}
+  {
+    "test_id": "water-policy-1",
+    "subject_id": "water-policy",
+    "query": "How did water policy affect California agriculture?",
+    "judgments": [
+      { "document_id": "cc333dd4444", "score": 3, "explanation": "..." },
+      { "document_id": "ee555ff6666", "score": 1, "explanation": "..." }
+    ]
+  }
 ]
 ```
 
@@ -397,6 +423,7 @@ LITELLM_API_KEY=<key> uv run sdr-harvest evaluate \
   --judgments evaluations/judgments \
   --output evaluations/baseline.json
 ```
+
 Optionally add `--test-type <test_type>` to further restrict the run to test cases of that
 type (e.g., `--test-type known_item` or any value from the
 [`test_type` vocabulary](./evaluations/test-cases-schema.md#test_type-vocabulary)).
