@@ -21,7 +21,7 @@ SIGNATURES = {
     "metadata": "traject-sdr-config-v1",
     # Used as the conservative default when the extraction strategy is unknown.
     "extract": PDF_EXTRACT_SIGNATURE,
-    "chunk": "recursive-1500-200-v3",
+    "chunk": "recursive-1500-200-v4",
     "embed": "gemini-embedding-2-768-retrieval-document-v2",
     "document": "nested-solr-document-v3-page-offsets",
 }
