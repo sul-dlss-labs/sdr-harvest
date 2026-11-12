@@ -3,6 +3,10 @@
 
   <luceneMatchVersion>10.3</luceneMatchVersion>
 
+  <!-- Read schema.xml from this configset. Without this Solr uses a managed
+       schema and silently ignores uploaded schema.xml changes. -->
+  <schemaFactory class="ClassicIndexSchemaFactory" />
+
   <dataDir>${solr.data.dir:}</dataDir>
 
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
