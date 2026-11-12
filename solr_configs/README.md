@@ -6,13 +6,24 @@ ssh -N -L 8983:sul-solr-test.stanford.edu:443 semantic-search-demo.stanford.edu
 ```
 
 ## Upload updated configs
+Use the v1 Configsets API; the v2 `/solr/api/configsets/...` path returns 404 on
+this server. Upload `schema.xml` before `solrconfig.xml`, and run the loop
+from the repository root.
+
 ```
-curl --resolve sul-solr-test.stanford.edu:8983:127.0.0.1 \
-  -X PUT \
-  --header "Content-Type:application/octet-stream" \
-  --data-binary @solr_configs/solrconfig.xml \
-  "https://sul-solr-test.stanford.edu:8983/solr/api/configsets/semantic-search/solrconfig.xml"
+for file in schema.xml solrconfig.xml; do
+  curl -u USERNAME:PASSWORD \
+    --resolve sul-solr-test.stanford.edu:8983:127.0.0.1 \
+    -X POST \
+    --header "Content-Type:application/octet-stream" \
+    --data-binary @solr_configs/$file \
+    "https://sul-solr-test.stanford.edu:8983/solr/admin/configs?action=UPLOAD&name=semantic-search&filePath=$file&overwrite=true"
+done
 ```
+
+`solrconfig.xml` sets `ClassicIndexSchemaFactory`, so Solr reads `schema.xml`
+directly and the Schema API cannot change fields. Make schema changes in
+`schema.xml` and upload it; a reload is required for either file to take effect.
 
 ## Reload the collection
 You can also do this via the Solr admin UI. 
@@ -31,6 +42,13 @@ See if the collection was reloaded successfully.
 curl -u USERNAME:PASSWORD \
   --resolve sul-solr-test.stanford.edu:8983:127.0.0.1 \
   "https://sul-solr-test.stanford.edu:8983/solr/admin/collections?action=CLUSTERSTATUS&collection=semantic-search-demo"
+```
+
+Confirm a schema change is live, for example a dynamic field:
+```
+curl -u USERNAME:PASSWORD \
+  --resolve sul-solr-test.stanford.edu:8983:127.0.0.1 \
+  "https://sul-solr-test.stanford.edu:8983/solr/semantic-search-demo/schema/dynamicfields/*_ism"
 ```
 
 Check to see if the hybrid handler is available.
