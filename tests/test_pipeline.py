@@ -4,6 +4,7 @@ import fcntl
 import hashlib
 import io
 import json
+import multiprocessing
 import os
 import sqlite3
 import tempfile
@@ -39,6 +40,7 @@ from sdr_harvest.core import (
     TransientStageError,
     directory_fingerprint,
     file_sha256,
+    interruptible_process_pool,
     interruptible_thread_pool,
 )
 from sdr_harvest.create_solr_document import SolrDocumentBuilder
@@ -51,6 +53,7 @@ from sdr_harvest.embed import (
     ERROR_BODY_LIMIT,
     Embedder,
     RateLimitGate,
+    create_shared_limits,
     http_error_message,
     retry_after_seconds,
     retrieval_document,
@@ -1507,6 +1510,20 @@ class EmbedderTest(unittest.TestCase):
 
         slept.assert_called_once_with(30.0)
 
+    def test_shared_rate_limit_is_seen_by_every_gate_using_it(self):
+        _slots, open_at = create_shared_limits(multiprocessing.get_context("spawn"))
+        first, second = RateLimitGate(open_at), RateLimitGate(open_at)
+        clock = [1_000.0]
+        with patch("sdr_harvest.embed.time.monotonic", lambda: clock[0]):
+            first.close_for(30.0)
+            with patch(
+                "sdr_harvest.embed.time.sleep",
+                side_effect=lambda seconds: clock.__setitem__(0, clock[0] + seconds),
+            ) as slept:
+                second.wait()
+
+        slept.assert_called_once_with(30.0)
+
     def test_resumes_from_completed_embedding_checkpoint(self):
         with tempfile.TemporaryDirectory() as directory:
             version_dir = Path(directory)
@@ -1834,6 +1851,19 @@ class InterruptTest(unittest.TestCase):
                 with interruptible_thread_pool(4):
                     raise KeyboardInterrupt
         executor.shutdown.assert_called_once_with(wait=False, cancel_futures=True)
+
+    def test_process_pool_terminates_busy_workers_after_keyboard_interrupt(self):
+        with self.assertRaises(KeyboardInterrupt):
+            with interruptible_process_pool(1) as executor:
+                future = executor.submit(time.sleep, 60)
+                deadline = time.monotonic() + 30
+                while not future.running() and time.monotonic() < deadline:
+                    time.sleep(0.05)
+                processes = list(executor._processes.values())
+                raise KeyboardInterrupt
+        for process in processes:
+            process.join(timeout=10)
+            self.assertFalse(process.is_alive())
 
     def test_cli_exits_immediately_with_status_130(self):
         with tempfile.TemporaryDirectory() as directory:
