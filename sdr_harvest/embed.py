@@ -42,11 +42,28 @@ _embedding_slots = BoundedSemaphore(EMBEDDING_CONCURRENCY)
 
 
 class RateLimitGate:
-    """Hold every embedding request until the shared quota window reopens."""
+    """Hold every embedding request until the shared quota window reopens.
 
-    def __init__(self) -> None:
-        self._lock = Lock()
-        self._open_at = 0.0
+    ``shared`` is an optional ``multiprocessing.Value("d")`` so worker processes
+    honor a 429 seen by any of them. The monotonic clock is system-wide, so its
+    readings are comparable across processes.
+    """
+
+    def __init__(self, shared=None) -> None:
+        self._shared = shared
+        self._lock = shared.get_lock() if shared is not None else Lock()
+        self._local_open_at = 0.0
+
+    @property
+    def _open_at(self) -> float:
+        return self._shared.value if self._shared is not None else self._local_open_at
+
+    @_open_at.setter
+    def _open_at(self, value: float) -> None:
+        if self._shared is not None:
+            self._shared.value = value
+        else:
+            self._local_open_at = value
 
     def close_for(self, seconds: float) -> None:
         with self._lock:
@@ -62,6 +79,18 @@ class RateLimitGate:
 
 
 _rate_limit = RateLimitGate()
+
+
+def create_shared_limits(context) -> tuple:
+    """Create embedding limits that worker processes share via ``install_shared_limits``."""
+    return context.BoundedSemaphore(EMBEDDING_CONCURRENCY), context.Value("d", 0.0)
+
+
+def install_shared_limits(slots, open_at) -> None:
+    """Replace this process's embedding limits with ones shared across processes."""
+    global _embedding_slots, _rate_limit
+    _embedding_slots = slots
+    _rate_limit = RateLimitGate(open_at)
 
 
 def http_error_message(response: requests.Response) -> str:

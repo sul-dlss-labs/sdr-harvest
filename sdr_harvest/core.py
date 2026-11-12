@@ -140,15 +140,27 @@ def interruptible_thread_pool(max_workers: int):
 
 
 @contextmanager
-def interruptible_process_pool(max_workers: int):
+def interruptible_process_pool(
+    max_workers: int,
+    *,
+    mp_context=None,
+    initializer=None,
+    initargs: tuple = (),
+):
     """Run CPU-bound work in isolated processes without blocking Ctrl-C exit."""
     executor = concurrent.futures.ProcessPoolExecutor(
         max_workers=max_workers,
-        mp_context=multiprocessing.get_context("spawn"),
+        mp_context=mp_context or multiprocessing.get_context("spawn"),
+        initializer=initializer,
+        initargs=initargs,
     )
     try:
         yield executor
-    except KeyboardInterrupt:
+    except BaseException:
+        # Workers ignore SIGINT and would otherwise finish their current object
+        # after the coordinator exits, so stop them now.
+        for process in list((executor._processes or {}).values()):
+            process.terminate()
         executor.shutdown(wait=False, cancel_futures=True)
         raise
     else:
