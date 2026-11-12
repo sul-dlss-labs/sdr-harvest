@@ -39,6 +39,7 @@ from sdr_harvest.core import (
     TransientStageError,
     directory_fingerprint,
     file_sha256,
+    fingerprint,
     interruptible_thread_pool,
 )
 from sdr_harvest.create_solr_document import SolrDocumentBuilder
@@ -150,6 +151,40 @@ def write_page_files(version_dir, cocina_data, pages):
             if source_file.endswith(".pdf")
             else {"page": page, "source_file": source_file}
         )
+    markdown.joinpath("pages.json").write_text(json.dumps(manifest))
+
+
+def write_pdf_object(version_dir):
+    """Write a PDF object as the PDF strategy extracts it.
+
+    Two multi-page PDFs sit in consecutive page resources, followed by a
+    one-page PDF. Pages are long enough that chunks span page breaks.
+    """
+    version_dir.joinpath("metadata.json").write_text(
+        json.dumps({"title_tesi": "Annual report", "date_ssim": ["1999"]})
+    )
+    files = {"report.pdf": 3, "appendix.pdf": 2, "letter.pdf": 1}
+    version_dir.joinpath("cocina.json").write_text(
+        json.dumps(paged_cocina(*((name, "world") for name in files)))
+    )
+    markdown = version_dir / "markdown"
+    markdown.mkdir()
+    manifest = {}
+    for structural_page, (source_file, page_count) in enumerate(files.items(), 1):
+        text, ranges = "", []
+        for internal_page in range(1, page_count + 1):
+            body = "".join(
+                f"Paragraph {index} of {source_file} page {internal_page}.\n\n"
+                for index in range(40)
+            )
+            page = str(structural_page if page_count == 1 else internal_page)
+            ranges.append(
+                {"page": page, "start": len(text), "end": len(text) + len(body)}
+            )
+            text += body
+        name = Path(source_file).with_suffix(".md").name
+        markdown.joinpath(name).write_text(text)
+        manifest[name] = {"pages": ranges, "source_file": source_file}
     markdown.joinpath("pages.json").write_text(json.dumps(manifest))
 
 
@@ -1171,6 +1206,31 @@ class ChunkerTest(unittest.TestCase):
             self.assertTrue(
                 all(len(set(row["text"].split())) == 1 for row in text_rows)
             )
+
+    def test_leaves_pdf_object_chunks_unchanged(self):
+        # Joining page files must not change chunks for PDF objects, or every
+        # PDF object in the corpus is embedded again. The baseline turns joining
+        # off, so each file is split on its own as it was before page files were
+        # joined. Rows are compared rather than Parquet bytes, which also record
+        # the pyarrow version.
+        def chunk_rows(version_dir):
+            return pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            write_pdf_object(version_dir)
+
+            with patch(
+                "sdr_harvest.chunk.page_sequences",
+                lambda markdown_files, page_metadata, cocina: [
+                    [(markdown, None)] for markdown in markdown_files
+                ],
+            ):
+                unjoined = chunk_rows(version_dir)
+            rows = chunk_rows(version_dir)
+
+            self.assertTrue(any(row["page_start_offsets"] for row in rows))
+            self.assertEqual(fingerprint(unjoined), fingerprint(rows))
 
     def test_leaves_page_unknown_without_page_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
