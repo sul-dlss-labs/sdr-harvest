@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import concurrent.futures
 import fcntl
+import multiprocessing
 import os
-from contextlib import nullcontext
 import queue
 import shutil
+import signal
 import time
 from collections import Counter
 from pathlib import Path
@@ -13,8 +14,6 @@ from typing import Callable
 
 import requests
 from tqdm import tqdm
-from pymupdf4llm.ocr import OCRMode
-from pymupdf4llm.worker_sizing import auto_workers
 
 from .attempts import StageAttempts
 from .chunk import Chunker
@@ -25,16 +24,47 @@ from .core import (
     Settings,
     StageError,
     interruptible_process_pool,
-    interruptible_thread_pool,
 )
 from .create_solr_document import SolrDocumentBuilder
 from .download import FileDownloader
-from .embed import Embedder
+from .embed import Embedder, create_shared_limits, install_shared_limits
 from .extract_text import TextExtractor
 from .dark import read_dark_list
 from .manifests import parse_manifest
 from .metadata import MetadataFetcher, cocina_checked_recently
 from .state import StateStore
+
+
+_worker_events = None
+
+
+def _init_object_worker(events, embedding_slots, rate_limit_open_at) -> None:
+    """Prepare a worker process to build objects for the coordinator."""
+    # The coordinator handles Ctrl-C and terminates workers itself.
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    global _worker_events
+    _worker_events = events
+    install_shared_limits(embedding_slots, rate_limit_open_at)
+
+
+def _build_object(
+    settings: Settings, store_path: Path, run_id: int, druid: str
+) -> tuple[str, str | None]:
+    """Build one object in a worker process; errors return as text to pickle safely."""
+    store = StateStore(store_path)
+    try:
+        Pipeline(
+            settings,
+            store,
+            progress_callback=lambda item, stage, event: _worker_events.put(
+                (item, stage, event)
+            ),
+        ).run_object(run_id, druid)
+        return druid, None
+    except Exception as exc:
+        return druid, str(exc) or type(exc).__name__
+    finally:
+        store.close()
 
 
 class Pipeline:
@@ -219,95 +249,88 @@ class Pipeline:
                 "Changed COCINA records may increase downstream work during the run.",
                 flush=True,
             )
-            pdf_workers = min(
-                self.settings.workers,
-                auto_workers(
-                    file_count=max(1, estimate["extract"]),
-                    user_dpi=150,
-                    ocr_mode=OCRMode.NEVER,
-                ),
-            )
-            use_pdf_pool = estimate["extract"] > 0 and pdf_workers > 1
-            if use_pdf_pool:
-                print(
-                    f"PDF extraction process workers: {pdf_workers}", flush=True
-                )
-            progress_events: queue.Queue[tuple[str, str, str]] = queue.Queue()
-            pool_context = (
-                interruptible_process_pool(pdf_workers)
-                if use_pdf_pool
-                else nullcontext(None)
-            )
-            with pool_context as pdf_executor:
-
-                def process(druid: str) -> tuple[str, Exception | None]:
-                    worker_store = StateStore(self.store.path)
-                    try:
-                        Pipeline(
-                            self.settings,
-                            worker_store,
-                            progress_callback=lambda item, stage, event: progress_events.put(
-                                (item, stage, event)
-                            ),
-                            pdf_executor=pdf_executor,
-                        ).run_object(run_id, druid)
-                        return druid, None
-                    except Exception as exc:
-                        return druid, exc
-                    finally:
-                        worker_store.close()
-
-                with interruptible_thread_pool(self.settings.workers) as executor:
-                    pending = {
-                        executor.submit(process, druid) for druid in pending_druids
-                    }
-                    active: dict[str, str] = {}
-                    last_refresh = 0.0
-                    with tqdm(
-                        total=len(selected),
-                        initial=already_current,
-                        desc="Processing pipeline objects",
-                        unit="object",
-                        disable=not show_progress,
-                    ) as progress:
-                        while pending:
-                            done, pending = concurrent.futures.wait(
-                                pending,
-                                timeout=0.25,
-                                return_when=concurrent.futures.FIRST_COMPLETED,
-                            )
-                            while True:
-                                try:
-                                    druid, stage, event = progress_events.get_nowait()
-                                except queue.Empty:
-                                    break
-                                if event == "started":
-                                    active[druid] = stage
-                                elif active.get(druid) == stage:
-                                    active.pop(druid, None)
-                            for future in done:
-                                druid, error = future.result()
+            # Each object builds in its own process so CPU-bound stages
+            # (chunking, embedding reuse, Solr JSON) are not serialized by the GIL.
+            context = multiprocessing.get_context("spawn")
+            progress_events = context.Queue()
+            workers = max(1, min(self.settings.workers, len(pending_druids)))
+            if pending_druids:
+                print(f"Object build worker processes: {workers}", flush=True)
+            with interruptible_process_pool(
+                workers,
+                mp_context=context,
+                initializer=_init_object_worker,
+                initargs=(progress_events, *create_shared_limits(context)),
+            ) as executor:
+                pending = {
+                    executor.submit(
+                        _build_object,
+                        self.settings,
+                        self.store.path,
+                        run_id,
+                        druid,
+                    )
+                    for druid in pending_druids
+                }
+                active: dict[str, str] = {}
+                # Progress events travel separately from results, so a late
+                # event must not mark a finished object active again.
+                finished: set[str] = set()
+                last_refresh = 0.0
+                with tqdm(
+                    total=len(selected),
+                    initial=already_current,
+                    desc="Processing pipeline objects",
+                    unit="object",
+                    disable=not show_progress,
+                ) as progress:
+                    while pending:
+                        done, pending = concurrent.futures.wait(
+                            pending,
+                            timeout=0.25,
+                            return_when=concurrent.futures.FIRST_COMPLETED,
+                        )
+                        while True:
+                            try:
+                                druid, stage, event = progress_events.get_nowait()
+                            except queue.Empty:
+                                break
+                            if druid in finished:
+                                continue
+                            if event == "started":
+                                active[druid] = stage
+                            elif active.get(druid) == stage:
                                 active.pop(druid, None)
-                                if error is None:
-                                    summary["succeeded"] += 1
-                                else:
-                                    summary["failed"] += 1
-                                    tqdm.write(f"FAIL {druid}: {error}")
-                                progress.update(1)
-                            active_counts = Counter(active.values())
-                            activity = ",".join(
-                                f"{stage}:{count}"
-                                for stage, count in sorted(active_counts.items())
-                            ) or "waiting"
-                            progress.set_postfix_str(
-                                f"remaining={len(pending):,} active={activity} "
-                                f"ok={summary['succeeded']:,} failed={summary['failed']:,}",
-                                refresh=False,
-                            )
-                            now = time.monotonic()
-                            if done or now - last_refresh >= 1:
-                                progress.refresh()
-                                last_refresh = now
+                        for future in done:
+                            try:
+                                druid, error = future.result()
+                            except concurrent.futures.process.BrokenProcessPool as exc:
+                                raise StageError(
+                                    "An object build worker process exited "
+                                    "unexpectedly; rerun to resume"
+                                ) from exc
+                            finished.add(druid)
+                            active.pop(druid, None)
+                            if error is None:
+                                summary["succeeded"] += 1
+                            else:
+                                summary["failed"] += 1
+                                tqdm.write(f"FAIL {druid}: {error}")
+                            progress.update(1)
+                        active_counts = Counter(active.values())
+                        activity = ",".join(
+                            f"{stage}:{count}"
+                            for stage, count in sorted(active_counts.items())
+                        ) or "waiting"
+                        progress.set_postfix_str(
+                            f"remaining={len(pending):,} active={activity} "
+                            f"ok={summary['succeeded']:,} failed={summary['failed']:,}",
+                            refresh=False,
+                        )
+                        now = time.monotonic()
+                        if done or now - last_refresh >= 1:
+                            progress.refresh()
+                            last_refresh = now
             self.store.finish_run(
                 run_id, "failed" if summary["failed"] else "succeeded", summary
             )
