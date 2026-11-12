@@ -15,6 +15,7 @@ from sdr_harvest.core import (
     ALTO_EXTRACT_SIGNATURE,
     PDF_EXTRACT_SIGNATURE,
     StageError,
+    fingerprint,
 )
 from sdr_harvest.create_solr_document import SolrDocumentBuilder
 from sdr_harvest.download import FileDownloader
@@ -26,6 +27,7 @@ from tests.support import (
     cocina,
     paged_cocina,
     write_page_files,
+    write_pdf_object,
 )
 
 
@@ -552,6 +554,31 @@ class ChunkerTest(unittest.TestCase):
             self.assertTrue(
                 all(len(set(row["text"].split())) == 1 for row in text_rows)
             )
+
+    def test_leaves_pdf_object_chunks_unchanged(self):
+        # Joining page files must not change chunks for PDF objects, or every
+        # PDF object in the corpus is embedded again. The baseline turns joining
+        # off, so each file is split on its own as it was before page files were
+        # joined. Rows are compared rather than Parquet bytes, which also record
+        # the pyarrow version.
+        def chunk_rows(version_dir):
+            return pq.read_table(Chunker().run(DRUID, version_dir)).to_pylist()
+
+        with tempfile.TemporaryDirectory() as directory:
+            version_dir = Path(directory)
+            write_pdf_object(version_dir)
+
+            with patch(
+                "sdr_harvest.chunk.page_sequences",
+                lambda markdown_files, page_metadata, cocina: [
+                    [(markdown, None)] for markdown in markdown_files
+                ],
+            ):
+                unjoined = chunk_rows(version_dir)
+            rows = chunk_rows(version_dir)
+
+            self.assertTrue(any(row["page_start_offsets"] for row in rows))
+            self.assertEqual(fingerprint(unjoined), fingerprint(rows))
 
     def test_leaves_page_unknown_without_page_metadata(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -110,3 +110,37 @@ def write_page_files(version_dir, cocina_data, pages):
             else {"page": page, "source_file": source_file}
         )
     markdown.joinpath("pages.json").write_text(json.dumps(manifest))
+
+
+def write_pdf_object(version_dir):
+    """Write a PDF object as the PDF strategy extracts it.
+
+    Two multi-page PDFs sit in consecutive page resources, followed by a
+    one-page PDF. Pages are long enough that chunks span page breaks.
+    """
+    version_dir.joinpath("metadata.json").write_text(
+        json.dumps({"title_tesi": "Annual report", "date_ssim": ["1999"]})
+    )
+    files = {"report.pdf": 3, "appendix.pdf": 2, "letter.pdf": 1}
+    version_dir.joinpath("cocina.json").write_text(
+        json.dumps(paged_cocina(*((name, "world") for name in files)))
+    )
+    markdown = version_dir / "markdown"
+    markdown.mkdir()
+    manifest = {}
+    for structural_page, (source_file, page_count) in enumerate(files.items(), 1):
+        text, ranges = "", []
+        for internal_page in range(1, page_count + 1):
+            body = "".join(
+                f"Paragraph {index} of {source_file} page {internal_page}.\n\n"
+                for index in range(40)
+            )
+            page = str(structural_page if page_count == 1 else internal_page)
+            ranges.append(
+                {"page": page, "start": len(text), "end": len(text) + len(body)}
+            )
+            text += body
+        name = Path(source_file).with_suffix(".md").name
+        markdown.joinpath(name).write_text(text)
+        manifest[name] = {"pages": ranges, "source_file": source_file}
+    markdown.joinpath("pages.json").write_text(json.dumps(manifest))
