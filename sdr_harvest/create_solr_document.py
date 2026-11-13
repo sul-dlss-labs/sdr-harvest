@@ -45,13 +45,15 @@ class SolrDocumentBuilder:
             }
             if row.get("pages"):
                 pages = [str(page) for page in row["pages"]]
-                # The page the chunk starts on.
+                # The page the chunk starts on. Deprecated in favor of
+                # pages_ism[0]; kept until search clients stop reading it.
                 child["page_ss"] = pages[0]
-                if row.get("page_start_offsets"):
-                    # Parallel lists: every page the chunk spans, and where each
-                    # starts in chunk_text_tesi.
-                    child["pages_ism"] = [int(page) for page in pages]
-                    child["page_start_offsets_ism"] = list(row["page_start_offsets"])
+                # Parallel lists, written for single-page chunks too: every page
+                # the chunk spans, and where each starts in chunk_text_tesi.
+                child["pages_ism"] = [int(page) for page in pages]
+                child["page_start_offsets_ism"] = list(
+                    row.get("page_start_offsets") or [0]
+                )
             children.append(child)
         ids = [child["id"] for child in children]
         if len(ids) != len(set(ids)):

@@ -156,9 +156,10 @@ requests Gemini vectors through LiteLLM, and writes `embeddings.parquet`.
 **Document (`document`).** Combines `metadata.json` and `embeddings.parquet`
 into `solr.json`: one parent document carrying the metadata and the source
 fingerprint (`pipeline_fingerprint_ss`), with one child document per chunk
-carrying its text, vector, filename, and the page it starts on (`page_ss`). A
-chunk that spans more than one page also lists every page (`pages_ism`) and
-where each starts in `chunk_text_tesi` (`page_start_offsets_ism`). After this stage, the object's
+carrying its text, vector, filename, every page it spans (`pages_ism`, a single
+page for most chunks), and where each of those pages starts in `chunk_text_tesi`
+(`page_start_offsets_ism`, `[0]` for a single-page chunk). The page a chunk starts on is also written as `page_ss`, which is deprecated in favor of
+`pages_ism[0]`. After this stage, the object's
 `objects.current_artifact_dir` points at the version directory.
 
 - Cache key: the embed output fingerprint plus the `document` signature.
