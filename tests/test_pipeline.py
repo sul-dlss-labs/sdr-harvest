@@ -1095,7 +1095,7 @@ class ChunkerTest(unittest.TestCase):
 
 
 class SolrDocumentBuilderTest(unittest.TestCase):
-    def test_records_chunk_pages_as_page_ss_on_child_documents(self):
+    def test_records_chunk_pages_on_child_documents(self):
         with tempfile.TemporaryDirectory() as directory:
             version_dir = Path(directory)
             version_dir.joinpath("metadata.json").write_text("{}")
@@ -1140,8 +1140,10 @@ class SolrDocumentBuilderTest(unittest.TestCase):
 
             self.assertNotIn("page_ss", children[0])
             self.assertEqual(["1", "91"], [child["page_ss"] for child in children[1:]])
-            self.assertNotIn("pages_ism", children[1])
-            self.assertNotIn("page_start_offsets_ism", children[1])
+            self.assertNotIn("pages_ism", children[0])
+            self.assertEqual([1], children[1]["pages_ism"])
+            self.assertEqual([0], children[1]["page_start_offsets_ism"])
+            self.assertNotIn("page_start_offsets_ism", children[0])
             self.assertEqual([91, 92], children[2]["pages_ism"])
             self.assertEqual([0, 4], children[2]["page_start_offsets_ism"])
             self.assertEqual(3, len({child["id"] for child in children}))
