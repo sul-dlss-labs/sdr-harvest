@@ -103,6 +103,21 @@ def cocina(version=1, digest="abc"):
     }
 
 
+def write_stage_artifact(version_dir, stage):
+    """Write a stand-in for a stage's recorded output inside a version directory.
+
+    Extraction's output is a Markdown directory with its page manifest.
+    """
+    if stage == "extract":
+        artifact = version_dir / "markdown"
+        artifact.mkdir()
+        (artifact / "pages.json").write_text("{}")
+        return artifact
+    artifact = version_dir / stage
+    artifact.write_text(stage)
+    return artifact
+
+
 class ManifestTest(unittest.TestCase):
     def test_reads_headered_csv_and_normalizes_druid_prefix(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -1957,8 +1972,7 @@ class ResumeTest(unittest.TestCase):
         )
         input_fp = source_fp
         for stage in STAGES[1:]:
-            artifact = version_dir / f"{stage}.artifact"
-            artifact.write_text(stage)
+            artifact = write_stage_artifact(version_dir, stage)
             output_fp = f"output-{stage}"
             signature = (
                 ALTO_EXTRACT_SIGNATURE if stage == "extract" else SIGNATURES[stage]
@@ -2036,8 +2050,7 @@ class ResumeTest(unittest.TestCase):
             version_dir = root / "versions" / DRUID / source_fp
             version_dir.mkdir(parents=True)
             for stage in STAGES[1:]:
-                artifact = version_dir / stage
-                artifact.write_text(stage)
+                artifact = write_stage_artifact(version_dir, stage)
                 output_fp = f"output-{stage}"
                 store.adopt_stage(
                     DRUID,
@@ -2082,8 +2095,7 @@ class ResumeTest(unittest.TestCase):
             version_dir = root / "versions" / DRUID / source_fp
             version_dir.mkdir(parents=True)
             for stage in STAGES[1:]:
-                artifact = version_dir / stage
-                artifact.write_text(stage)
+                artifact = write_stage_artifact(version_dir, stage)
                 output_fp = f"output-{stage}"
                 store.adopt_stage(
                     DRUID,
@@ -2103,6 +2115,93 @@ class ResumeTest(unittest.TestCase):
             self.assertTrue(all(count == 0 for count in estimate.values()))
             store.close()
 
+    def test_extraction_without_page_manifest_is_queued_again(self):
+        # PDF Markdown extracted before pages.json was written still carries
+        # the current signature, but would give every chunk no page.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            store = StateStore(root / "state.sqlite3")
+            store.reconcile_manifest({DRUID})
+            source = cocina()
+            files = cocina_pdf_files(source)
+            source_fp = source_fingerprint(source, files)
+            cache = root / "sources" / DRUID / "cocina.json"
+            cache.parent.mkdir(parents=True)
+            cache.write_text(json.dumps(source, sort_keys=True))
+            store.set_source(
+                DRUID, source_fp, "1", files, cache_sha256=file_sha256(cache)
+            )
+            input_fp = source_fp
+            version_dir = root / "versions" / DRUID / source_fp
+            version_dir.mkdir(parents=True)
+            for stage in STAGES[1:]:
+                artifact = write_stage_artifact(version_dir, stage)
+                output_fp = f"output-{stage}"
+                store.adopt_stage(
+                    DRUID, stage, input_fp, output_fp, SIGNATURES[stage], artifact
+                )
+                input_fp = output_fp
+            (version_dir / "markdown" / "pages.json").unlink()
+
+            estimate, pending = Pipeline(
+                Settings(root, root), store
+            )._plan_work([DRUID], show_progress=False)
+
+            self.assertEqual([DRUID], pending)
+            self.assertEqual(0, estimate["download"])
+            self.assertEqual(0, estimate["metadata"])
+            for stage in ("extract", "chunk", "embed", "document"):
+                self.assertEqual(1, estimate[stage], stage)
+            store.close()
+
+    def test_extraction_without_page_manifest_is_run_again(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            store = StateStore(root / "state.sqlite3")
+            store.reconcile_manifest({DRUID})
+            source = cocina()
+            files = cocina_pdf_files(source)
+            source_fp = source_fingerprint(source, files)
+            store.set_source(DRUID, source_fp, "1", files)
+            version_dir = root / "versions" / DRUID / source_fp
+            version_dir.mkdir(parents=True)
+            cocina_path = root / "source.json"
+            cocina_path.write_text(json.dumps(source))
+            input_fp = source_fp
+            for stage in STAGES[1:]:
+                artifact = write_stage_artifact(version_dir, stage)
+                output_fp = f"output-{stage}"
+                store.adopt_stage(
+                    DRUID, stage, input_fp, output_fp, SIGNATURES[stage], artifact
+                )
+                input_fp = output_fp
+            (version_dir / "markdown" / "pages.json").unlink()
+            pipeline = Pipeline(Settings(root, root), store)
+            with (
+                patch("sdr_harvest.pipeline.StageAttempts") as attempts_class,
+                patch("sdr_harvest.pipeline.MetadataFetcher") as metadata_class,
+                patch("sdr_harvest.pipeline.FileDownloader"),
+                patch("sdr_harvest.pipeline.TextExtractor") as extractor_class,
+                patch("sdr_harvest.pipeline.Chunker"),
+                patch("sdr_harvest.pipeline.Embedder"),
+                patch("sdr_harvest.pipeline.SolrDocumentBuilder"),
+            ):
+                attempts = attempts_class.return_value
+                attempts.run.return_value = (None, "new-output")
+                metadata_class.return_value.fetch_cocina.return_value = (
+                    cocina_path,
+                    files,
+                    source_fp,
+                )
+                extractor = extractor_class.return_value
+                extractor.signature.return_value = SIGNATURES["extract"]
+                extractor.reusable_output.return_value = None
+                pipeline.run_object(store.start_run("manifest.csv"), DRUID)
+
+            run_stages = [call.args[2] for call in attempts.run.call_args_list]
+            self.assertEqual(["extract", "chunk", "embed", "document"], run_stages)
+            store.close()
+
     def test_current_artifacts_are_skipped(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -2118,8 +2217,7 @@ class ResumeTest(unittest.TestCase):
             cocina_path.write_text(json.dumps(source))
             input_fp = source_fp
             for stage in STAGES[1:]:
-                artifact = version_dir / stage
-                artifact.write_text(stage)
+                artifact = write_stage_artifact(version_dir, stage)
                 output_fp = f"output-{stage}"
                 store.adopt_stage(DRUID, stage, input_fp, output_fp, SIGNATURES[stage], artifact)
                 input_fp = output_fp
