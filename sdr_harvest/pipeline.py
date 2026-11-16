@@ -91,6 +91,21 @@ class Pipeline:
         path = self.store.resolve_path(artifact_path)
         return path.exists() and path.resolve().is_relative_to(version_dir.resolve())
 
+    def _artifact_current(
+        self, stage: str, artifact_path: str | None, version_dir: Path
+    ) -> bool:
+        """Whether a recorded artifact can stand in for running its stage again.
+
+        PDF extraction began writing ``pages.json`` without a new signature, so
+        Markdown extracted before then still matches the current signature but
+        gives every chunk no page. Such an extraction is run again.
+        """
+        if not self._artifact_in(artifact_path, version_dir):
+            return False
+        if stage != "extract":
+            return True
+        return (self.store.resolve_path(artifact_path) / "pages.json").exists()
+
     def _estimate_work(
         self, druids: list[str], *, show_progress: bool = True
     ) -> dict[str, int]:
@@ -171,7 +186,9 @@ class Pipeline:
                     and record["status"] == "succeeded"
                     and record["input_fingerprint"] == input_fp
                     and record["stage_signature"] == signature
-                    and self._artifact_in(record["artifact_path"], source_dir)
+                    and self._artifact_current(
+                        stage, record["artifact_path"], source_dir
+                    )
                 )
                 if current:
                     input_fp = record["output_fingerprint"] or input_fp
@@ -382,7 +399,7 @@ class Pipeline:
             is_current = (
                 self.store.stage_is_current(druid, stage, input_fp, signature)
                 and record
-                and self._artifact_in(record.artifact_path, version_dir)
+                and self._artifact_current(stage, record.artifact_path, version_dir)
             )
             if is_current:
                 input_fp = record.output_fingerprint or input_fp
