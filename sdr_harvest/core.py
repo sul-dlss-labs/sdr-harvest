@@ -14,20 +14,9 @@ from pathlib import Path
 
 import requests
 
+from .stages import ALTO_EXTRACT_SIGNATURE, PDF_EXTRACT_SIGNATURE, SIGNATURES
 
-ALTO_EXTRACT_SIGNATURE = "alto-xml-source-file-v2"
-PDF_EXTRACT_SIGNATURE = "pymupdf4llm-1.28.2-no-ocr-v2"
 
-SIGNATURES = {
-    "cocina": "cocina-v2-conditional-get",
-    "download": "download-v1-sha1",
-    "metadata": "traject-sdr-config-v1",
-    # Used as the conservative default when the extraction strategy is unknown.
-    "extract": PDF_EXTRACT_SIGNATURE,
-    "chunk": "recursive-1500-200-v3",
-    "embed": "gemini-embedding-2-768-retrieval-document-v2",
-    "document": "nested-solr-document-v4-pages-every-chunk",
-}
 SOURCE_INVENTORY_SIGNATURE = "prefer-complete-book-alto-v2-indexable-access"
 
 

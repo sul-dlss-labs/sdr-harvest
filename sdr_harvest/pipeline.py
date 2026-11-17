@@ -18,8 +18,6 @@ from tqdm import tqdm
 from .attempts import StageAttempts
 from .chunk import Chunker
 from .core import (
-    SIGNATURES,
-    SOURCE_INVENTORY_SIGNATURE,
     EventLog,
     Settings,
     StageError,
@@ -31,7 +29,9 @@ from .embed import Embedder, create_shared_limits, install_shared_limits
 from .extract_text import TextExtractor
 from .dark import read_dark_list
 from .manifests import parse_manifest
-from .metadata import MetadataFetcher, cocina_checked_recently
+from .metadata import MetadataFetcher
+from .planner import PipelinePlanner, artifact_belongs_to_version
+from .stages import BUILD_STAGES
 from .state import StateStore
 
 
@@ -110,17 +110,6 @@ class Pipeline:
             fcntl.flock(lock_stream, fcntl.LOCK_UN)
             lock_stream.close()
 
-    def _artifact_in(self, artifact_path: str | None, version_dir: Path) -> bool:
-        """Whether a recorded artifact exists inside this version's directory.
-
-        Stage inputs chain through outputs, so an unchanged file inventory can
-        match records whose artifacts belong to an earlier version.
-        """
-        if not artifact_path:
-            return False
-        path = self.store.resolve_path(artifact_path)
-        return path.exists() and path.resolve().is_relative_to(version_dir.resolve())
-
     def _estimate_work(
         self, druids: list[str], *, show_progress: bool = True
     ) -> dict[str, int]:
@@ -132,86 +121,10 @@ class Pipeline:
         self, druids: list[str], *, show_progress: bool = True
     ) -> tuple[dict[str, int], list[str]]:
         """Estimate stage work and select objects that need to enter the pool."""
-        counts = {
-            "cocina": 0,
-            **{stage: 0 for stage in SIGNATURES if stage != "cocina"},
-        }
-        pending: list[str] = []
-        selected = set(druids)
-        objects = {
-            row["druid"]: row
-            for row in self.store.db.execute(
-                """SELECT druid,source_fingerprint,source_checked_at,
-                          source_cache_sha256,source_inventory_signature,
-                          current_artifact_dir
-                   FROM objects WHERE manifest_present=1"""
-            )
-            if row["druid"] in selected
-        }
-        stages = {
-            (row["druid"], row["stage"]): row
-            for row in self.store.db.execute(
-                """SELECT s.druid,s.stage,s.status,s.input_fingerprint,
-                          s.output_fingerprint,s.stage_signature,s.artifact_path
-                   FROM stage_state AS s
-                   JOIN objects AS o ON o.druid=s.druid
-                   WHERE o.manifest_present=1
-                     AND s.stage IN
-                       ('download','metadata','extract','chunk','embed','document')"""
-            )
-            if row["druid"] in selected
-        }
-        downstream = ("download", "metadata", "extract", "chunk", "embed", "document")
-        extractor = TextExtractor()
-        for druid in tqdm(
-            druids,
-            desc="Estimating remaining work",
-            unit="object",
-            disable=not show_progress,
-        ):
-            obj = objects.get(druid)
-            input_fp = obj["source_fingerprint"] if obj else None
-            cache_path = self.settings.state_dir / "sources" / druid / "cocina.json"
-            needs_cocina = (
-                not obj
-                or not obj["source_cache_sha256"]
-                or not cache_path.exists()
-                or not cocina_checked_recently(obj["source_checked_at"])
-                or obj["source_inventory_signature"]
-                != SOURCE_INVENTORY_SIGNATURE
-            )
-            needs_work = needs_cocina
-            if needs_cocina:
-                counts["cocina"] += 1
-            dirty = not input_fp
-            source_dir = self.settings.state_dir / "versions" / druid / str(input_fp)
-            for stage in downstream:
-                record = stages.get((druid, stage))
-                signature = SIGNATURES[stage]
-                if stage == "extract" and obj and obj["current_artifact_dir"]:
-                    version_dir = self.store.resolve_path(obj["current_artifact_dir"])
-                    try:
-                        signature = extractor.signature(version_dir)
-                    except (OSError, ValueError, StageError):
-                        # Missing or invalid artifacts must be rebuilt conservatively.
-                        pass
-                current = bool(
-                    not dirty
-                    and record
-                    and record["status"] == "succeeded"
-                    and record["input_fingerprint"] == input_fp
-                    and record["stage_signature"] == signature
-                    and self._artifact_in(record["artifact_path"], source_dir)
-                )
-                if current:
-                    input_fp = record["output_fingerprint"] or input_fp
-                else:
-                    counts[stage] += 1
-                    dirty = True
-                    needs_work = True
-            if needs_work:
-                pending.append(druid)
-        return counts, pending
+        plan = PipelinePlanner(self.settings, self.store).plan(
+            druids, show_progress=show_progress
+        )
+        return plan.counts, plan.pending_druids
 
     def _run_locked(
         self,
@@ -371,48 +284,43 @@ class Pipeline:
         # and embed stages may reuse when their own inputs are unchanged.
         previous: dict[str, Path | None] = {}
         reuse_extract: Path | None = None
-        operations: list[tuple[str, Callable[[], Path]]] = [
-            ("download", lambda: downloader.run(druid, files, version_dir)),
-            (
-                "metadata",
-                lambda: metadata.create_search_metadata(druid, version_dir),
+        operations: dict[str, Callable[[], Path]] = {
+            "download": lambda: downloader.run(druid, files, version_dir),
+            "metadata": lambda: metadata.create_search_metadata(druid, version_dir),
+            "extract": lambda: extractor.run(
+                version_dir, outputs["download"], reuse_from=reuse_extract
             ),
-            (
-                "extract",
-                lambda: extractor.run(
-                    version_dir, outputs["download"], reuse_from=reuse_extract
-                ),
+            "chunk": lambda: chunker.run(druid, version_dir),
+            "embed": lambda: embedder.run(
+                version_dir, legacy_output=previous.get("embed")
             ),
-            ("chunk", lambda: chunker.run(druid, version_dir)),
-            (
-                "embed",
-                lambda: embedder.run(
-                    version_dir, legacy_output=previous.get("embed")
-                ),
-            ),
-            (
-                "document",
-                lambda: document_builder.run(druid, source_fp, version_dir),
-            ),
-        ]
-        for stage, operation in operations:
-            signature = (
-                extractor.signature(version_dir)
-                if stage == "extract"
-                else SIGNATURES[stage]
+            "document": lambda: document_builder.run(druid, source_fp, version_dir),
+        }
+        for stage in BUILD_STAGES:
+            operation = operations[stage.name]
+            dynamic_signature = (
+                extractor.signature(version_dir) if stage.dynamic_signature else None
             )
-            record = self.store.stage(druid, stage)
-            is_current = (
-                self.store.stage_is_current(druid, stage, input_fp, signature)
-                and record
-                and self._artifact_in(record.artifact_path, version_dir)
+            signature = stage.signature(dynamic_signature)
+            record = self.store.stage(druid, stage.name)
+            artifact_is_current = bool(
+                record
+                and artifact_belongs_to_version(
+                    self.store, record.artifact_path, version_dir
+                )
+            )
+            is_current = stage.is_current(
+                record,
+                input_fp,
+                signature,
+                artifact_is_current=artifact_is_current,
             )
             if is_current:
                 input_fp = record.output_fingerprint or input_fp
-                outputs[stage] = input_fp
-                self._progress(druid, stage, "skipped")
+                outputs[stage.name] = input_fp
+                self._progress(druid, stage.name, "skipped")
                 continue
-            previous[stage] = (
+            previous[stage.name] = (
                 self.store.resolve_path(record.artifact_path)
                 if record
                 and record.status == "succeeded"
@@ -420,7 +328,7 @@ class Pipeline:
                 and record.artifact_path
                 else None
             )
-            if stage == "extract":
+            if stage.name == "extract":
                 reuse_extract = extractor.reusable_output(
                     version_dir, outputs["download"], previous["extract"]
                 )
@@ -438,15 +346,15 @@ class Pipeline:
                         event="reusing_previous_extraction",
                         reuse_from=str(reuse_extract),
                     )
-            self._progress(druid, stage, "started")
+            self._progress(druid, stage.name, "started")
             try:
                 _, output_fp = attempts.run(
-                    run_id, druid, stage, input_fp, signature, operation
+                    run_id, druid, stage.name, input_fp, signature, operation
                 )
             except Exception:
-                self._progress(druid, stage, "failed")
+                self._progress(druid, stage.name, "failed")
                 raise
-            self._progress(druid, stage, "succeeded")
+            self._progress(druid, stage.name, "succeeded")
             input_fp = output_fp
-            outputs[stage] = input_fp
+            outputs[stage.name] = input_fp
         self.store.mark_built(druid, str(version_dir))

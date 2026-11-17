@@ -28,7 +28,8 @@ from .evaluation import compare_reports, live_evaluator, load_judgments, parse_c
 from .manifests import merge_manifests, parse_manifest
 from .pipeline import Pipeline
 from .publisher import CorpusPublisher, SolrPublisher
-from .state import STAGES, StateStore
+from .stages import STAGES
+from .state import StateStore
 
 
 RESOURCE_TRACKER_WARNING_FILTER = (

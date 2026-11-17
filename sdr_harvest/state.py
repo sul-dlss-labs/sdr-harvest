@@ -9,17 +9,7 @@ from pathlib import Path
 from typing import Iterator
 
 from .core import SOURCE_INVENTORY_SIGNATURE
-
-
-STAGES = (
-    "cocina",
-    "download",
-    "metadata",
-    "extract",
-    "chunk",
-    "embed",
-    "document",
-)
+from .stages import BUILD_STAGES, STAGES
 
 
 def now() -> str:
@@ -131,6 +121,16 @@ class StageRecord:
     attempt_count: int
     error_category: str | None
     error_message: str | None
+
+
+@dataclass(frozen=True)
+class ObjectRecord:
+    druid: str
+    source_fingerprint: str | None
+    source_checked_at: str | None
+    source_cache_sha256: str | None
+    source_inventory_signature: str | None
+    current_artifact_dir: str | None
 
 
 class StateStore:
@@ -273,6 +273,39 @@ class StateStore:
     def object_row(self, druid: str) -> sqlite3.Row | None:
         return self.db.execute("SELECT * FROM objects WHERE druid=?", (druid,)).fetchone()
 
+    def planning_snapshot(
+        self, druids: set[str]
+    ) -> tuple[
+        dict[str, ObjectRecord],
+        dict[tuple[str, str], StageRecord],
+    ]:
+        """Load the object and stage state needed to make a work plan."""
+        objects = {
+            row["druid"]: ObjectRecord(
+                **{key: row[key] for key in ObjectRecord.__dataclass_fields__}
+            )
+            for row in self.db.execute(
+                """SELECT druid,source_fingerprint,source_checked_at,
+                          source_cache_sha256,source_inventory_signature,
+                          current_artifact_dir
+                   FROM objects WHERE manifest_present=1"""
+            )
+            if row["druid"] in druids
+        }
+        build_stage_names = {stage.name for stage in BUILD_STAGES}
+        stages = {
+            (row["druid"], row["stage"]): StageRecord(
+                **{key: row[key] for key in StageRecord.__dataclass_fields__}
+            )
+            for row in self.db.execute(
+                """SELECT s.* FROM stage_state AS s
+                   JOIN objects AS o ON o.druid=s.druid
+                   WHERE o.manifest_present=1"""
+            )
+            if row["druid"] in druids and row["stage"] in build_stage_names
+        }
+        return objects, stages
+
     def set_source(
         self,
         druid: str,
@@ -341,10 +374,6 @@ class StateStore:
             "SELECT * FROM stage_state WHERE druid=? AND stage=?", (druid, stage)
         ).fetchone()
         return StageRecord(**{k: row[k] for k in StageRecord.__dataclass_fields__}) if row else None
-
-    def stage_is_current(self, druid: str, stage: str, input_fp: str, signature: str) -> bool:
-        record = self.stage(druid, stage)
-        return bool(record and record.status == "succeeded" and record.input_fingerprint == input_fp and record.stage_signature == signature)
 
     def begin_attempt(self, run_id: int, druid: str, stage: str, input_fp: str, signature: str, log_path: str) -> tuple[int, int]:
         with self.transaction():
