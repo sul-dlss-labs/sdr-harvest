@@ -83,6 +83,7 @@ from sdr_harvest.publisher import (
     PublicationItem,
     SolrPublisher,
 )
+from sdr_harvest.stages import BUILD_STAGES, STAGE_REGISTRY, StageDefinition
 from sdr_harvest.state import STAGES, StateStore
 
 
@@ -387,6 +388,43 @@ class DarkTest(unittest.TestCase):
         store.close()
 
         self.assertEqual(1, summary["total"])
+
+
+class StageRegistryTest(unittest.TestCase):
+    def test_registry_is_the_source_of_stage_order_and_default_signatures(self):
+        self.assertEqual(STAGES, tuple(stage.name for stage in STAGE_REGISTRY))
+        self.assertEqual(STAGES[1:], tuple(stage.name for stage in BUILD_STAGES))
+        self.assertEqual(
+            SIGNATURES,
+            {stage.name: stage.default_signature for stage in STAGE_REGISTRY},
+        )
+
+    def test_dynamic_stage_uses_runtime_signature_for_currentness(self):
+        stage = StageDefinition("extract", "default", dynamic_signature=True)
+        record = Mock(
+            status="succeeded",
+            input_fingerprint="input",
+            stage_signature="selected-strategy",
+        )
+
+        signature = stage.signature("selected-strategy")
+
+        self.assertTrue(
+            stage.is_current(
+                record,
+                "input",
+                signature,
+                artifact_is_current=True,
+            )
+        )
+        self.assertFalse(
+            stage.is_current(
+                record,
+                "input",
+                signature,
+                artifact_is_current=False,
+            )
+        )
 
 
 class FingerprintTest(unittest.TestCase):

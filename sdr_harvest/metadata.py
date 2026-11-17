@@ -11,7 +11,6 @@ import requests
 
 from .attempts import StageAttempts
 from .core import (
-    SIGNATURES,
     SOURCE_INVENTORY_SIGNATURE,
     EventLog,
     Settings,
@@ -20,6 +19,7 @@ from .core import (
     file_sha256,
 )
 from .manifests import cocina_source_files, source_fingerprint
+from .stages import SIGNATURES
 from .state import StateStore
 
 

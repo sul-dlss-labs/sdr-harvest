@@ -18,7 +18,8 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import requests
 
-from .core import SIGNATURES, StageError, TransientStageError, previous_versions
+from .core import StageError, TransientStageError, previous_versions
+from .stages import SIGNATURES
 
 
 GEMINI_BATCH_URL = (
