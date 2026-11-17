@@ -4,6 +4,8 @@ import json
 import multiprocessing
 import os
 import signal
+import subprocess
+import sys
 import tempfile
 import time
 import unittest
@@ -25,6 +27,7 @@ from sdr_harvest.core import (
     exit_with_parent,
     interruptible_process_pool,
     interruptible_thread_pool,
+    worker_threads,
 )
 from sdr_harvest.state import StateStore
 from tests.support import DRUID
@@ -95,6 +98,33 @@ class InterruptTest(unittest.TestCase):
                 time.sleep(5)
         finally:
             signal.signal(signal.SIGTERM, previous)
+
+    def test_worker_threads_split_cores_among_processes(self):
+        with patch("sdr_harvest.core.os.cpu_count", return_value=12):
+            self.assertEqual(1, worker_threads(10))
+            self.assertEqual(3, worker_threads(4))
+            self.assertEqual(12, worker_threads(1))
+        with patch("sdr_harvest.core.os.cpu_count", return_value=None):
+            self.assertEqual(1, worker_threads(4))
+
+    def test_limit_worker_threads_caps_onnx_sessions(self):
+        # Run in a fresh interpreter: the limit patches onnxruntime globally.
+        script = (
+            "import os, onnxruntime\n"
+            "from sdr_harvest.core import limit_worker_threads\n"
+            "limit_worker_threads(2)\n"
+            "limit_worker_threads(2)\n"
+            "session = onnxruntime.InferenceSession\n"
+            "print(session._sdr_harvest_threads, os.environ['OMP_NUM_THREADS'],\n"
+            "      session.__mro__[1].__name__)\n"
+        )
+        result = subprocess.run(
+            [sys.executable, "-c", script],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertEqual("2 2 InferenceSession", result.stdout.strip())
 
     def test_cli_exits_immediately_with_status_130(self):
         with tempfile.TemporaryDirectory() as directory:
