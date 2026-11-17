@@ -1,11 +1,13 @@
 from contextlib import redirect_stderr, redirect_stdout
 
+import concurrent.futures
 import fcntl
 import hashlib
 import io
 import json
 import multiprocessing
 import os
+import signal
 import sqlite3
 import tempfile
 import threading
@@ -24,6 +26,7 @@ import pymupdf4llm
 from sdr_harvest.cli import (
     RESOURCE_TRACKER_WARNING_FILTER,
     _configure_child_warning_filters,
+    _interrupt_on_sigterm,
     _settings,
     main,
     parser,
@@ -40,6 +43,7 @@ from sdr_harvest.core import (
     TransientStageError,
     directory_fingerprint,
     file_sha256,
+    exit_with_parent,
     interruptible_process_pool,
     interruptible_thread_pool,
 )
@@ -1866,6 +1870,38 @@ class InterruptTest(unittest.TestCase):
         for process in processes:
             process.join(timeout=10)
             self.assertFalse(process.is_alive())
+
+    def test_process_pool_failure_terminates_running_workers(self):
+        with self.assertRaises(RuntimeError):
+            with interruptible_process_pool(1) as executor:
+                executor.submit(time.sleep, 60)
+                processes = list(executor._processes.values())
+                raise RuntimeError("run failed")
+        for process in processes:
+            process.join(timeout=10)
+            self.assertFalse(process.is_alive())
+
+    def test_pool_worker_exits_once_its_parent_is_gone(self):
+        # A parent PID that is not the worker's parent stands in for a
+        # coordinator that was killed without cleaning up its pool.
+        with concurrent.futures.ProcessPoolExecutor(
+            max_workers=1,
+            mp_context=multiprocessing.get_context("spawn"),
+            initializer=exit_with_parent,
+            initargs=(-1, 0.05),
+        ) as executor:
+            future = executor.submit(time.sleep, 60)
+            with self.assertRaises(concurrent.futures.process.BrokenProcessPool):
+                future.result(timeout=30)
+
+    def test_sigterm_interrupts_like_ctrl_c(self):
+        previous = signal.signal(signal.SIGTERM, _interrupt_on_sigterm)
+        try:
+            with self.assertRaises(KeyboardInterrupt):
+                os.kill(os.getpid(), signal.SIGTERM)
+                time.sleep(5)
+        finally:
+            signal.signal(signal.SIGTERM, previous)
 
     def test_cli_exits_immediately_with_status_130(self):
         with tempfile.TemporaryDirectory() as directory:

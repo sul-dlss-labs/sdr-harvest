@@ -4,6 +4,9 @@ import concurrent.futures
 import hashlib
 import json
 import multiprocessing
+import os
+import threading
+import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -139,6 +142,42 @@ def interruptible_thread_pool(max_workers: int):
         executor.shutdown(wait=True)
 
 
+def exit_with_parent(parent_pid: int, interval: float = 1.0) -> None:
+    """Process pool initializer: end this worker once its coordinator is gone.
+
+    A worker otherwise outlives a coordinator killed without cleanup (for
+    example by ``kill -9``), re-parented to init and holding its memory.
+    """
+
+    def watch() -> None:
+        while os.getppid() == parent_pid:
+            time.sleep(interval)
+        os._exit(1)
+
+    threading.Thread(target=watch, name="exit-with-parent", daemon=True).start()
+
+
+def terminate_workers(executor: concurrent.futures.ProcessPoolExecutor) -> None:
+    """Cancel queued work and stop workers, including any mid-extraction."""
+    # Captured before shutdown, which may discard the executor's process table.
+    processes = list((executor._processes or {}).values())
+    executor.shutdown(wait=False, cancel_futures=True)
+    for process in processes:
+        if process.is_alive():
+            process.terminate()
+    for process in processes:
+        process.join(timeout=5)
+        if process.is_alive():
+            process.kill()
+            process.join()
+
+
+def _init_pool_worker(parent_pid: int, initializer, initargs: tuple) -> None:
+    exit_with_parent(parent_pid)
+    if initializer is not None:
+        initializer(*initargs)
+
+
 @contextmanager
 def interruptible_process_pool(
     max_workers: int,
@@ -147,21 +186,23 @@ def interruptible_process_pool(
     initializer=None,
     initargs: tuple = (),
 ):
-    """Run CPU-bound work in isolated processes without blocking Ctrl-C exit."""
+    """Run CPU-bound work in isolated processes without blocking Ctrl-C exit.
+
+    If the run is interrupted or fails, running workers are terminated rather
+    than left to finish their current task after the coordinator exits.
+    """
     executor = concurrent.futures.ProcessPoolExecutor(
         max_workers=max_workers,
         mp_context=mp_context or multiprocessing.get_context("spawn"),
-        initializer=initializer,
-        initargs=initargs,
+        initializer=_init_pool_worker,
+        initargs=(os.getpid(), initializer, initargs),
     )
     try:
         yield executor
     except BaseException:
-        # Workers ignore SIGINT and would otherwise finish their current object
+        # Workers ignore SIGINT and would otherwise finish their current task
         # after the coordinator exits, so stop them now.
-        for process in list((executor._processes or {}).values()):
-            process.terminate()
-        executor.shutdown(wait=False, cancel_futures=True)
+        terminate_workers(executor)
         raise
     else:
         executor.shutdown(wait=True)

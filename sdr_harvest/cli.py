@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import shutil
+import signal
 import sys
 import textwrap
 import warnings
@@ -324,10 +325,17 @@ def _print_query_results(results: list[dict]) -> None:
             )
 
 
+def _interrupt_on_sigterm(signum: int, frame: object) -> None:
+    raise KeyboardInterrupt
+
+
 def main(argv: list[str] | None = None) -> None:
     # PyMuPDF may start multiprocessing's resource tracker during extraction.
     # It inherits this targeted filter before any worker creates a semaphore.
     _configure_child_warning_filters()
+    # `kill` stops a run like Ctrl-C, so its state is marked interrupted and
+    # its PDF workers are terminated instead of orphaned.
+    signal.signal(signal.SIGTERM, _interrupt_on_sigterm)
     args = parser().parse_args(argv)
     root = Path.cwd()
     args.state_dir = args.state_dir.resolve()
