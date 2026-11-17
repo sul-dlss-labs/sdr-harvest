@@ -510,6 +510,18 @@ object from its target before publishing and never publishes one, and `run`,
 `plan`, and `merge-manifests` exclude them even when an input CSV still lists
 them. Use the global `--dark-list` option to read a different file.
 
+## Testing
+
+Install the development dependency group and run the suite with pytest:
+
+```shell
+uv sync --dev
+uv run pytest
+```
+
+Tests are grouped by subsystem under `tests/`; shared COCINA and HTTP fixtures
+live in `tests/support.py`.
+
 ## Developer documentation
 
 Implementation details and module responsibilities are documented in

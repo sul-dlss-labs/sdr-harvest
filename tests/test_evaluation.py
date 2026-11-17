@@ -1,8 +1,8 @@
-from contextlib import redirect_stdout
 import io
 import json
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -82,7 +82,9 @@ class JudgmentTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "judgments.json"
             path.write_text(
-                json.dumps([_case("one", [("aa123bb4567", 1)], test_type="fact_lookup")])
+                json.dumps(
+                    [_case("one", [("aa123bb4567", 1)], test_type="fact_lookup")]
+                )
             )
 
             with self.assertRaisesRegex(StageError, "No judgments found"):
@@ -101,9 +103,7 @@ class JudgmentTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "judgments.json"
             path.write_text(
-                json.dumps(
-                    [_case("one", [("replace-with-relevant-druid", 1)])]
-                )
+                json.dumps([_case("one", [("replace-with-relevant-druid", 1)])])
             )
 
             with self.assertRaisesRegex(StageError, "invalid document_id"):
@@ -112,9 +112,7 @@ class JudgmentTest(unittest.TestCase):
     def test_rejects_score_outside_the_graded_range(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "judgments.json"
-            path.write_text(
-                json.dumps([_case("one", [("aa123bb4567", 4)])])
-            )
+            path.write_text(json.dumps([_case("one", [("aa123bb4567", 4)])]))
 
             with self.assertRaisesRegex(StageError, "outside the graded range"):
                 load_judgments(path)
@@ -168,7 +166,9 @@ class MetricTest(unittest.TestCase):
 
         collapsed = collapse_chunks(documents)
 
-        self.assertEqual(["aa123bb4567", "cc123dd4567"], [row["druid"] for row in collapsed])
+        self.assertEqual(
+            ["aa123bb4567", "cc123dd4567"], [row["druid"] for row in collapsed]
+        )
         self.assertEqual("best", collapsed[0]["snippet"])
 
     def test_calculates_binary_and_graded_metrics(self):
@@ -202,9 +202,7 @@ class EvaluatorTest(unittest.TestCase):
             [result["druid"] for result in results],
         )
         embed_queries.assert_called_once_with(["natural language question"])
-        retriever.search.assert_called_once_with(
-            [0.0] * EMBEDDING_DIMENSIONS, 25
-        )
+        retriever.search.assert_called_once_with([0.0] * EMBEDDING_DIMENSIONS, 25)
 
     def test_evaluates_and_aggregates_at_druid_level(self):
         retriever = Mock()
@@ -227,9 +225,7 @@ class EvaluatorTest(unittest.TestCase):
         self.assertEqual(1, report["query_count"])
         self.assertEqual(0.0, report["aggregate"]["success@1"])
         self.assertEqual(1.0, report["aggregate"]["success@2"])
-        retriever.search.assert_called_once_with(
-            [0.0] * EMBEDDING_DIMENSIONS, 2
-        )
+        retriever.search.assert_called_once_with([0.0] * EMBEDDING_DIMENSIONS, 2)
 
     def test_requires_enough_candidates_for_the_cutoff(self):
         evaluator = Evaluator(Mock(), lambda _queries: [])
@@ -281,12 +277,8 @@ class EvaluatorTest(unittest.TestCase):
 
         comparison = compare_reports(current, baseline)
 
-        self.assertAlmostEqual(
-            0.05, comparison["aggregate"]["ndcg@10"]["delta"]
-        )
-        self.assertAlmostEqual(
-            0.05, comparison["queries"][0]["delta"]["ndcg@10"]
-        )
+        self.assertAlmostEqual(0.05, comparison["aggregate"]["ndcg@10"]["delta"])
+        self.assertAlmostEqual(0.05, comparison["queries"][0]["delta"]["ndcg@10"])
 
     def test_rejects_a_baseline_with_different_judgments(self):
         current = {
