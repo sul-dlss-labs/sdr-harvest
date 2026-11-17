@@ -83,6 +83,7 @@ from sdr_harvest.publisher import (
     PublicationItem,
     SolrPublisher,
 )
+from sdr_harvest.services import DefaultPipelineServiceFactory, PipelineServices
 from sdr_harvest.stages import BUILD_STAGES, STAGE_REGISTRY, StageDefinition
 from sdr_harvest.state import STAGES, StateStore
 
@@ -425,6 +426,60 @@ class StageRegistryTest(unittest.TestCase):
                 artifact_is_current=False,
             )
         )
+
+
+class PipelineServicesTest(unittest.TestCase):
+    def test_default_factory_wires_shared_http_state_and_closes_it(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            store = StateStore(root / "state.sqlite3")
+            settings = Settings(root, root, keep_failed_downloads=True)
+            http = Mock()
+            factory = DefaultPipelineServiceFactory(
+                session_factory=lambda: http,
+                environment={"STACKS_TOKEN": "secret"},
+            )
+
+            with factory.create(settings, store, None) as services:
+                self.assertIs(http, services.metadata.http)
+                self.assertIs(http, services.downloader.http)
+                self.assertIs(services.attempts, services.metadata.attempts)
+                self.assertTrue(services.downloader.keep_failed_downloads)
+                self.assertEqual(
+                    {"Authorization": "Bearer secret"},
+                    services.downloader.headers,
+                )
+
+            http.close.assert_called_once_with()
+            store.close()
+
+    def test_pipeline_closes_services_when_source_fetch_fails(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            store = StateStore(root / "state.sqlite3")
+            closer = Mock()
+            services = PipelineServices(
+                attempts=Mock(),
+                metadata=Mock(),
+                downloader=Mock(),
+                extractor=Mock(),
+                chunker=Mock(),
+                embedder=Mock(),
+                document_builder=Mock(),
+                closer=closer,
+            )
+            services.metadata.fetch_cocina.side_effect = StageError("failed")
+            factory = Mock()
+            factory.create.return_value = services
+            pipeline = Pipeline(
+                Settings(root, root), store, service_factory=factory
+            )
+
+            with self.assertRaisesRegex(StageError, "failed"):
+                pipeline.run_object(store.start_run("manifest.csv"), DRUID)
+
+            closer.assert_called_once_with()
+            store.close()
 
 
 class FingerprintTest(unittest.TestCase):
@@ -2230,38 +2285,45 @@ class ResumeTest(unittest.TestCase):
                 store.adopt_stage(DRUID, stage, input_fp, output_fp, SIGNATURES[stage], artifact)
                 input_fp = output_fp
             progress_events = []
+            closer = Mock()
+            services = PipelineServices(
+                attempts=Mock(),
+                metadata=Mock(),
+                downloader=Mock(),
+                extractor=Mock(),
+                chunker=Mock(),
+                embedder=Mock(),
+                document_builder=Mock(),
+                closer=closer,
+            )
+            service_factory = Mock()
+            service_factory.create.return_value = services
             pipeline = Pipeline(
                 Settings(root, root),
                 store,
                 progress_callback=lambda druid, stage, event: progress_events.append(
                     (druid, stage, event)
                 ),
+                service_factory=service_factory,
             )
-            with (
-                patch("sdr_harvest.pipeline.StageAttempts") as attempts_class,
-                patch("sdr_harvest.pipeline.MetadataFetcher") as metadata_class,
-                patch("sdr_harvest.pipeline.FileDownloader"),
-                patch("sdr_harvest.pipeline.TextExtractor") as extractor_class,
-                patch("sdr_harvest.pipeline.Chunker"),
-                patch("sdr_harvest.pipeline.Embedder"),
-                patch("sdr_harvest.pipeline.SolrDocumentBuilder"),
-            ):
-                attempts = attempts_class.return_value
-                metadata = metadata_class.return_value
-                metadata.fetch_cocina.return_value = (
-                    cocina_path,
-                    files,
-                    source_fp,
-                )
-                extractor_class.return_value.signature.return_value = SIGNATURES[
-                    "extract"
-                ]
-                pipeline.run_object(store.start_run("manifest.csv"), DRUID)
+            services.metadata.fetch_cocina.return_value = (
+                cocina_path,
+                files,
+                source_fp,
+            )
+            services.extractor.signature.return_value = SIGNATURES["extract"]
+
+            pipeline.run_object(store.start_run("manifest.csv"), DRUID)
+
+            service_factory.create.assert_called_once_with(
+                pipeline.settings, store, None
+            )
+            closer.assert_called_once_with()
             self.assertEqual(
                 str(Path("versions") / DRUID / source_fp),
                 store.object_row(DRUID)["current_artifact_dir"],
             )
-            attempts.run.assert_not_called()
+            services.attempts.run.assert_not_called()
             self.assertIn((DRUID, "cocina", "started"), progress_events)
             self.assertIn((DRUID, "cocina", "succeeded"), progress_events)
             self.assertIn((DRUID, "document", "skipped"), progress_events)
@@ -2794,9 +2856,15 @@ class PreviousVersionReuseTest(unittest.TestCase):
                     )
                     return output
 
-                pipeline = Pipeline(Settings(root, root), store)
-                pipeline.http = Mock()
-                pipeline.http.get.return_value = StreamingResponse(content)
+                http = Mock()
+                http.get.return_value = StreamingResponse(content)
+                pipeline = Pipeline(
+                    Settings(root, root),
+                    store,
+                    service_factory=DefaultPipelineServiceFactory(
+                        session_factory=lambda: http
+                    ),
+                )
                 with (
                     patch.dict(os.environ, {"LITELLM_API_KEY": "test-key"}),
                     patch.object(
@@ -2820,7 +2888,7 @@ class PreviousVersionReuseTest(unittest.TestCase):
                     ) as embed_batch,
                 ):
                     pipeline.run_object(run_id, DRUID)
-                return pipeline.http, to_markdown, embed_batch
+                return http, to_markdown, embed_batch
 
             build(1)
             http, to_markdown, embed_batch = build(2)

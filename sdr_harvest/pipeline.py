@@ -3,7 +3,6 @@ from __future__ import annotations
 import concurrent.futures
 import fcntl
 import multiprocessing
-import os
 import queue
 import shutil
 import signal
@@ -12,25 +11,23 @@ from collections import Counter
 from pathlib import Path
 from typing import Callable
 
-import requests
 from tqdm import tqdm
 
-from .attempts import StageAttempts
-from .chunk import Chunker
 from .core import (
     EventLog,
     Settings,
     StageError,
     interruptible_process_pool,
 )
-from .create_solr_document import SolrDocumentBuilder
-from .download import FileDownloader
-from .embed import Embedder, create_shared_limits, install_shared_limits
-from .extract_text import TextExtractor
+from .embed import create_shared_limits, install_shared_limits
 from .dark import read_dark_list
 from .manifests import parse_manifest
-from .metadata import MetadataFetcher
 from .planner import PipelinePlanner, artifact_belongs_to_version
+from .services import (
+    DefaultPipelineServiceFactory,
+    PipelineServiceFactory,
+    PipelineServices,
+)
 from .stages import BUILD_STAGES
 from .state import StateStore
 
@@ -48,7 +45,11 @@ def _init_object_worker(events, embedding_slots, rate_limit_open_at) -> None:
 
 
 def _build_object(
-    settings: Settings, store_path: Path, run_id: int, druid: str
+    settings: Settings,
+    store_path: Path,
+    run_id: int,
+    druid: str,
+    service_factory: PipelineServiceFactory,
 ) -> tuple[str, str | None]:
     """Build one object in a worker process; errors return as text to pickle safely."""
     store = StateStore(store_path)
@@ -59,6 +60,7 @@ def _build_object(
             progress_callback=lambda item, stage, event: _worker_events.put(
                 (item, stage, event)
             ),
+            service_factory=service_factory,
         ).run_object(run_id, druid)
         return druid, None
     except Exception as exc:
@@ -76,12 +78,13 @@ class Pipeline:
         store: StateStore,
         progress_callback: Callable[[str, str, str], None] | None = None,
         pdf_executor: concurrent.futures.Executor | None = None,
+        service_factory: PipelineServiceFactory | None = None,
     ):
         self.settings = settings
         self.store = store
-        self.http = requests.Session()
         self.progress_callback = progress_callback
         self.pdf_executor = pdf_executor
+        self.service_factory = service_factory or DefaultPipelineServiceFactory()
 
     def _progress(self, druid: str, stage: str, event: str) -> None:
         if self.progress_callback:
@@ -182,6 +185,7 @@ class Pipeline:
                         self.store.path,
                         run_id,
                         druid,
+                        self.service_factory,
                     )
                     for druid in pending_druids
                 }
@@ -254,19 +258,21 @@ class Pipeline:
 
     def run_object(self, run_id: int, druid: str) -> None:
         """Run one object through every non-current build stage in order."""
-        attempts = StageAttempts(self.settings, self.store)
-        metadata = MetadataFetcher(
-            self.settings, self.store, self.http, attempts
-        )
-        downloader = FileDownloader(
-            self.http,
-            keep_failed_downloads=self.settings.keep_failed_downloads,
-            stacks_token=os.environ.get("STACKS_TOKEN"),
-        )
-        extractor = TextExtractor(pdf_executor=self.pdf_executor)
-        chunker = Chunker()
-        embedder = Embedder()
-        document_builder = SolrDocumentBuilder()
+        with self.service_factory.create(
+            self.settings, self.store, self.pdf_executor
+        ) as services:
+            self._run_object(run_id, druid, services)
+
+    def _run_object(
+        self, run_id: int, druid: str, services: PipelineServices
+    ) -> None:
+        attempts = services.attempts
+        metadata = services.metadata
+        downloader = services.downloader
+        extractor = services.extractor
+        chunker = services.chunker
+        embedder = services.embedder
+        document_builder = services.document_builder
         self._progress(druid, "cocina", "started")
         try:
             cocina_path, files, source_fp = metadata.fetch_cocina(run_id, druid)
