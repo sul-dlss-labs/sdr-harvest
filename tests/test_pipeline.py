@@ -2130,6 +2130,33 @@ class InterruptTest(unittest.TestCase):
 
 
 class CliErrorTest(unittest.TestCase):
+    def test_parser_handler_can_run_plan_without_main(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root / "manifest.csv"
+            manifest.write_text(f"identifier\n{DRUID}\n")
+            state_dir = root / "state"
+            args = parser().parse_args(
+                [
+                    "--state-dir",
+                    str(state_dir),
+                    "--dark-list",
+                    str(root / "dark.csv"),
+                    "plan",
+                    "--manifest",
+                    str(manifest),
+                ]
+            )
+            store = StateStore(state_dir / "state.sqlite3")
+            stdout = io.StringIO()
+
+            with redirect_stdout(stdout):
+                args.handler(root, args, store)
+
+            self.assertEqual("_command_plan", args.handler.__name__)
+            self.assertEqual(1, json.loads(stdout.getvalue())["manifest_objects"])
+            store.close()
+
     def test_build_can_retain_failed_downloads(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
