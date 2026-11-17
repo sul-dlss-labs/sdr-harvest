@@ -58,11 +58,13 @@ def parser() -> argparse.ArgumentParser:
     )
     commands = result.add_subparsers(dest="command", required=True)
     merge = commands.add_parser("merge-manifests", help="merge and deduplicate DRUID manifests")
+    merge.set_defaults(handler=_command_merge_manifests)
     merge.add_argument("inputs", type=Path, nargs="+")
     merge.add_argument("--output", type=Path, default=Path("manifest.csv"))
     publish = commands.add_parser(
         "publish", help="publish all ready Solr JSON documents to one target"
     )
+    publish.set_defaults(handler=_command_publish)
     publish.add_argument("--manifest", type=Path, required=True)
     publish.add_argument(
         "--target", required=True, help="full Solr collection URL"
@@ -91,6 +93,7 @@ def parser() -> argparse.ArgumentParser:
     evaluate = commands.add_parser(
         "evaluate", help="measure ranked retrieval against relevance judgments"
     )
+    evaluate.set_defaults(handler=_command_evaluate)
     evaluate.add_argument(
         "--judgments",
         type=Path,
@@ -132,6 +135,7 @@ def parser() -> argparse.ArgumentParser:
     query = commands.add_parser(
         "query", help="run one semantic query and display ranked results"
     )
+    query.set_defaults(handler=_command_query)
     query.add_argument("query", help="natural-language query text")
     query.add_argument("--target", default="http://localhost:8983/solr/sdr-search")
     query.add_argument(
@@ -153,6 +157,9 @@ def parser() -> argparse.ArgumentParser:
     )
     for name in ("run", "plan"):
         command = commands.add_parser(name)
+        command.set_defaults(
+            handler=_command_run if name == "run" else _command_plan
+        )
         command.add_argument("--manifest", type=Path, required=True)
         if name == "run":
             command.add_argument("--druid", action="append", default=[])
@@ -166,10 +173,12 @@ def parser() -> argparse.ArgumentParser:
                 "--no-progress", action="store_true", help="disable progress bars"
             )
     status = commands.add_parser("status")
+    status.set_defaults(handler=_command_status)
     status.add_argument("--failed", action="store_true")
     status.add_argument("--druid")
     status.add_argument("--stage", choices=STAGES)
     retry = commands.add_parser("retry")
+    retry.set_defaults(handler=_command_retry)
     retry.add_argument("--failed", action="store_true")
     retry.add_argument("--druid", action="append", default=[])
     retry.add_argument("--manifest", type=Path)
@@ -183,6 +192,7 @@ def parser() -> argparse.ArgumentParser:
         "--no-progress", action="store_true", help="disable progress bars"
     )
     rebuild = commands.add_parser("rebuild")
+    rebuild.set_defaults(handler=_command_rebuild)
     rebuild.add_argument("--druid", required=True)
     rebuild.add_argument("--from", dest="from_stage", choices=STAGES, default="cocina")
     rebuild.add_argument("--manifest", type=Path)
@@ -199,6 +209,7 @@ def parser() -> argparse.ArgumentParser:
         "darken",
         help="disavow objects: record them as dark, purge local state, and delete them from Solr",
     )
+    darken.set_defaults(handler=_command_darken)
     darken.add_argument(
         "--druid", action="append", default=[], help="DRUID to add to the dark list"
     )
@@ -217,6 +228,7 @@ def parser() -> argparse.ArgumentParser:
         help="disable TLS certificate verification (only for a trusted local tunnel)",
     )
     prune = commands.add_parser("prune")
+    prune.set_defaults(handler=_command_prune)
     prune.add_argument("--failed-before", required=True, help="ISO date; removes old non-current version directories")
     return result
 
@@ -326,6 +338,241 @@ def _print_query_results(results: list[dict]) -> None:
             )
 
 
+def _command_merge_manifests(root: Path, args, store: StateStore) -> None:
+    try:
+        summary = merge_manifests(
+            args.inputs, args.output, read_dark_list(args.dark_list)
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        raise SystemExit(str(exc)) from exc
+    print(json.dumps(summary, indent=2, sort_keys=True))
+
+
+def _command_plan(root: Path, args, store: StateStore) -> None:
+    wanted = parse_manifest(args.manifest) - read_dark_list(args.dark_list)
+    known = {
+        row[0]
+        for row in store.db.execute(
+            "SELECT druid FROM objects WHERE manifest_present=1"
+        )
+    }
+    failed = store.failed_druids()
+    print(
+        json.dumps(
+            {
+                "manifest_objects": len(wanted),
+                "new": sorted(wanted - known),
+                "absent": sorted(known - wanted),
+                "known_failures": sorted(wanted & failed),
+            },
+            indent=2,
+        )
+    )
+
+
+def _command_run(root: Path, args, store: StateStore) -> None:
+    summary = _pipeline(root, args, store).run(
+        args.manifest,
+        only=set(args.druid) or None,
+        show_progress=not args.no_progress,
+    )
+    print(json.dumps(summary, indent=2, sort_keys=True))
+    if summary["failed"]:
+        raise SystemExit(1)
+
+
+def _command_publish(root: Path, args, store: StateStore) -> None:
+    settings = _settings(root, args)
+    _warn_if_insecure(settings)
+    dark = sorted(read_dark_list(settings.dark_list))
+    with requests.Session() as http:
+        SolrPublisher(settings, http).delete_objects(dark)
+
+    def publish_batch(items):
+        with requests.Session() as http:
+            return SolrPublisher(settings, http).publish_batch(items)
+
+    summary = CorpusPublisher(settings, store).publish(
+        args.manifest,
+        publish_batch,
+        force=args.force,
+        show_progress=not args.no_progress,
+    )
+    summary["dark_deleted"] = len(dark)
+    print(json.dumps(summary, indent=2, sort_keys=True))
+    if summary["failed"] or summary["not_ready"]:
+        raise SystemExit(1)
+
+
+def _command_evaluate(root: Path, args, store: StateStore) -> None:
+    cutoffs = parse_cutoffs(args.cutoffs)
+    if args.candidates < 1:
+        raise StageError("Candidates must be positive")
+    if args.regression_tolerance < 0:
+        raise StageError("Regression tolerance cannot be negative")
+    if args.fail_on_regression and not args.baseline:
+        raise StageError("--fail-on-regression requires --baseline")
+    verify_tls = not args.insecure
+    if not verify_tls:
+        warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+    evaluator, session = live_evaluator(args.target, verify_tls=verify_tls)
+    try:
+        report = evaluator.run(
+            load_judgments(args.judgments, test_type=args.test_type),
+            cutoffs=cutoffs,
+            candidate_count=args.candidates,
+        )
+    finally:
+        session.close()
+    if args.baseline:
+        try:
+            baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise StageError(f"Could not read baseline report: {exc}") from exc
+        report["comparison"] = compare_reports(report, baseline)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    print(json.dumps(report["aggregate"], indent=2, sort_keys=True))
+    if report.get("comparison"):
+        print(
+            json.dumps(
+                {
+                    name: values["delta"]
+                    for name, values in report["comparison"]["aggregate"].items()
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+    if args.fail_on_regression:
+        comparison = report.get("comparison", {}).get("aggregate", {})
+        if args.fail_on_regression not in comparison:
+            raise StageError(
+                f"Unknown regression metric: {args.fail_on_regression}"
+            )
+        delta = comparison[args.fail_on_regression]["delta"]
+        if delta < -args.regression_tolerance:
+            print(
+                f"Regression: {args.fail_on_regression} changed by {delta:.6f}",
+                file=sys.stderr,
+            )
+            raise SystemExit(2)
+
+
+def _command_query(root: Path, args, store: StateStore) -> None:
+    if args.limit < 1:
+        raise StageError("Limit must be positive")
+    if args.candidates < args.limit:
+        raise StageError(
+            f"Candidate count ({args.candidates}) must be at least the "
+            f"result limit ({args.limit})"
+        )
+    verify_tls = not args.insecure
+    if not verify_tls:
+        warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+    evaluator, session = live_evaluator(args.target, verify_tls=verify_tls)
+    try:
+        results = evaluator.query(
+            args.query, candidate_count=args.candidates
+        )[: args.limit]
+    finally:
+        session.close()
+    if args.json:
+        print(
+            json.dumps(
+                {
+                    "query": args.query,
+                    "candidate_chunks": args.candidates,
+                    "result_count": len(results),
+                    "results": results,
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+    else:
+        _print_query_results(results)
+
+
+def _command_status(root: Path, args, store: StateStore) -> None:
+    rows = store.rows_for_status(
+        failed_only=args.failed, druid=args.druid, stage=args.stage
+    )
+    for row in rows:
+        error = (
+            f" {row['error_category']}: {row['error_message']}"
+            if row["error_message"]
+            else ""
+        )
+        stage = row["stage"] or "-"
+        state = (
+            "absent"
+            if not row["manifest_present"]
+            else (row["status"] or "unprocessed")
+        )
+        print(
+            f"{row['druid']}\t{stage}\t{state}\t"
+            f"attempts={row['attempt_count'] or 0}{error}"
+        )
+
+
+def _command_retry(root: Path, args, store: StateStore) -> None:
+    selected = set(args.druid)
+    if args.failed:
+        selected |= store.failed_druids()
+    if not selected:
+        raise SystemExit("Specify --failed or at least one --druid")
+    summary = _pipeline(root, args, store).run(
+        _manifest(args, store),
+        only=selected,
+        show_progress=not args.no_progress,
+    )
+    print(json.dumps(summary, indent=2, sort_keys=True))
+    if summary["failed"]:
+        raise SystemExit(1)
+
+
+def _command_rebuild(root: Path, args, store: StateStore) -> None:
+    if not store.object_row(args.druid):
+        raise SystemExit(f"Unknown DRUID: {args.druid}")
+    store.invalidate(args.druid, args.from_stage)
+    summary = _pipeline(root, args, store).run(
+        _manifest(args, store),
+        only={args.druid},
+        show_progress=not args.no_progress,
+    )
+    print(json.dumps(summary, indent=2, sort_keys=True))
+    if summary["failed"]:
+        raise SystemExit(1)
+
+
+def _command_darken(root: Path, args, store: StateStore) -> None:
+    print(json.dumps(_darken(root, args, store), indent=2, sort_keys=True))
+
+
+def _command_prune(root: Path, args, store: StateStore) -> None:
+    cutoff = datetime.fromisoformat(args.failed_before).replace(tzinfo=UTC)
+    removed = 0
+    versions = args.state_dir / "versions"
+    for object_dir in versions.glob("*") if versions.exists() else []:
+        current = store.object_row(object_dir.name)
+        keep = (
+            store.resolve_path(current["current_artifact_dir"]).resolve()
+            if current and current["current_artifact_dir"]
+            else None
+        )
+        for version in object_dir.glob("*"):
+            if keep and version.resolve() == keep:
+                continue
+            modified = datetime.fromtimestamp(version.stat().st_mtime, UTC)
+            if modified < cutoff:
+                shutil.rmtree(version)
+                removed += 1
+    print(f"Removed {removed} old non-current artifact directories.")
+
+
 def _interrupt_on_sigterm(signum: int, frame: object) -> None:
     raise KeyboardInterrupt
 
@@ -342,203 +589,7 @@ def main(argv: list[str] | None = None) -> None:
     args.state_dir = args.state_dir.resolve()
     store = StateStore(args.state_dir / "state.sqlite3")
     try:
-        if args.command == "merge-manifests":
-            try:
-                summary = merge_manifests(
-                    args.inputs, args.output, read_dark_list(args.dark_list)
-                )
-            except (FileNotFoundError, ValueError) as exc:
-                raise SystemExit(str(exc)) from exc
-            print(json.dumps(summary, indent=2, sort_keys=True))
-            return
-        if args.command == "plan":
-            wanted = parse_manifest(args.manifest) - read_dark_list(args.dark_list)
-            known = {r[0] for r in store.db.execute("SELECT druid FROM objects WHERE manifest_present=1")}
-            failed = store.failed_druids()
-            print(json.dumps({"manifest_objects": len(wanted), "new": sorted(wanted - known), "absent": sorted(known - wanted), "known_failures": sorted(wanted & failed)}, indent=2))
-            return
-        if args.command == "run":
-            summary = _pipeline(root, args, store).run(
-                args.manifest,
-                only=set(args.druid) or None,
-                show_progress=not args.no_progress,
-            )
-            print(json.dumps(summary, indent=2, sort_keys=True))
-            if summary["failed"]:
-                raise SystemExit(1)
-            return
-        if args.command == "publish":
-            settings = _settings(root, args)
-            _warn_if_insecure(settings)
-            dark = sorted(read_dark_list(settings.dark_list))
-            with requests.Session() as http:
-                SolrPublisher(settings, http).delete_objects(dark)
-
-            def publish_batch(items):
-                with requests.Session() as http:
-                    return SolrPublisher(settings, http).publish_batch(items)
-
-            summary = CorpusPublisher(settings, store).publish(
-                args.manifest,
-                publish_batch,
-                force=args.force,
-                show_progress=not args.no_progress,
-            )
-            summary["dark_deleted"] = len(dark)
-            print(json.dumps(summary, indent=2, sort_keys=True))
-            if summary["failed"] or summary["not_ready"]:
-                raise SystemExit(1)
-            return
-        if args.command == "evaluate":
-            cutoffs = parse_cutoffs(args.cutoffs)
-            if args.candidates < 1:
-                raise StageError("Candidates must be positive")
-            if args.regression_tolerance < 0:
-                raise StageError("Regression tolerance cannot be negative")
-            if args.fail_on_regression and not args.baseline:
-                raise StageError("--fail-on-regression requires --baseline")
-            verify_tls = not args.insecure
-            if not verify_tls:
-                warnings.filterwarnings("ignore", category=InsecureRequestWarning)
-            evaluator, session = live_evaluator(args.target, verify_tls=verify_tls)
-            try:
-                report = evaluator.run(
-                    load_judgments(args.judgments, test_type=args.test_type),
-                    cutoffs=cutoffs,
-                    candidate_count=args.candidates,
-                )
-            finally:
-                session.close()
-            if args.baseline:
-                try:
-                    baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
-                except (OSError, json.JSONDecodeError) as exc:
-                    raise StageError(f"Could not read baseline report: {exc}") from exc
-                report["comparison"] = compare_reports(report, baseline)
-            args.output.parent.mkdir(parents=True, exist_ok=True)
-            args.output.write_text(
-                json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-            )
-            print(json.dumps(report["aggregate"], indent=2, sort_keys=True))
-            if report.get("comparison"):
-                print(
-                    json.dumps(
-                        {
-                            name: values["delta"]
-                            for name, values in report["comparison"][
-                                "aggregate"
-                            ].items()
-                        },
-                        indent=2,
-                        sort_keys=True,
-                    )
-                )
-            if args.fail_on_regression:
-                comparison = report.get("comparison", {}).get("aggregate", {})
-                if args.fail_on_regression not in comparison:
-                    raise StageError(
-                        f"Unknown regression metric: {args.fail_on_regression}"
-                    )
-                delta = comparison[args.fail_on_regression]["delta"]
-                if delta < -args.regression_tolerance:
-                    print(
-                        f"Regression: {args.fail_on_regression} changed by {delta:.6f}",
-                        file=sys.stderr,
-                    )
-                    raise SystemExit(2)
-            return
-        if args.command == "query":
-            if args.limit < 1:
-                raise StageError("Limit must be positive")
-            if args.candidates < args.limit:
-                raise StageError(
-                    f"Candidate count ({args.candidates}) must be at least the "
-                    f"result limit ({args.limit})"
-                )
-            verify_tls = not args.insecure
-            if not verify_tls:
-                warnings.filterwarnings("ignore", category=InsecureRequestWarning)
-            evaluator, session = live_evaluator(args.target, verify_tls=verify_tls)
-            try:
-                results = evaluator.query(
-                    args.query, candidate_count=args.candidates
-                )[: args.limit]
-            finally:
-                session.close()
-            if args.json:
-                print(
-                    json.dumps(
-                        {
-                            "query": args.query,
-                            "candidate_chunks": args.candidates,
-                            "result_count": len(results),
-                            "results": results,
-                        },
-                        indent=2,
-                        sort_keys=True,
-                    )
-                )
-            else:
-                _print_query_results(results)
-            return
-        if args.command == "status":
-            rows = store.rows_for_status(failed_only=args.failed, druid=args.druid, stage=args.stage)
-            for row in rows:
-                error = f" {row['error_category']}: {row['error_message']}" if row["error_message"] else ""
-                stage = row["stage"] or "-"
-                state = "absent" if not row["manifest_present"] else (row["status"] or "unprocessed")
-                print(f"{row['druid']}\t{stage}\t{state}\tattempts={row['attempt_count'] or 0}{error}")
-            return
-        if args.command == "retry":
-            selected = set(args.druid)
-            if args.failed:
-                selected |= store.failed_druids()
-            if not selected:
-                raise SystemExit("Specify --failed or at least one --druid")
-            summary = _pipeline(root, args, store).run(
-                _manifest(args, store),
-                only=selected,
-                show_progress=not args.no_progress,
-            )
-            print(json.dumps(summary, indent=2, sort_keys=True))
-            if summary["failed"]:
-                raise SystemExit(1)
-            return
-        if args.command == "rebuild":
-            if not store.object_row(args.druid):
-                raise SystemExit(f"Unknown DRUID: {args.druid}")
-            store.invalidate(args.druid, args.from_stage)
-            summary = _pipeline(root, args, store).run(
-                _manifest(args, store),
-                only={args.druid},
-                show_progress=not args.no_progress,
-            )
-            print(json.dumps(summary, indent=2, sort_keys=True))
-            if summary["failed"]:
-                raise SystemExit(1)
-            return
-        if args.command == "darken":
-            print(json.dumps(_darken(root, args, store), indent=2, sort_keys=True))
-            return
-        if args.command == "prune":
-            cutoff = datetime.fromisoformat(args.failed_before).replace(tzinfo=UTC)
-            removed = 0
-            versions = args.state_dir / "versions"
-            for object_dir in versions.glob("*") if versions.exists() else []:
-                current = store.object_row(object_dir.name)
-                keep = (
-                    store.resolve_path(current["current_artifact_dir"]).resolve()
-                    if current and current["current_artifact_dir"]
-                    else None
-                )
-                for version in object_dir.glob("*"):
-                    if keep and version.resolve() == keep:
-                        continue
-                    modified = datetime.fromtimestamp(version.stat().st_mtime, UTC)
-                    if modified < cutoff:
-                        shutil.rmtree(version)
-                        removed += 1
-            print(f"Removed {removed} old non-current artifact directories.")
+        args.handler(root, args, store)
     except StageError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         raise SystemExit(1) from None
