@@ -4,39 +4,27 @@ import json
 import os
 import shutil
 import subprocess
-from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import requests
 
 from .attempts import StageAttempts
+from .cocina import (
+    COCINA_MAX_AGE,
+    CocinaCache,
+    CocinaRefreshMachine,
+    CocinaRefreshResult,
+    CocinaRefreshState,
+)
 from .core import (
     SOURCE_INVENTORY_SIGNATURE,
     EventLog,
     Settings,
     StageError,
     TransientStageError,
-    file_sha256,
 )
-from .manifests import cocina_source_files, source_fingerprint
 from .stages import SIGNATURES
 from .state import StateStore
-
-
-COCINA_MAX_AGE = timedelta(days=7)
-
-
-def cocina_checked_recently(checked_at: str | None) -> bool:
-    """Return whether a real PURL check occurred within the freshness window."""
-    if not checked_at:
-        return False
-    try:
-        checked = datetime.fromisoformat(checked_at)
-    except ValueError:
-        return False
-    if checked.tzinfo is None:
-        checked = checked.replace(tzinfo=UTC)
-    return checked >= datetime.now(UTC) - COCINA_MAX_AGE
 
 
 class MetadataFetcher:
@@ -60,171 +48,114 @@ class MetadataFetcher:
         cache_dir = self.settings.state_dir / "sources" / druid
         cache_dir.mkdir(parents=True, exist_ok=True)
         path = cache_dir / "cocina.json"
-        stored = self.store.object_row(druid)
-        cache_is_valid = bool(
-            stored
-            and path.exists()
-            and stored["source_fingerprint"]
-            and stored["source_cache_sha256"]
-            and file_sha256(path) == stored["source_cache_sha256"]
-        )
+        cache = CocinaCache.inspect(path, self.store.object_row(druid))
+        machine = CocinaRefreshMachine(druid, cache, self.http)
         source_log = EventLog(
             self.settings.state_dir / "logs" / str(run_id) / druid / "cocina.jsonl"
         )
 
-        def read_cached_source() -> tuple[dict, list[dict], str]:
-            data = json.loads(path.read_text())
-            files = cocina_source_files(data)
-            return data, files, source_fingerprint(data, files)
+        if result := machine.use_fresh_cache():
+            self._record_fresh_cache(run_id, druid, cache, result, source_log)
+            return path, result.source.files, result.source.fingerprint
 
-        if cache_is_valid and cocina_checked_recently(stored["source_checked_at"]):
-            data, files, source_fp = read_cached_source()
-            if (
-                source_fp != stored["source_fingerprint"]
-                or stored["source_inventory_signature"]
-                != SOURCE_INVENTORY_SIGNATURE
-            ):
-                self.store.set_source(
-                    druid,
-                    source_fp,
-                    str(data.get("version")),
-                    files,
-                    etag=stored["source_etag"],
-                    last_modified=stored["source_last_modified"],
-                    cache_sha256=stored["source_cache_sha256"],
-                )
-                source_log.write(
-                    run_id=run_id,
-                    druid=druid,
-                    stage="cocina",
-                    event="source_inventory_changed",
-                    source_fingerprint=source_fp,
-                )
-            self.store.adopt_stage(
-                druid,
-                "cocina",
-                druid,
-                source_fp,
-                SIGNATURES["cocina"],
-                path,
-            )
-            source_log.write(
-                run_id=run_id,
-                druid=druid,
-                stage="cocina",
-                event="source_refresh_skipped",
-                source_checked_at=stored["source_checked_at"],
-                max_age_days=COCINA_MAX_AGE.days,
-            )
-            return path, files, source_fp
-
-        headers: dict[str, str] = {}
-        if cache_is_valid and stored["source_etag"]:
-            headers["If-None-Match"] = stored["source_etag"]
-        elif cache_is_valid and stored["source_last_modified"]:
-            headers["If-Modified-Since"] = stored["source_last_modified"]
-
-        outcome: dict[str, object] = {"not_modified": False}
-
-        def fetch() -> Path:
-            response = self.http.get(
-                f"https://purl.stanford.edu/{druid}.json",
-                headers=headers,
-                timeout=60,
-            )
-            if response.status_code == 304:
-                if not cache_is_valid:
-                    raise StageError(
-                        "PURL returned 304 but no valid cached COCINA exists"
-                    )
-                outcome.update(
-                    not_modified=True,
-                    etag=response.headers.get("ETag"),
-                    last_modified=response.headers.get("Last-Modified"),
-                )
-                return path
-            if response.status_code == 429 or response.status_code >= 500:
-                raise TransientStageError(f"PURL HTTP {response.status_code}")
-            if response.status_code != 200:
-                raise StageError(f"PURL HTTP {response.status_code}")
-            try:
-                data = response.json()
-            except ValueError as exc:
-                raise StageError(f"Invalid COCINA JSON: {exc}") from exc
-            if data.get("externalIdentifier") != f"druid:{druid}":
-                raise StageError(
-                    "COCINA externalIdentifier does not match requested DRUID"
-                )
-            temporary = path.with_suffix(".json.tmp")
-            temporary.write_text(json.dumps(data, sort_keys=True), encoding="utf-8")
-            temporary.replace(path)
-            files = cocina_source_files(data)
-            outcome.update(
-                data=data,
-                files=files,
-                source_fingerprint=source_fingerprint(data, files),
-                etag=response.headers.get("ETag"),
-                last_modified=response.headers.get("Last-Modified"),
-                cache_sha256=file_sha256(path),
-            )
-            return path
-
-        artifact, _ = self.attempts.run(
+        artifact, _artifact_fingerprint = self.attempts.run(
             run_id,
             druid,
             "cocina",
             druid,
             SIGNATURES["cocina"],
-            fetch,
+            machine.fetch,
         )
-        if outcome["not_modified"]:
-            data, files, source_fp = read_cached_source()
-            source_changed = self.store.set_source(
-                druid,
-                source_fp,
-                str(data.get("version")),
-                files,
-                etag=outcome.get("etag"),
-                last_modified=outcome.get("last_modified"),
-                cache_sha256=stored["source_cache_sha256"],
+        result = machine.result
+        self._record_refresh(run_id, druid, cache, result, source_log)
+        self.store.set_stage_output_fingerprint(
+            druid, "cocina", result.source.fingerprint
+        )
+        return artifact, result.source.files, result.source.fingerprint
+
+    def _record_fresh_cache(
+        self,
+        run_id: int,
+        druid: str,
+        cache: CocinaCache,
+        result: CocinaRefreshResult,
+        source_log: EventLog,
+    ) -> None:
+        source = result.source
+        if (
+            source.fingerprint != cache.stored_fingerprint
+            or cache.inventory_signature != SOURCE_INVENTORY_SIGNATURE
+        ):
+            self._set_source(druid, result)
+            source_log.write(
+                run_id=run_id,
+                druid=druid,
+                stage="cocina",
+                event="source_inventory_changed",
+                source_fingerprint=source.fingerprint,
             )
+        self.store.adopt_stage(
+            druid,
+            "cocina",
+            druid,
+            source.fingerprint,
+            SIGNATURES["cocina"],
+            cache.path,
+        )
+        source_log.write(
+            run_id=run_id,
+            druid=druid,
+            stage="cocina",
+            event="source_refresh_skipped",
+            source_checked_at=cache.checked_at,
+            max_age_days=COCINA_MAX_AGE.days,
+        )
+
+    def _record_refresh(
+        self,
+        run_id: int,
+        druid: str,
+        cache: CocinaCache,
+        result: CocinaRefreshResult,
+        source_log: EventLog,
+    ) -> None:
+        if result.state not in (
+            CocinaRefreshState.NOT_MODIFIED,
+            CocinaRefreshState.FETCHED,
+        ):
+            raise RuntimeError(f"Unexpected refresh state: {result.state.value}")
+        source_changed = self._set_source(druid, result)
+        if result.state == CocinaRefreshState.NOT_MODIFIED:
             source_log.write(
                 run_id=run_id,
                 druid=druid,
                 stage="cocina",
                 event="source_not_modified",
-                etag=outcome.get("etag") or stored["source_etag"],
+                etag=result.validators.etag or cache.validators.etag,
                 source_changed=source_changed,
             )
-        else:
-            data = outcome["data"]
-            files = outcome["files"]
-            source_fp = outcome["source_fingerprint"]
-            source_changed = self.store.set_source(
-                druid,
-                source_fp,
-                str(data.get("version")),
-                files,
-                etag=outcome.get("etag"),
-                last_modified=outcome.get("last_modified"),
-                cache_sha256=outcome.get("cache_sha256"),
-            )
-            source_log.write(
-                run_id=run_id,
-                druid=druid,
-                stage="cocina",
-                event="source_fetched",
-                etag=outcome.get("etag"),
-                source_fingerprint=source_fp,
-                source_changed=source_changed,
-            )
-        self.store.db.execute(
-            "UPDATE stage_state SET output_fingerprint=? "
-            "WHERE druid=? AND stage='cocina'",
-            (source_fp, druid),
+            return
+        source_log.write(
+            run_id=run_id,
+            druid=druid,
+            stage="cocina",
+            event="source_fetched",
+            etag=result.validators.etag,
+            source_fingerprint=result.source.fingerprint,
+            source_changed=source_changed,
         )
-        self.store.db.commit()
-        return artifact, files, source_fp
+
+    def _set_source(self, druid: str, result: CocinaRefreshResult) -> bool:
+        source = result.source
+        return self.store.set_source(
+            druid,
+            source.fingerprint,
+            str(source.data.get("version")),
+            source.files,
+            etag=result.validators.etag,
+            last_modified=result.validators.last_modified,
+            cache_sha256=source.cache_sha256,
+        )
 
     def create_search_metadata(self, druid: str, version_dir: Path) -> Path:
         input_dir = version_dir / "traject-input"
