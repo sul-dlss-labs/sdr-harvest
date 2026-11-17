@@ -375,6 +375,15 @@ class StateStore:
         ).fetchone()
         return StageRecord(**{k: row[k] for k in StageRecord.__dataclass_fields__}) if row else None
 
+    def set_stage_output_fingerprint(
+        self, druid: str, stage: str, output_fingerprint: str
+    ) -> None:
+        self.db.execute(
+            "UPDATE stage_state SET output_fingerprint=? WHERE druid=? AND stage=?",
+            (output_fingerprint, druid, stage),
+        )
+        self.db.commit()
+
     def begin_attempt(self, run_id: int, druid: str, stage: str, input_fp: str, signature: str, log_path: str) -> tuple[int, int]:
         with self.transaction():
             row = self.db.execute(

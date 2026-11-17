@@ -6,9 +6,9 @@ from typing import Callable
 
 from tqdm import tqdm
 
+from .cocina import cocina_checked_recently
 from .core import SOURCE_INVENTORY_SIGNATURE, Settings, StageError
 from .extract_text import TextExtractor
-from .metadata import cocina_checked_recently
 from .stages import BUILD_STAGES, STAGE_REGISTRY, StageDefinition
 from .state import ObjectRecord, StateStore
 

@@ -33,6 +33,11 @@ from sdr_harvest.cli import (
 )
 from sdr_harvest.attempts import StageAttempts
 from sdr_harvest.chunk import CHUNK_OVERLAP, CHUNK_SIZE, Chunker
+from sdr_harvest.cocina import (
+    CocinaCache,
+    CocinaRefreshMachine,
+    CocinaRefreshState,
+)
 from sdr_harvest.core import (
     ALTO_EXTRACT_SIGNATURE,
     PDF_EXTRACT_SIGNATURE,
@@ -480,6 +485,108 @@ class PipelineServicesTest(unittest.TestCase):
 
             closer.assert_called_once_with()
             store.close()
+
+
+class CocinaRefreshMachineTest(unittest.TestCase):
+    def cache_record(self, path, *, fresh=False):
+        return {
+            "source_fingerprint": "stored",
+            "source_cache_sha256": file_sha256(path),
+            "source_checked_at": (
+                datetime.now(UTC) - timedelta(days=1 if fresh else 8)
+            ).isoformat(),
+            "source_inventory_signature": SOURCE_INVENTORY_SIGNATURE,
+            "source_etag": 'W/"old"',
+            "source_last_modified": "Wed, 29 Jul 2026 19:04:31 GMT",
+        }
+
+    def test_fresh_cache_reaches_terminal_state_without_request(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "cocina.json"
+            path.write_text(json.dumps(cocina(), sort_keys=True))
+            http = Mock()
+            machine = CocinaRefreshMachine(
+                DRUID,
+                CocinaCache.inspect(path, self.cache_record(path, fresh=True)),
+                http,
+            )
+
+            result = machine.use_fresh_cache()
+
+            self.assertEqual(CocinaRefreshState.FRESH_CACHE, machine.state)
+            self.assertIs(result, machine.result)
+            self.assertEqual(cocina_pdf_files(cocina()), result.source.files)
+            http.get.assert_not_called()
+
+    def test_304_transitions_refresh_required_to_not_modified(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "cocina.json"
+            path.write_text(json.dumps(cocina(), sort_keys=True))
+            response = Mock(
+                status_code=304,
+                headers={"ETag": 'W/"old"'},
+            )
+            http = Mock()
+            http.get.return_value = response
+            machine = CocinaRefreshMachine(
+                DRUID,
+                CocinaCache.inspect(path, self.cache_record(path)),
+                http,
+            )
+
+            self.assertIsNone(machine.use_fresh_cache())
+            self.assertEqual(CocinaRefreshState.REFRESH_REQUIRED, machine.state)
+            machine.fetch()
+
+            self.assertEqual(CocinaRefreshState.NOT_MODIFIED, machine.state)
+            self.assertEqual('W/"old"', machine.result.validators.etag)
+            self.assertEqual(
+                {"If-None-Match": 'W/"old"'},
+                http.get.call_args.kwargs["headers"],
+            )
+            response.json.assert_not_called()
+
+    def test_200_transitions_to_fetched_and_replaces_cache(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "cocina.json"
+            changed = cocina(version=2, digest="changed")
+            response = Mock(
+                status_code=200,
+                headers={"ETag": 'W/"new"'},
+            )
+            response.json.return_value = changed
+            http = Mock()
+            http.get.return_value = response
+            machine = CocinaRefreshMachine(
+                DRUID, CocinaCache.inspect(path, None), http
+            )
+
+            self.assertIsNone(machine.use_fresh_cache())
+            machine.fetch()
+
+            self.assertEqual(CocinaRefreshState.FETCHED, machine.state)
+            self.assertEqual("changed", machine.result.source.files[0]["sha1"])
+            self.assertEqual(changed, json.loads(path.read_text()))
+            self.assertEqual({}, http.get.call_args.kwargs["headers"])
+
+    def test_transient_failure_remains_refreshable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "cocina.json"
+            response = Mock(status_code=200, headers={})
+            response.json.return_value = cocina()
+            http = Mock()
+            http.get.side_effect = [Mock(status_code=503), response]
+            machine = CocinaRefreshMachine(
+                DRUID, CocinaCache.inspect(path, None), http
+            )
+            machine.use_fresh_cache()
+
+            with self.assertRaisesRegex(TransientStageError, "PURL HTTP 503"):
+                machine.fetch()
+
+            self.assertEqual(CocinaRefreshState.REFRESH_REQUIRED, machine.state)
+            machine.fetch()
+            self.assertEqual(CocinaRefreshState.FETCHED, machine.state)
 
 
 class FingerprintTest(unittest.TestCase):
