@@ -161,8 +161,44 @@ def terminate_workers(executor: concurrent.futures.ProcessPoolExecutor) -> None:
             process.join()
 
 
-def _init_pool_worker(parent_pid: int, initializer, initargs: tuple) -> None:
+def worker_threads(processes: int) -> int:
+    """Split the machine's cores evenly among worker processes."""
+    return max(1, (os.cpu_count() or 1) // max(1, processes))
+
+
+def limit_worker_threads(threads: int) -> None:
+    """Cap native thread pools in a worker process before libraries load them.
+
+    pymupdf4llm's layout models run on ONNX Runtime, whose thread pool defaults
+    to one thread per core regardless of how many worker processes share them.
+    """
+    for variable in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+        os.environ[variable] = str(threads)
+    try:
+        import onnxruntime
+    except ImportError:
+        return
+    if getattr(onnxruntime.InferenceSession, "_sdr_harvest_threads", None):
+        return
+
+    class ThreadLimitedSession(onnxruntime.InferenceSession):
+        _sdr_harvest_threads = threads
+
+        def __init__(self, path_or_bytes, sess_options=None, *args, **kwargs):
+            options = sess_options or onnxruntime.SessionOptions()
+            options.intra_op_num_threads = threads
+            options.inter_op_num_threads = 1
+            super().__init__(path_or_bytes, options, *args, **kwargs)
+
+    # Callers look the class up on the module when they create a session.
+    onnxruntime.InferenceSession = ThreadLimitedSession
+
+
+def _init_pool_worker(
+    parent_pid: int, threads: int, initializer, initargs: tuple
+) -> None:
     exit_with_parent(parent_pid)
+    limit_worker_threads(threads)
     if initializer is not None:
         initializer(*initargs)
 
@@ -184,7 +220,12 @@ def interruptible_process_pool(
         max_workers=max_workers,
         mp_context=mp_context or multiprocessing.get_context("spawn"),
         initializer=_init_pool_worker,
-        initargs=(os.getpid(), initializer, initargs),
+        initargs=(
+            os.getpid(),
+            worker_threads(max_workers),
+            initializer,
+            initargs,
+        ),
     )
     try:
         yield executor
