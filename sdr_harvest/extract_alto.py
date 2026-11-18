@@ -59,6 +59,7 @@ class AltoXmlExtractionStrategy:
         source_files: list[Path],
         output: Path,
         source_pages: dict[str, str] | None = None,
+        cocina: dict | None = None,
     ) -> dict[str, dict[str, object]]:
         extracted: dict[str, dict[str, object]] = {}
         xml_files = [path for path in source_files if path.suffix.lower() == ".xml"]

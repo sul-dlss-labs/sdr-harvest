@@ -77,7 +77,7 @@ keys above, so fully current objects are counted as complete without being
 processed.
 
 **COCINA (`cocina`).** Fetches `https://purl.stanford.edu/<druid>.json` into
-`sources/<druid>/cocina.json`, then selects the source files to process (page
+`sources/<druid>/cocina.json`, then selects the source files to process (JP2 images for image objects, page
 ALTO XML for complete books, otherwise PDFs) and stores them in `source_files`.
 
 - Cache key: the DRUID. The cached record is reused without a network request
@@ -95,10 +95,18 @@ ALTO XML for complete books, otherwise PDFs) and stores them in `source_files`.
 `versions/<druid>/<fp>/pdfs/` and validates its size, SHA-1, and MD5 against
 COCINA. ALTO XML files are stored in this directory too.
 
+For image objects, the full JP2 is not downloaded. Instead a JPEG derivative,
+at most 1,536 pixels on its long edge (`IIIF_LONG_EDGE`), is fetched from
+`https://stacks.stanford.edu/image/iiif/<druid>%2F<file stem>/full/!1536,1536/0/default.jpg`
+and saved as `<file stem>.jpg`. Because COCINA's checksums describe the JP2,
+`pdfs/derivatives.json` records each derivative's source JP2, its checksums,
+and the IIIF size, and the download only checks that the response is a JPEG.
+
 - Cache key: the source fingerprint plus the `download` signature.
 - Reuse: a file already present with matching checksums is kept, and a
   matching file in an earlier version directory is hard-linked (or copied)
-  instead of downloaded again.
+  instead of downloaded again. A derivative is reused when an earlier
+  version's `derivatives.json` records the same JP2 checksums and IIIF size.
 - Output fingerprint: the contents of `pdfs/`.
 
 ### Prepare
@@ -110,9 +118,17 @@ COCINA. ALTO XML files are stored in this directory too.
 - Output fingerprint: the SHA-256 of `metadata.json`.
 
 **Extract (`extract`).** Converts the source files to Markdown in `markdown/`,
-using the ALTO strategy for complete books and PyMuPDF4LLM text extraction
-otherwise. `markdown/pages.json` maps each Markdown file to its source file and
-page ranges.
+using the ALTO strategy for complete books, the image description strategy for
+image objects, and PyMuPDF4LLM text extraction otherwise. `markdown/pages.json`
+maps each Markdown file to its source file and page ranges.
+
+The image description strategy sends each IIIF derivative to a Gemini vision
+model (`IMAGE_DESCRIPTION_MODEL` in `sdr_harvest/core.py`) through the AI
+gateway, using `LITELLM_API_KEY`. The prompt includes the object's title and
+subjects so the model can name what it sees, such as a named ship, and asks it
+to describe only what is visible, to transcribe any legible text, and never to
+identify people. Each image becomes its own Markdown file, numbered as a page
+in structural order, whose source file is the JP2.
 
 - Cache key: the metadata output fingerprint plus the signature of the
   extraction strategy selected for the object, so ALTO and PDF objects are
@@ -121,7 +137,9 @@ page ranges.
   fingerprint of the downloaded files and COCINA page numbers. If an earlier
   version directory has an identical marker, its Markdown is copied rather than
   extracted again. Descriptive metadata is not part of this key, so a
-  metadata-only COCINA change does not repeat extraction.
+  metadata-only COCINA change does not repeat extraction, except that image
+  descriptions are regenerated when the title or subjects in their prompt
+  change.
 - Output fingerprint: the contents of `markdown/`.
 
 **Chunk (`chunk`).** Splits each Markdown file into overlapping chunks (1,500
@@ -240,6 +258,8 @@ For Cocina books with one transcription XML file for every PDF page, the build
 downloads and extracts the page-level ALTO OCR instead of the image-heavy PDFs,
 and its chunks name the ALTO file they came from in `filename_ss`.
 If the ALTO inventory is incomplete, the build falls back to the selected PDF.
+Cocina image objects are described by a vision model from IIIF derivatives of
+their JP2 images, as described under **Extract**.
 Other object types continue using PDF extraction.
 
 Only files whose Cocina `access.view` is `world` or `stanford` are harvested.

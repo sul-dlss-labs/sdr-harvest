@@ -13,6 +13,7 @@ from .core import (
     previous_versions,
 )
 from .extract_alto import AltoXmlExtractionStrategy
+from .extract_image import ImageDescriptionStrategy
 from .extract_pdf import PdfExtractionStrategy
 from .manifests import cocina_page_numbers
 
@@ -33,6 +34,7 @@ class ExtractionStrategy(Protocol):
         source_files: list[Path],
         output: Path,
         source_pages: dict[str, str] | None = None,
+        cocina: dict | None = None,
     ) -> dict[str, dict[str, object]]: ...
 
 
@@ -47,6 +49,7 @@ class TextExtractor:
     ) -> None:
         self.strategies = strategies or [
             AltoXmlExtractionStrategy(),
+            ImageDescriptionStrategy(),
             PdfExtractionStrategy(pdf_executor),
         ]
 
@@ -73,14 +76,16 @@ class TextExtractor:
         return strategy.signature
 
     def _provenance(self, version_dir: Path, files_fp: str) -> dict[str, str]:
-        """Describe everything extraction reads; descriptive metadata is excluded."""
+        """Describe everything extraction reads.
+
+        Descriptive metadata is excluded unless the strategy reads it, as image
+        description does through ``context``.
+        """
         strategy, _, cocina = self._strategy(version_dir)
-        return {
-            "signature": strategy.signature,
-            "inputs": fingerprint(
-                {"files": files_fp, "pages": cocina_page_numbers(cocina)}
-            ),
-        }
+        inputs = {"files": files_fp, "pages": cocina_page_numbers(cocina)}
+        if context := getattr(strategy, "context", None):
+            inputs["context"] = context(cocina)
+        return {"signature": strategy.signature, "inputs": fingerprint(inputs)}
 
     def reusable_output(
         self,
@@ -135,7 +140,7 @@ class TextExtractor:
             (output / REUSE_MARKER).unlink(missing_ok=True)
             strategy, source_files, cocina = self._strategy(version_dir)
             extracted = strategy.extract(
-                source_files, output, cocina_page_numbers(cocina)
+                source_files, output, cocina_page_numbers(cocina), cocina=cocina
             )
             for stale in output.glob("*.md"):
                 if stale.name not in extracted:

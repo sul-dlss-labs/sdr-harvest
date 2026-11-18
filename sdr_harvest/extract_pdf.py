@@ -98,6 +98,7 @@ class PdfExtractionStrategy:
         source_files: list[Path],
         output: Path,
         source_pages: dict[str, str] | None = None,
+        cocina: dict | None = None,
     ) -> dict[str, dict[str, object]]:
         extracted: dict[str, dict[str, object]] = {}
         targets: set[str] = set()
