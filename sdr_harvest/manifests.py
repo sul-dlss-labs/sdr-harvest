@@ -10,6 +10,14 @@ from .core import StageError, fingerprint
 DRUID_RE = re.compile(r"^(?:druid:)?([a-z]{2}\d{3}[a-z]{2}\d{4})$", re.I)
 # File access.view values whose content may be indexed. Only "world" is public.
 INDEXABLE_VIEWS = {"world", "stanford"}
+# Image objects are described from a IIIF derivative instead of the full JP2.
+# 1536px on the long edge keeps typed captions legible while staying small.
+IIIF_LONG_EDGE = 1536
+IIIF_IMAGE_MIME_TYPE = "image/jp2"
+
+
+def object_type(data: dict) -> str:
+    return str(data.get("type", "")).rsplit("/", 1)[-1]
 
 
 def read_druids(path: Path) -> set[str]:
@@ -73,6 +81,9 @@ def merge_manifests(
 
 
 def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
+    is_image_object = object_type(data) == "image"
+    # Each image resource of an image object is numbered like a page.
+    paged_resource_types = {"page", "image"} if is_image_object else {"page"}
     found: list[dict] = []
     page_resources: set[str] = set()
     resource_number = 0
@@ -93,7 +104,7 @@ def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
                 resource_key = str(
                     node.get("externalIdentifier") or f"resource:{resource_number}"
                 )
-                if resource_type == "page":
+                if resource_type in paged_resource_types:
                     page_number += 1
                     resource_page = page_number
                     page_resources.add(resource_key)
@@ -105,9 +116,10 @@ def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
                 "application/xml",
                 "text/xml",
             } and str(node.get("use", "")).lower() == "transcription"
+            is_iiif_image = is_image_object and mime_type == IIIF_IMAGE_MIME_TYPE
             view = str((node.get("access") or {}).get("view", "")).lower()
             if (
-                (is_pdf or is_transcription_xml)
+                (is_pdf or is_transcription_xml or is_iiif_image)
                 and node.get("filename")
                 and view in INDEXABLE_VIEWS
             ):
@@ -134,6 +146,7 @@ def _cocina_files(data: dict) -> tuple[list[dict], set[str]]:
                         "_resource_page": resource_page,
                         "_mime_type": mime_type,
                         "_use": str(node.get("use", "")).lower(),
+                        "_presentation": node.get("presentation") or {},
                     }
                 )
             for value in node.values():
@@ -164,10 +177,38 @@ def cocina_pdf_files(data: dict) -> list[dict]:
     )
 
 
+def iiif_size(presentation: dict) -> str:
+    """Return the IIIF size parameter that fits an image in IIIF_LONG_EDGE.
+
+    IIIF Image API 2 may upscale with ``!w,h``, so images that already fit
+    are requested at full size.
+    """
+    width, height = presentation.get("width"), presentation.get("height")
+    if width and height and max(width, height) <= IIIF_LONG_EDGE:
+        return "full"
+    return f"!{IIIF_LONG_EDGE},{IIIF_LONG_EDGE}"
+
+
+def cocina_image_files(data: dict) -> list[dict]:
+    """Select the JP2 images of an image object, with their IIIF size."""
+    if object_type(data) != "image":
+        return []
+    return sorted(
+        (
+            {**_public_file(item), "iiif_size": iiif_size(item["_presentation"])}
+            for item in _cocina_files(data)[0]
+            if item["_mime_type"] == IIIF_IMAGE_MIME_TYPE
+        ),
+        key=lambda item: (item["filename"], item["file_id"]),
+    )
+
+
 def cocina_source_files(data: dict) -> list[dict]:
-    """Prefer complete page-level ALTO for books, otherwise select PDFs."""
+    """Select images for image objects, complete page ALTO for books, else PDFs."""
+    if images := cocina_image_files(data):
+        return images
     found, page_resources = _cocina_files(data)
-    is_book = str(data.get("type", "")).rsplit("/", 1)[-1] == "book"
+    is_book = object_type(data) == "book"
     alto_by_page: dict[str | None, list[dict]] = {}
     for item in found:
         if (

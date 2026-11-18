@@ -14,10 +14,16 @@ from pathlib import Path
 
 import requests
 
-from .stages import ALTO_EXTRACT_SIGNATURE, PDF_EXTRACT_SIGNATURE, SIGNATURES
+from .stages import (
+    ALTO_EXTRACT_SIGNATURE,
+    IMAGE_DESCRIPTION_MODEL,
+    IMAGE_EXTRACT_SIGNATURE,
+    PDF_EXTRACT_SIGNATURE,
+    SIGNATURES,
+)
 
 
-SOURCE_INVENTORY_SIGNATURE = "prefer-complete-book-alto-v2-indexable-access"
+SOURCE_INVENTORY_SIGNATURE = "image-iiif-v1-prefer-complete-book-alto-v2-indexable-access"
 
 
 class StageError(RuntimeError):
