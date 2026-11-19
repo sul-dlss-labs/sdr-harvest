@@ -463,6 +463,22 @@ concurrency within one run.
 Removing an object from a manifest does not remove it from Solr. To disavow
 objects permanently, see [Dark objects](#dark-objects).
 
+To drop objects that should not have been in the manifest, such as objects not
+yet released (PURL 404) or not downloadable (Stacks 403), without darkening
+them:
+
+```shell
+uv run sdr-harvest forget --from-file not-ready.csv
+uv run sdr-harvest forget --druid bn948tz6841 --druid cj018yh2320
+```
+
+`forget` removes their rows from `manifest.csv` and deletes their database
+rows, cached COCINA, artifacts, and logs, exactly as `darken` does, but does
+not add them to `dark.csv`, so they can be added back to a manifest later. Add
+`--target` (and `--insecure` for a tunnel) to delete them from Solr too.
+`--from-file` reads the first DRUID-shaped value of each row. Failed objects
+that are absent from the manifest are not selected by `retry --failed`.
+
 Old non-current artifact versions can be pruned after a retention period:
 
 ```shell

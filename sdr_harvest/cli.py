@@ -25,7 +25,7 @@ from .dark import (
     remove_from_manifest,
 )
 from .evaluation import compare_reports, live_evaluator, load_judgments, parse_cutoffs
-from .manifests import merge_manifests, parse_manifest
+from .manifests import merge_manifests, parse_manifest, read_druids
 from .pipeline import Pipeline
 from .publisher import CorpusPublisher, SolrPublisher
 from .stages import STAGES
@@ -227,6 +227,33 @@ def parser() -> argparse.ArgumentParser:
         action="store_true",
         help="disable TLS certificate verification (only for a trusted local tunnel)",
     )
+    forget = commands.add_parser(
+        "forget",
+        help="remove objects from the manifest and purge their local state, without darkening them",
+    )
+    forget.set_defaults(handler=_command_forget)
+    forget.add_argument(
+        "--druid", action="append", default=[], help="DRUID to forget; repeatable"
+    )
+    forget.add_argument(
+        "--from-file",
+        type=Path,
+        help="CSV or text file whose rows each name a DRUID to forget",
+    )
+    forget.add_argument("--manifest", type=Path, default=Path("manifest.csv"))
+    forget.add_argument(
+        "--target",
+        dest="targets",
+        metavar="URL",
+        action="append",
+        default=[],
+        help="Solr collection URL to delete the forgotten objects from; repeatable",
+    )
+    forget.add_argument(
+        "--insecure",
+        action="store_true",
+        help="disable TLS certificate verification (only for a trusted local tunnel)",
+    )
     prune = commands.add_parser("prune")
     prune.set_defaults(handler=_command_prune)
     prune.add_argument("--failed-before", required=True, help="ISO date; removes old non-current version directories")
@@ -299,12 +326,51 @@ def _darken(root: Path, args, store: StateStore) -> dict:
             for druid in sorted(dark)
             if purge_local_state(store, settings.state_dir, druid)
         ]
-    for target in args.targets:
+    summary["solr_targets"] = _delete_from_targets(settings, args.targets, sorted(dark))
+    return summary
+
+
+def _delete_from_targets(settings: Settings, targets: list[str], druids: list[str]) -> list[str]:
+    deleted = []
+    for target in targets:
         target_settings = replace(settings, solr_url=target)
         _warn_if_insecure(target_settings)
         with requests.Session() as http:
-            SolrPublisher(target_settings, http).delete_objects(sorted(dark))
-        summary["solr_targets"].append(target.rstrip("/"))
+            SolrPublisher(target_settings, http).delete_objects(druids)
+        deleted.append(target.rstrip("/"))
+    return deleted
+
+
+def _forget(root: Path, args, store: StateStore) -> dict:
+    """Drop objects from the manifest and local state, leaving the dark list alone.
+
+    Unlike darken, a forgotten object may be harvested again once it is added
+    back to a manifest.
+    """
+    settings = _settings(root, args)
+    druids = {normalize_druid(value) for value in args.druid}
+    if args.from_file:
+        if not args.from_file.exists():
+            raise StageError(f"File does not exist: {args.from_file}")
+        druids |= read_druids(args.from_file)
+    if not druids:
+        raise StageError("Specify --druid or --from-file")
+    forgotten = sorted(druids)
+    with exclusive_state(settings.state_dir):
+        summary = {
+            "requested": len(forgotten),
+            "manifest_rows_removed": (
+                remove_from_manifest(args.manifest, druids)
+                if args.manifest.exists()
+                else 0
+            ),
+            "local_state_purged": [
+                druid
+                for druid in forgotten
+                if purge_local_state(store, settings.state_dir, druid)
+            ],
+        }
+    summary["solr_targets"] = _delete_from_targets(settings, args.targets, forgotten)
     return summary
 
 
@@ -550,6 +616,10 @@ def _command_rebuild(root: Path, args, store: StateStore) -> None:
 
 def _command_darken(root: Path, args, store: StateStore) -> None:
     print(json.dumps(_darken(root, args, store), indent=2, sort_keys=True))
+
+
+def _command_forget(root: Path, args, store: StateStore) -> None:
+    print(json.dumps(_forget(root, args, store), indent=2, sort_keys=True))
 
 
 def _command_prune(root: Path, args, store: StateStore) -> None:

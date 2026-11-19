@@ -235,6 +235,60 @@ class DarkTest(unittest.TestCase):
         self.assertIn("Invalid DRUID", stderr.getvalue())
         self.assertFalse(self.dark_list.exists())
 
+    def _forget(self, *arguments):
+        stdout = io.StringIO()
+        with redirect_stdout(stdout):
+            main(
+                [
+                    "--state-dir",
+                    str(self.state_dir),
+                    "--dark-list",
+                    str(self.dark_list),
+                    "forget",
+                    "--manifest",
+                    str(self.manifest),
+                    *arguments,
+                ]
+            )
+        return json.loads(stdout.getvalue())
+
+    def test_forget_purges_manifest_and_state_without_darkening(self):
+        druids = self.root / "not-ready.csv"
+        druids.write_text(f"druid\n{DRUID}\n")
+
+        summary = self._forget("--from-file", str(druids))
+
+        self.assertEqual(1, summary["manifest_rows_removed"])
+        self.assertEqual([DRUID], summary["local_state_purged"])
+        self.assertEqual([], summary["solr_targets"])
+        self.assertFalse(self.dark_list.exists())
+        self.assertEqual(
+            ["identifier", self.OTHER], self.manifest.read_text().splitlines()
+        )
+        self.assertEqual([], list(self.state_dir.rglob(f"*{DRUID}*")))
+        store = StateStore(self.state_dir / "state.sqlite3")
+        self.assertIsNone(store.object_row(DRUID))
+        self.assertIsNotNone(store.object_row(self.OTHER))
+        store.close()
+        self.assertEqual([], self._forget("--druid", DRUID)["local_state_purged"])
+
+    def test_forget_requires_druids(self):
+        stderr = io.StringIO()
+        with redirect_stderr(stderr), self.assertRaises(SystemExit):
+            self._forget()
+        self.assertIn("--druid or --from-file", stderr.getvalue())
+
+    def test_failed_druids_ignores_objects_absent_from_manifest(self):
+        store = StateStore(self.state_dir / "state.sqlite3")
+        for druid in (DRUID, self.OTHER):
+            store.db.execute(
+                "UPDATE stage_state SET status='failed' WHERE druid=?", (druid,)
+            )
+        store.db.commit()
+        store.reconcile_manifest({self.OTHER})
+        self.assertEqual({self.OTHER}, store.failed_druids())
+        store.close()
+
     def test_missing_dark_list_means_nothing_is_dark(self):
         self.assertEqual(set(), read_dark_list(self.dark_list))
         self.assertEqual(set(), read_dark_list(None))

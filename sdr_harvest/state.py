@@ -552,7 +552,14 @@ class StateStore:
         return row[0] if row else None
 
     def failed_druids(self) -> set[str]:
-        return {r[0] for r in self.db.execute("SELECT DISTINCT druid FROM stage_state WHERE status='failed'")}
+        """Failed objects still in the manifest; absent objects are not retried."""
+        return {
+            r[0]
+            for r in self.db.execute(
+                """SELECT DISTINCT s.druid FROM stage_state s JOIN objects o ON o.druid=s.druid
+                   WHERE s.status='failed' AND o.manifest_present=1"""
+            )
+        }
 
     def rows_for_status(self, *, failed_only: bool = False, druid: str | None = None, stage: str | None = None):
         conditions, values = [], []
