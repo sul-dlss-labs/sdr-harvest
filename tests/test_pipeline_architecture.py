@@ -118,7 +118,7 @@ class PipelineServicesTest(unittest.TestCase):
 class FingerprintTest(unittest.TestCase):
     def test_chunk_signature_records_current_splitter_parameters(self):
         self.assertEqual(
-            f"recursive-{CHUNK_SIZE}-{CHUNK_OVERLAP}-v3",
+            f"recursive-{CHUNK_SIZE}-{CHUNK_OVERLAP}-v4",
             SIGNATURES["chunk"],
         )
 

@@ -52,7 +52,7 @@ STAGE_REGISTRY = (
     StageDefinition("download", "download-v1-sha1"),
     StageDefinition("metadata", "traject-sdr-config-v1"),
     StageDefinition("extract", PDF_EXTRACT_SIGNATURE, dynamic_signature=True),
-    StageDefinition("chunk", "recursive-1500-200-v3"),
+    StageDefinition("chunk", "recursive-1500-200-v4"),
     StageDefinition("embed", "gemini-embedding-2-768-retrieval-document-v2"),
     StageDefinition("document", "nested-solr-document-v4-pages-every-chunk"),
 )
