@@ -14,6 +14,7 @@ from sdr_harvest.embed import (
     retrieval_title,
 )
 from sdr_harvest.manifests import (
+    cocina_caption_media_files,
     cocina_page_numbers,
     cocina_pdf_files,
     cocina_source_files,
@@ -271,20 +272,148 @@ class FingerprintTest(unittest.TestCase):
         }
 
     @staticmethod
-    def full_pdf_resource() -> dict:
+    def full_pdf_resource(
+        filename: str = "full.pdf", use: str | None = None, view: str = "world"
+    ) -> dict:
+        pdf = {
+            "externalIdentifier": f"file:{filename}",
+            "filename": filename,
+            "hasMimeType": "application/pdf",
+            "access": {"view": view},
+        }
+        if use:
+            pdf["use"] = use
         return {
             "type": "https://cocina.sul.stanford.edu/models/resources/object",
-            "structural": {
-                "contains": [
-                    {
-                        "externalIdentifier": "file:full",
-                        "filename": "full.pdf",
-                        "hasMimeType": "application/pdf",
-                        "access": {"view": "world"},
-                    }
-                ]
-            },
+            "structural": {"contains": [pdf]},
         }
+
+    @staticmethod
+    def media_resource(
+        number: int, captions: list[tuple[str, str, str]], kind: str = "video"
+    ) -> dict:
+        """A media resource with captions given as (filename, language, view)."""
+        files = [
+            {
+                "externalIdentifier": f"file:{kind}-{number}",
+                "filename": f"{kind}-{number}.mp4",
+                "hasMimeType": f"{kind}/mp4",
+                "access": {"view": "world"},
+            }
+        ]
+        files += [
+            {
+                "externalIdentifier": f"file:{filename}",
+                "filename": filename,
+                "hasMimeType": "text/vtt",
+                "use": "caption",
+                "languageTag": language,
+                "access": {"view": view},
+            }
+            for filename, language, view in captions
+        ]
+        return {
+            "externalIdentifier": f"resource:{kind}-{number}",
+            "type": f"https://cocina.sul.stanford.edu/models/resources/{kind}",
+            "structural": {"contains": files},
+        }
+
+    def test_media_prefers_transcript_pdfs_over_captions(self):
+        data = cocina()
+        data["type"] = "https://cocina.sul.stanford.edu/models/media"
+        data["structural"]["contains"] = [
+            self.media_resource(1, [("video-1.vtt", "en", "world")]),
+            self.media_resource(2, [("video-2.vtt", "en", "stanford")]),
+            self.full_pdf_resource("transcript.pdf", use="transcription"),
+            self.full_pdf_resource("release.pdf"),
+        ]
+
+        self.assertEqual(
+            ["transcript.pdf"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
+    def test_media_without_a_transcript_uses_its_captions(self):
+        data = cocina()
+        data["type"] = "https://cocina.sul.stanford.edu/models/media"
+        data["structural"]["contains"] = [
+            self.media_resource(1, [("video-1.vtt", "en", "world")]),
+            self.media_resource(2, [("video-2.vtt", "en", "stanford")]),
+            self.media_resource(3, []),
+            # A PDF that is not a transcript, such as a release form.
+            self.full_pdf_resource("release.pdf"),
+            # A transcript the pipeline may not index.
+            self.full_pdf_resource(
+                "transcript.pdf", use="transcription", view="location-based"
+            ),
+        ]
+
+        self.assertEqual(
+            ["video-1.vtt", "video-2.vtt"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+        self.assertEqual(
+            {"video-1.vtt": "video-1.mp4", "video-2.vtt": "video-2.mp4"},
+            cocina_caption_media_files(data),
+        )
+
+    def test_captions_name_the_media_file_the_viewer_plays(self):
+        data = cocina()
+        resource = self.media_resource(1, [("audio.vtt", "en", "world")])
+        resource["type"] = "https://cocina.sul.stanford.edu/models/resources/audio"
+        resource["structural"]["contains"][0:1] = [
+            {
+                "filename": "master.wav",
+                "hasMimeType": "audio/x-wav",
+                "access": {"view": "world"},
+            },
+            {
+                "filename": "derivative.m4a",
+                "hasMimeType": "audio/mp4",
+                "access": {"view": "world"},
+            },
+        ]
+        data["structural"]["contains"] = [resource]
+
+        self.assertEqual(
+            {"audio.vtt": "derivative.m4a"}, cocina_caption_media_files(data)
+        )
+
+    def test_media_selects_one_caption_track_per_file_preferring_english(self):
+        data = cocina()
+        data["structural"]["contains"] = [
+            self.media_resource(
+                1,
+                [
+                    ("video-1-de.vtt", "de", "world"),
+                    ("video-1-en.vtt", "en-US", "world"),
+                ],
+            ),
+            self.media_resource(
+                2, [("video-2-b.vtt", "", "world"), ("video-2-a.vtt", "", "world")]
+            ),
+        ]
+
+        self.assertEqual(
+            ["video-1-en.vtt", "video-2-a.vtt"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
+
+    def test_ignores_captions_outside_media_resources(self):
+        data = cocina()
+        data["structural"]["contains"][0]["structural"]["contains"].append(
+            {
+                "externalIdentifier": "file:loose",
+                "filename": "loose.vtt",
+                "hasMimeType": "text/vtt",
+                "access": {"view": "world"},
+            }
+        )
+
+        self.assertEqual(
+            ["example.pdf"],
+            [file["filename"] for file in cocina_source_files(data)],
+        )
 
     def test_metadata_and_file_changes_alter_source_fingerprint(self):
         first = cocina()

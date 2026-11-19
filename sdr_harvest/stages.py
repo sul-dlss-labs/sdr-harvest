@@ -6,6 +6,7 @@ from typing import Protocol
 
 ALTO_EXTRACT_SIGNATURE = "alto-xml-source-file-v2"
 PDF_EXTRACT_SIGNATURE = "pymupdf4llm-1.28.2-no-ocr-v2"
+VTT_EXTRACT_SIGNATURE = "webvtt-cues-v1"
 # Change the model or prompt version in extract_image.py and this changes too.
 IMAGE_DESCRIPTION_MODEL = "gemini-3.8-flash"
 IMAGE_EXTRACT_SIGNATURE = f"image-description-{IMAGE_DESCRIPTION_MODEL}-prompt-v1"
