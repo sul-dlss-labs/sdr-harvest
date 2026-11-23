@@ -27,7 +27,15 @@
     </analyzer>
   </fieldType>
 
-  <fieldType name="knn_vector_768" class="solr.DenseVectorField" vectorDimension="768" similarityFunction="cosine" />
+  <!-- Binary quantization searches the HNSW graph with a 1-bit-per-dimension
+       copy of each vector (.veq), about 1/27 the size of the float vectors
+       (.vec), so far less of the index must stay in the page cache. The float
+       vectors are still kept on disk and are used to rescore the top
+       candidates (see RESCORE_OVERSAMPLE in sdr_harvest/evaluation.py).
+       similarityFunction="cosine" keeps knn and vectorSimilarity() scores on
+       the same (1 + cos) / 2 scale as the unquantized field.
+       Changing this field type requires a full reindex. -->
+  <fieldType name="knn_vector_768" class="solr.BinaryQuantizedDenseVectorField" vectorDimension="768" similarityFunction="cosine" />
 
   <!-- Required Fields -->
   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />

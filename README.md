@@ -452,7 +452,10 @@ type (e.g., `--test-type known_item` or any value from the
 The evaluator embeds queries with the same Gemini model as the pipeline,
 retrieves chunk candidates from Solr, and collapses them by DRUID before
 scoring. This prevents documents with more chunks from occupying multiple
-ranking positions. It reports these metrics at ranks 1, 5, and 10 by default:
+ranking positions. The `vector` field is binary quantized, so Solr's HNSW
+search retrieves three times the requested candidates using 1-bit vectors,
+then reranks them by exact cosine similarity against the full-precision
+vectors and keeps the requested number. It reports these metrics at ranks 1, 5, and 10 by default:
 
 - `success`: fraction of queries with at least one relevant result;
 - `recall`: fraction of all judged-relevant objects retrieved;

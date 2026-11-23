@@ -248,7 +248,12 @@ class EvaluatorTest(unittest.TestCase):
         self.assertEqual([{"id": "one_c0"}], documents)
         request = http.post.call_args
         self.assertEqual("http://solr/collection/select", request.args[0])
-        self.assertIn("{!knn f=vector topK=25}", request.kwargs["data"]["q"])
+        data = request.kwargs["data"]
+        self.assertIn("{!knn f=vector topK=75}", data["q"])
+        self.assertEqual(25, data["rows"])
+        self.assertIn("reRankDocs=75", data["rq"])
+        self.assertIn("reRankOperator=replace", data["rq"])
+        self.assertTrue(data["rqq"].startswith("{!func}vectorSimilarity(vector,["))
         self.assertEqual("doc_type_ssi:child", request.kwargs["data"]["fq"])
 
     def test_compares_aggregate_metrics(self):

@@ -24,6 +24,10 @@ REPORT_VERSION = 1
 DEFAULT_CUTOFFS = (1, 5, 10)
 QUERY_PREFIX = "task: question answering | query: "
 SNIPPET_LENGTH = 500
+# The vector field is binary quantized, so the HNSW search ranks chunks by an
+# approximate 1-bit distance. Retrieve this many times the requested
+# candidates, then rerank them by exact similarity against the float vectors.
+RESCORE_OVERSAMPLE = 3
 
 
 @dataclass(frozen=True)
@@ -219,11 +223,18 @@ class SolrRetriever:
                 f"expected {EMBEDDING_DIMENSIONS}"
             )
         vector_json = json.dumps(vector, separators=(",", ":"))
+        rescore_count = candidate_count * RESCORE_OVERSAMPLE
         try:
             response = self.http.post(
                 f"{self.solr_url}/select",
                 data={
-                    "q": f"{{!knn f=vector topK={candidate_count}}}{vector_json}",
+                    "q": f"{{!knn f=vector topK={rescore_count}}}{vector_json}",
+                    "rq": (
+                        "{!rerank reRankQuery=$rqq "
+                        f"reRankDocs={rescore_count} reRankWeight=1 "
+                        "reRankOperator=replace}"
+                    ),
+                    "rqq": f"{{!func}}vectorSimilarity(vector,{vector_json})",
                     "fq": "doc_type_ssi:child",
                     "fl": "id,score,filename_ss,chunk_index_i,chunk_text_tesi,_root_",
                     "rows": candidate_count,
