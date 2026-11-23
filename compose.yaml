@@ -1,7 +1,6 @@
 services:
   solr:
-    # image: solr:10
-    image: solr-rc:10.1.0-1
+    image: solr:10.1
     ports:
       - "8983:8983"
     volumes:
